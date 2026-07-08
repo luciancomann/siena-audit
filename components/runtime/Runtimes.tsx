@@ -13,6 +13,7 @@ import { NavRuntime } from "./NavRuntime";
 import { TickerRuntime } from "./TickerRuntime";
 import { AccordionRuntime } from "./AccordionRuntime";
 import { FormsRuntime } from "./FormsRuntime";
+import { HoverRuntime } from "./HoverRuntime";
 import { VideoRuntime } from "./VideoRuntime";
 
 export function Runtimes() {
@@ -23,6 +24,7 @@ export function Runtimes() {
       <TickerRuntime />
       <AccordionRuntime />
       <FormsRuntime />
+      <HoverRuntime />
       <VideoRuntime />
     </>
   );

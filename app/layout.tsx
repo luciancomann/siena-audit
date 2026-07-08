@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SvgSprite } from "@/components/SvgSprite";
 import { Runtimes } from "@/components/runtime/Runtimes";
+import { MountedRuntime } from "@/components/runtime/MountedRuntime";
 import "./styles/fonts.css";
 import "./styles/base.css";
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SvgSprite />
         {children}
         <Runtimes />
+        <MountedRuntime />
       </body>
     </html>
   );
