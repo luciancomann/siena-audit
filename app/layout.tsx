@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { SvgSprite } from "@/components/SvgSprite";
+import { Runtimes } from "@/components/runtime/Runtimes";
 import "./styles/fonts.css";
 import "./styles/base.css";
 
@@ -18,7 +20,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SvgSprite />
+        {children}
+        <Runtimes />
+      </body>
     </html>
   );
 }
