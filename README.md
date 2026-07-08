@@ -51,5 +51,22 @@ npm run build && npm run start     # production — recommended
 ## Scope
 
 - **Pixel-complete:** all 42 routes render statically pixel-faithful.
-- **Interactive (homepage):** nav dropdowns, mobile menu, testimonial carousels, logo tickers, hover states, videos, appear animations.
+- **Interactive (homepage, verified against live):** nav dropdowns + mobile hamburger, both testimonial carousels (arrows/counter/transitions), logo tickers (exact ±30px/s), hover/press states, videos, appear animations, runtime-mounted scene components (chat cards, sticky scroll showcase), in-view entrance animations (chat bubbles, the 25→80 counter), gradient-text masks.
 - **Not implemented:** Framer's real hydration bundle, analytics/cookie banners (intentionally stripped), backend form submission (simulated locally), and interactivity on non-homepage routes.
+
+## Measured fidelity (homepage vs live, full-page pixelmatch)
+
+| Viewport | Mismatch | Page height |
+|---|---|---|
+| 1440 px | 0.119% | exact (11345px) |
+| 1024 px | 0.124% | exact (10657px) |
+| 390 px  | 0.198% | exact (13829px) |
+
+## Pipeline
+
+`pipeline/` contains everything used to produce and verify the clone — capture
+(`capture.sh`), conversion (`tools/convert.js`), asset localization, sprite +
+mounted-component harvesters, the pixel comparator (`tools/compare.js`), the
+captured SSR HTML of all 43 pages, and the per-agent measurement/verification
+scripts. `cd pipeline/tools && npm i cheerio playwright pixelmatch pngjs` to
+re-run any of it.

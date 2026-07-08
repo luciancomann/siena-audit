@@ -1,0 +1,302 @@
+{
+ "390": [
+  {
+   "cls": "framer-st32cd",
+   "framerName": null,
+   "section": "Feature 1",
+   "chain": "framer-st32cd < framer-1gs6sc6 < framer-1xb7f8i < framer-1fhogur < framer-fy0lkq",
+   "style": "will-change:transform;opacity:0;transform:translateY(80px)",
+   "rect": {
+    "x": 40,
+    "y": 2046,
+    "w": 310,
+    "h": 87
+   },
+   "text": "Hey! Need help with an order I placed yesterday—I forgot to "
+  },
+  {
+   "cls": "framer-1wa6tng",
+   "framerName": null,
+   "section": "Feature 1",
+   "chain": "framer-1wa6tng < framer-1gs6sc6 < framer-1xb7f8i < framer-1fhogur < framer-fy0lkq",
+   "style": "will-change:transform;opacity:0;transform:translateY(50px)",
+   "rect": {
+    "x": 40,
+    "y": 2119,
+    "w": 310,
+    "h": 106
+   },
+   "text": "No worries! I’ve got your order pulled up. I can apply the c"
+  },
+  {
+   "cls": "framer-g4cbwm",
+   "framerName": null,
+   "section": "Feature 1",
+   "chain": "framer-g4cbwm < framer-1gs6sc6 < framer-1xb7f8i < framer-1fhogur < framer-fy0lkq",
+   "style": "will-change:transform;opacity:0;transform:translateY(50px)",
+   "rect": {
+    "x": 40,
+    "y": 2242,
+    "w": 310,
+    "h": 56
+   },
+   "text": "Yes please! Appreciate it."
+  },
+  {
+   "cls": "framer-w0jts",
+   "framerName": null,
+   "section": "Feature 1",
+   "chain": "framer-w0jts < framer-1gs6sc6 < framer-1xb7f8i < framer-1fhogur < framer-fy0lkq",
+   "style": "will-change:transform;opacity:0;transform:translateY(50px)",
+   "rect": {
+    "x": 40,
+    "y": 2313,
+    "w": 310,
+    "h": 122
+   },
+   "text": "Done. Also noticed you’ve bought from our skincare line twic"
+  },
+  {
+   "cls": "framer-1uh8716",
+   "framerName": null,
+   "section": "Feature 1",
+   "chain": "framer-1uh8716 < framer-1gs6sc6 < framer-1xb7f8i < framer-1fhogur < framer-fy0lkq",
+   "style": "will-change:transform;opacity:0;transform:translateY(50px)",
+   "rect": {
+    "x": 40,
+    "y": 2451,
+    "w": 310,
+    "h": 56
+   },
+   "text": "Omg yes! That sounds amazing."
+  },
+  {
+   "cls": "framer-vncnon",
+   "framerName": null,
+   "section": "Gruns",
+   "chain": "framer-vncnon < framer-14eyqx4 < framer-9w68nk < framer-qbm1zq < framer-fy0lkq",
+   "style": "will-change:transform;opacity:0;transform:translateY(80px)",
+   "rect": {
+    "x": 43,
+    "y": 3224,
+    "w": 304,
+    "h": 76
+   },
+   "text": "Can you recommend a product based on my latest orders?"
+  },
+  {
+   "cls": "framer-1o5w0mx",
+   "framerName": "Agent message",
+   "section": "Gruns",
+   "chain": "framer-1o5w0mx < framer-14eyqx4 < framer-9w68nk < framer-qbm1zq < framer-fy0lkq",
+   "style": "will-change:transform;opacity:0;transform:translateY(80px)",
+   "rect": {
+    "x": 43,
+    "y": 3317,
+    "w": 304,
+    "h": 135
+   },
+   "text": "Based on your recent orders, I think you'd love the Grüns Su"
+  },
+  {
+   "cls": "framer-go2wqk",
+   "framerName": "Border",
+   "section": "Gruns",
+   "chain": "framer-go2wqk < framer-14eyqx4 < framer-9w68nk < framer-qbm1zq < framer-fy0lkq",
+   "style": "will-change:transform;opacity:0;transform:translateY(80px)",
+   "rect": {
+    "x": 43,
+    "y": 3468,
+    "w": 304,
+    "h": 108
+   },
+   "text": "Grüns Superfood GummiesFlavor: OriginalOrder No. #48156Estim"
+  },
+  {
+   "cls": "",
+   "framerName": null,
+   "section": "Title",
+   "chain": "framer-12gmn7u < framer-15viq3i < framer-mfiahq",
+   "style": "font-family:\"Feature Deck Condensed Web Regular\", \"Feature Deck Condensed Web Regular Placeholder\", sans-serif;font-weight:400;font-size:120px;line-height:1.5em;letter-spacing:0em;color:var(--token-76690f9a-b442-46af-8a9",
+   "rect": {
+    "x": 94,
+    "y": 5042,
+    "w": 120,
+    "h": 180
+   },
+   "text": "25"
+  }
+ ],
+ "1024": [
+  {
+   "cls": "",
+   "framerName": null,
+   "section": "Title",
+   "chain": "framer-12gmn7u < framer-15viq3i < framer-mfiahq",
+   "style": "font-family:\"Feature Deck Condensed Web Regular\", \"Feature Deck Condensed Web Regular Placeholder\", sans-serif;font-weight:400;font-size:180px;line-height:1.5em;letter-spacing:0em;color:var(--token-76690f9a-b442-46af-8a9",
+   "rect": {
+    "x": 80,
+    "y": 4702,
+    "w": 180,
+    "h": 270
+   },
+   "text": "25"
+  }
+ ],
+ "1440": [
+  {
+   "cls": "framer-160figo",
+   "framerName": "Products",
+   "section": "Menu Area",
+   "chain": "framer-160figo < framer-k27yhv < framer-abxou < framer-1xrkohb",
+   "style": "opacity: 0; transform: translateX(-50%); transform-origin: 50% 50% 0px; will-change: transform;",
+   "rect": {
+    "x": -688,
+    "y": 278,
+    "w": 1408,
+    "h": 372
+   },
+   "text": "Customer Service AgentEmpathic AI for supportAI agentsRevie"
+  },
+  {
+   "cls": "framer-icnbas-container",
+   "framerName": null,
+   "section": "Icon",
+   "chain": "framer-wyajty < framer-5ei7le < framer-8nijdx < framer-17o2u5y",
+   "style": "filter: blur(14px); mask: none; opacity: 0; transform: rotate(90deg); transform-origin: 50% 50% 0px;",
+   "rect": {
+    "x": -711,
+    "y": 304,
+    "w": 110,
+    "h": 61
+   },
+   "text": ""
+  },
+  {
+   "cls": "framer-icnbas-container",
+   "framerName": null,
+   "section": "Icon",
+   "chain": "framer-wyajty < framer-5ei7le < framer-8nijdx < framer-17o2u5y",
+   "style": "filter: blur(14px); mask: none; opacity: 0; transform: rotate(90deg); transform-origin: 50% 50% 0px;",
+   "rect": {
+    "x": -711,
+    "y": 423,
+    "w": 110,
+    "h": 61
+   },
+   "text": ""
+  },
+  {
+   "cls": "framer-icnbas-container",
+   "framerName": null,
+   "section": "Icon",
+   "chain": "framer-wyajty < framer-5ei7le < framer-8nijdx < framer-17o2u5y",
+   "style": "filter: blur(14px); mask: none; opacity: 0; transform: rotate(90deg); transform-origin: 50% 50% 0px;",
+   "rect": {
+    "x": -711,
+    "y": 517,
+    "w": 110,
+    "h": 61
+   },
+   "text": ""
+  },
+  {
+   "cls": "framer-icnbas-container",
+   "framerName": null,
+   "section": "Icon",
+   "chain": "framer-wyajty < framer-5ei7le < framer-8nijdx < framer-17o2u5y",
+   "style": "filter: blur(14px); mask: none; opacity: 0; transform: rotate(90deg); transform-origin: 50% 50% 0px;",
+   "rect": {
+    "x": -711,
+    "y": 610,
+    "w": 110,
+    "h": 61
+   },
+   "text": ""
+  },
+  {
+   "cls": "framer-icnbas-container",
+   "framerName": null,
+   "section": "Icon",
+   "chain": "framer-wyajty < framer-5ei7le < framer-8nijdx < framer-gz7ome",
+   "style": "filter: blur(14px); mask: none; opacity: 0; transform: rotate(90deg); transform-origin: 50% 50% 0px;",
+   "rect": {
+    "x": -231,
+    "y": 342,
+    "w": 110,
+    "h": 61
+   },
+   "text": ""
+  },
+  {
+   "cls": "framer-icnbas-container",
+   "framerName": null,
+   "section": "Icon",
+   "chain": "framer-wyajty < framer-5ei7le < framer-8nijdx < framer-gz7ome",
+   "style": "filter: blur(14px); mask: none; opacity: 0; transform: rotate(90deg); transform-origin: 50% 50% 0px;",
+   "rect": {
+    "x": -231,
+    "y": 423,
+    "w": 110,
+    "h": 61
+   },
+   "text": ""
+  },
+  {
+   "cls": "framer-icnbas-container",
+   "framerName": null,
+   "section": "Icon",
+   "chain": "framer-wyajty < framer-5ei7le < framer-8nijdx < framer-gz7ome",
+   "style": "filter: blur(14px); mask: none; opacity: 0; transform: rotate(90deg); transform-origin: 50% 50% 0px;",
+   "rect": {
+    "x": -231,
+    "y": 504,
+    "w": 110,
+    "h": 61
+   },
+   "text": ""
+  },
+  {
+   "cls": "framer-icnbas-container",
+   "framerName": null,
+   "section": "Icon",
+   "chain": "framer-wyajty < framer-5ei7le < framer-8nijdx < framer-gz7ome",
+   "style": "filter: blur(14px); mask: none; opacity: 0; transform: rotate(90deg); transform-origin: 50% 50% 0px;",
+   "rect": {
+    "x": -231,
+    "y": 597,
+    "w": 110,
+    "h": 61
+   },
+   "text": ""
+  },
+  {
+   "cls": "framer-6do8do",
+   "framerName": "Resources",
+   "section": "Menu Area",
+   "chain": "framer-6do8do < framer-k27yhv < framer-abxou < framer-1xrkohb",
+   "style": "opacity: 0; transform: translateY(-50%); transform-origin: 50% 50% 0px;",
+   "rect": {
+    "x": 720,
+    "y": -645,
+    "w": 1366,
+    "h": 812
+   },
+   "text": "ResourcesBlogCommunityEventsWebinarsCertificationROI C"
+  },
+  {
+   "cls": "",
+   "framerName": null,
+   "section": "Title",
+   "chain": "framer-12gmn7u < framer-15viq3i < framer-mfiahq",
+   "style": "font-family:\"Feature Deck Condensed Web Regular\", \"Feature Deck Condensed Web Regular Placeholder\", sans-serif;font-weight:400;font-size:260px;line-height:1.5em;letter-spacing:0em;color:var(--token-76690f9a-b442-46af-8a9",
+   "rect": {
+    "x": 128,
+    "y": 4800,
+    "w": 260,
+    "h": 390
+   },
+   "text": "25"
+  }
+ ]
+}

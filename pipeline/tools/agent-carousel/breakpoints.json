@@ -1,0 +1,129 @@
+{
+ "390": {
+  "framer-1kknw4s-container": {
+   "containerRect": [
+    390,
+    808
+   ],
+   "variantCls": "ssr-variant hidden-1vabw2g hidden-72rtr7",
+   "itemCount": 0,
+   "visible": [],
+   "counter": [
+    "1",
+    " / 11"
+   ],
+   "itemInline": null,
+   "fixedHStyle": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default",
+   "hasControls": 2,
+   "controlsRow": "width: 100%; display: flex; justify-content: center; margin-top: 24px;",
+   "outerPad": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default"
+  },
+  "framer-66vi1x-container": {
+   "containerRect": [
+    390,
+    604
+   ],
+   "variantCls": "ssr-variant hidden-1vabw2g hidden-72rtr7",
+   "itemCount": 14,
+   "visible": [
+    0
+   ],
+   "counter": [
+    "1",
+    " / 14"
+   ],
+   "itemInline": "height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+   "fixedHStyle": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default",
+   "hasControls": 2,
+   "controlsRow": "width: 100%; display: flex; justify-content: center; margin-top: 24px;",
+   "outerPad": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default"
+  }
+ },
+ "1024": {
+  "framer-1kknw4s-container": {
+   "containerRect": [
+    912,
+    728
+   ],
+   "variantCls": "ssr-variant hidden-1un5pxf",
+   "itemCount": 11,
+   "visible": [
+    0
+   ],
+   "counter": [
+    "1",
+    " / 11"
+   ],
+   "itemInline": "height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+   "fixedHStyle": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default",
+   "hasControls": 2,
+   "controlsRow": "width: 100%; display: flex; justify-content: center; margin-top: 24px;",
+   "outerPad": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default"
+  },
+  "framer-66vi1x-container": {
+   "containerRect": [
+    912,
+    608
+   ],
+   "variantCls": "ssr-variant hidden-72rtr7 hidden-1un5pxf",
+   "itemCount": 14,
+   "visible": [
+    0,
+    1
+   ],
+   "counter": [
+    "1",
+    " / 7"
+   ],
+   "itemInline": "width: calc(50% - 8px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+   "fixedHStyle": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default",
+   "hasControls": 2,
+   "controlsRow": "width: 100%; display: flex; justify-content: center; margin-top: 24px;",
+   "outerPad": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default"
+  }
+ },
+ "1440": {
+  "framer-1kknw4s-container": {
+   "containerRect": [
+    1168,
+    728
+   ],
+   "variantCls": "ssr-variant hidden-1un5pxf",
+   "itemCount": 11,
+   "visible": [
+    0
+   ],
+   "counter": [
+    "1",
+    " / 11"
+   ],
+   "itemInline": "height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+   "fixedHStyle": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default",
+   "hasControls": 2,
+   "controlsRow": "width: 100%; display: flex; justify-content: center; margin-top: 24px;",
+   "outerPad": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default"
+  },
+  "framer-66vi1x-container": {
+   "containerRect": [
+    1168,
+    648
+   ],
+   "variantCls": "ssr-variant hidden-1vabw2g hidden-1un5pxf",
+   "itemCount": 14,
+   "visible": [
+    0,
+    1,
+    2
+   ],
+   "counter": [
+    "1",
+    " / 5"
+   ],
+   "itemInline": "width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+   "fixedHStyle": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default",
+   "hasControls": 2,
+   "controlsRow": "width: 100%; display: flex; justify-content: center; margin-top: 24px;",
+   "outerPad": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default"
+  }
+ }
+}

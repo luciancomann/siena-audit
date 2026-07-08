@@ -1,0 +1,155 @@
+{
+ "pass": true,
+ "checks": [
+  {
+   "name": "1440 framer-1ygwzxs speed",
+   "ok": true,
+   "detail": "clone=30.00px/s live=30px/s diff=0.01% r2=1.00000"
+  },
+  {
+   "name": "1440 framer-1ygwzxs liCount",
+   "ok": true,
+   "detail": "liCount=24"
+  },
+  {
+   "name": "1440 framer-1ygwzxs seamless tiling",
+   "ok": true,
+   "detail": "worst gap error=0.0000px over 44 samples"
+  },
+  {
+   "name": "1440 framer-1ygwzxs visible",
+   "ok": true,
+   "detail": "opacity=1 willChange=transform"
+  },
+  {
+   "name": "1440 framer-1l9mfm0 speed",
+   "ok": true,
+   "detail": "clone=-30.00px/s live=-30px/s diff=0.00% r2=1.00000"
+  },
+  {
+   "name": "1440 framer-1l9mfm0 liCount",
+   "ok": true,
+   "detail": "liCount=23"
+  },
+  {
+   "name": "1440 framer-1l9mfm0 seamless tiling",
+   "ok": true,
+   "detail": "worst gap error=0.0000px over 44 samples"
+  },
+  {
+   "name": "1440 framer-1l9mfm0 visible",
+   "ok": true,
+   "detail": "opacity=1 willChange=transform"
+  },
+  {
+   "name": "1440 console errors",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "name": "1024 framer-1ygwzxs speed",
+   "ok": true,
+   "detail": "clone=30.00px/s live=30.01px/s diff=0.04% r2=1.00000"
+  },
+  {
+   "name": "1024 framer-1ygwzxs liCount",
+   "ok": true,
+   "detail": "liCount=24"
+  },
+  {
+   "name": "1024 framer-1ygwzxs seamless tiling",
+   "ok": true,
+   "detail": "worst gap error=0.0000px over 43 samples"
+  },
+  {
+   "name": "1024 framer-1ygwzxs visible",
+   "ok": true,
+   "detail": "opacity=1 willChange=transform"
+  },
+  {
+   "name": "1024 framer-1l9mfm0 speed",
+   "ok": true,
+   "detail": "clone=-30.00px/s live=-30px/s diff=0.00% r2=1.00000"
+  },
+  {
+   "name": "1024 framer-1l9mfm0 liCount",
+   "ok": true,
+   "detail": "liCount=23"
+  },
+  {
+   "name": "1024 framer-1l9mfm0 seamless tiling",
+   "ok": true,
+   "detail": "worst gap error=0.0000px over 43 samples"
+  },
+  {
+   "name": "1024 framer-1l9mfm0 visible",
+   "ok": true,
+   "detail": "opacity=1 willChange=transform"
+  },
+  {
+   "name": "1024 console errors",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "name": "390 framer-1ygwzxs speed",
+   "ok": true,
+   "detail": "clone=30.00px/s live=30px/s diff=0.01% r2=1.00000"
+  },
+  {
+   "name": "390 framer-1ygwzxs liCount",
+   "ok": true,
+   "detail": "liCount=24"
+  },
+  {
+   "name": "390 framer-1ygwzxs seamless tiling",
+   "ok": true,
+   "detail": "worst gap error=0.0000px over 44 samples"
+  },
+  {
+   "name": "390 framer-1ygwzxs visible",
+   "ok": true,
+   "detail": "opacity=1 willChange=transform"
+  },
+  {
+   "name": "390 framer-1l9mfm0 speed",
+   "ok": true,
+   "detail": "clone=-29.99px/s live=-30px/s diff=0.02% r2=1.00000"
+  },
+  {
+   "name": "390 framer-1l9mfm0 liCount",
+   "ok": true,
+   "detail": "liCount=23"
+  },
+  {
+   "name": "390 framer-1l9mfm0 seamless tiling",
+   "ok": true,
+   "detail": "worst gap error=0.0000px over 44 samples"
+  },
+  {
+   "name": "390 framer-1l9mfm0 visible",
+   "ok": true,
+   "detail": "opacity=1 willChange=transform"
+  },
+  {
+   "name": "390 console errors",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "name": "item recycle occurred within 20s",
+   "ok": true,
+   "detail": "bump flip captured, screenshots saved"
+  },
+  {
+   "name": "reduced-motion framer-1ygwzxs",
+   "ok": true,
+   "detail": "speed=0.000 opacity=1"
+  },
+  {
+   "name": "reduced-motion framer-1l9mfm0",
+   "ok": true,
+   "detail": "speed=0.000 opacity=1"
+  }
+ ]
+}

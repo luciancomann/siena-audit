@@ -1,0 +1,318 @@
+{
+ "errors": [],
+ "checks": [
+  {
+   "name": "closed variant",
+   "ok": true,
+   "detail": "framer-v-1w08b0o"
+  },
+  {
+   "name": "closed card h=64",
+   "ok": true,
+   "detail": "{\"x\":16,\"y\":51.2,\"w\":1408,\"h\":64}"
+  },
+  {
+   "name": "product opens with height animation",
+   "ok": true,
+   "detail": "frames mid-flight=11, settleT=386"
+  },
+  {
+   "name": "product variant",
+   "ok": true,
+   "detail": "framer-v-wctfne"
+  },
+  {
+   "name": "product card geom ~= live",
+   "ok": true,
+   "detail": "{\"x\":16,\"y\":51.2,\"w\":1408,\"h\":516.7}"
+  },
+  {
+   "name": "product menuArea h ~= 355.7",
+   "ok": true,
+   "detail": "{\"x\":24,\"y\":115.2,\"w\":1392,\"h\":355.7}"
+  },
+  {
+   "name": "product footer h ~= 97",
+   "ok": true,
+   "detail": "{\"x\":24,\"y\":470.9,\"w\":1392,\"h\":97}"
+  },
+  {
+   "name": "Reviews Agent -> /ai-review-management",
+   "ok": true,
+   "detail": "/ai-review-management"
+  },
+  {
+   "name": "Docs -> /products/docs",
+   "ok": true,
+   "detail": "/products/docs"
+  },
+  {
+   "name": "Topics Explorer -> /topics-explorer",
+   "ok": true,
+   "detail": "/topics-explorer"
+  },
+  {
+   "name": "Quality Assurance -> /qa-agent",
+   "ok": true,
+   "detail": "/qa-agent"
+  },
+  {
+   "name": "View Integrations -> /integrations",
+   "ok": true,
+   "detail": "/integrations"
+  },
+  {
+   "name": "no /memory placeholders in product menu",
+   "ok": true,
+   "detail": "[{\"t\":\"Memory\",\"h\":\"/memory\"}]"
+  },
+  {
+   "name": "active link color",
+   "ok": true,
+   "detail": "rgb(18, 32, 35)"
+  },
+  {
+   "name": "inactive link dim color",
+   "ok": true,
+   "detail": "rgb(160, 166, 167)"
+  },
+  {
+   "name": "customers opacity 0.4",
+   "ok": true,
+   "detail": "0.4"
+  },
+  {
+   "name": "chevron rotated",
+   "ok": true,
+   "detail": "rotate(180deg)"
+  },
+  {
+   "name": "resources variant",
+   "ok": true,
+   "detail": "framer-v-1pxg195"
+  },
+  {
+   "name": "resources card h ~= 505",
+   "ok": true,
+   "detail": "{\"x\":16,\"y\":51.2,\"w\":1408,\"h\":505}"
+  },
+  {
+   "name": "resources panel h ~= 393",
+   "ok": true,
+   "detail": "{\"x\":32,\"y\":139.2,\"w\":1376,\"h\":393}"
+  },
+  {
+   "name": "Blog -> /blog",
+   "ok": true,
+   "detail": "/blog"
+  },
+  {
+   "name": "ROI Calculator -> /roi-calculator",
+   "ok": true,
+   "detail": "/roi-calculator"
+  },
+  {
+   "name": "Certification href",
+   "ok": true,
+   "detail": "/siena-ai-certification-in-customer-experience"
+  },
+  {
+   "name": "partners variant",
+   "ok": true,
+   "detail": "framer-v-1fz5xqi"
+  },
+  {
+   "name": "partners card h ~= 209",
+   "ok": true,
+   "detail": "{\"x\":16,\"y\":51.2,\"w\":1408,\"h\":209}"
+  },
+  {
+   "name": "partners footer h ~= 145",
+   "ok": true,
+   "detail": "{\"x\":24,\"y\":115.2,\"w\":1392,\"h\":145}"
+  },
+  {
+   "name": "Partner with Siena -> /partner-with-siena",
+   "ok": true,
+   "detail": "[{\"t\":\"Partner with SienaExpand what'\",\"h\":\"/partner-with-siena\",\"vis\":1},{\"t\":\"Refer a friendRefer and earn u\",\"h\":\"/refer-a-friend\",\"vis\":1},{\"t\":\"SecuritySOC 2, DPA and more\",\"h\":\"https://sienaai.trust.site/\",\"vis\":0}]"
+  },
+  {
+   "name": "Refer a friend -> /refer-a-friend",
+   "ok": true,
+   "detail": "/refer-a-friend"
+  },
+  {
+   "name": "company variant",
+   "ok": true,
+   "detail": "framer-v-1m4j5up"
+  },
+  {
+   "name": "company card h ~= 209.2",
+   "ok": true,
+   "detail": "{\"x\":16,\"y\":51.2,\"w\":1408,\"h\":209.2}"
+  },
+  {
+   "name": "Security -> trust.site",
+   "ok": true,
+   "detail": "https://sienaai.trust.site/"
+  },
+  {
+   "name": "Careers -> ashby",
+   "ok": true,
+   "detail": "https://jobs.ashbyhq.com/siena"
+  },
+  {
+   "name": "About Us -> /about-us",
+   "ok": true,
+   "detail": "/about-us"
+  },
+  {
+   "name": "company row visible, partners hidden",
+   "ok": true,
+   "detail": "{\"company\":\"1\",\"partners\":\"0\"}"
+  },
+  {
+   "name": "sprite svg438111121_1382 present",
+   "ok": true
+  },
+  {
+   "name": "close animates height",
+   "ok": true,
+   "detail": "frames=18"
+  },
+  {
+   "name": "closed-after-hover stays solid (v-116z0bk)",
+   "ok": true,
+   "detail": "framer-v-116z0bk"
+  },
+  {
+   "name": "solid bg after close",
+   "ok": true,
+   "detail": "rgb(250, 247, 241)"
+  },
+  {
+   "name": "scrolled: solid",
+   "ok": true,
+   "detail": "framer-v-116z0bk"
+  },
+  {
+   "name": "back to top: transparent",
+   "ok": true,
+   "detail": "framer-v-1w08b0o"
+  },
+  {
+   "name": "transparent bg at top",
+   "ok": true,
+   "detail": "rgba(250, 247, 241, 0)"
+  },
+  {
+   "name": "scroll closes open menu",
+   "ok": true,
+   "detail": "framer-v-116z0bk"
+  },
+  {
+   "name": "mobile initial closed",
+   "ok": true,
+   "detail": "Main"
+  },
+  {
+   "name": "mobile opens (Opened)",
+   "ok": true,
+   "detail": "Opened"
+  },
+  {
+   "name": "mobile open height ~= 602.8 (live)",
+   "ok": true,
+   "detail": "closed=113 open=602.8"
+  },
+  {
+   "name": "burger glyph switches to minus",
+   "ok": true,
+   "detail": "\"-\""
+  },
+  {
+   "name": "banner second row appears",
+   "ok": true,
+   "detail": "rows=2"
+  },
+  {
+   "name": "mobile Customers -> /customers",
+   "ok": true,
+   "detail": "{\"t\":\"Customers\",\"h\":\"/customers\"}"
+  },
+  {
+   "name": "mobile Book a demo -> /book-a-demo",
+   "ok": true,
+   "detail": "{\"t\":\"Book a demo\",\"h\":\"/book-a-demo\"}"
+  },
+  {
+   "name": "mobile Products submenu",
+   "ok": true,
+   "detail": "Products"
+  },
+  {
+   "name": "mobile products submenu height ~= 819.6 (live)",
+   "ok": true,
+   "detail": "h=819.6"
+  },
+  {
+   "name": "mobile sub: Shopping Agent -> /shopping-agent",
+   "ok": true,
+   "detail": "{\"t\":\"Shopping Agent\",\"h\":\"/shopping-agent\"}"
+  },
+  {
+   "name": "mobile sub: Order Tracking -> /order-tracking",
+   "ok": true,
+   "detail": "{\"t\":\"Order Tracking\",\"h\":\"/order-tracking\"}"
+  },
+  {
+   "name": "back row exists",
+   "ok": true
+  },
+  {
+   "name": "back returns to Opened",
+   "ok": true,
+   "detail": "Opened"
+  },
+  {
+   "name": "mobile Resources submenu",
+   "ok": true,
+   "detail": "Resources"
+  },
+  {
+   "name": "mobile Partners submenu",
+   "ok": true,
+   "detail": "Partners"
+  },
+  {
+   "name": "mobile Company submenu",
+   "ok": true,
+   "detail": "Company"
+  },
+  {
+   "name": "mobile company: About us -> /about-us",
+   "ok": true,
+   "detail": "{\"t\":\"About us\",\"h\":\"/about-us\"}"
+  },
+  {
+   "name": "mobile company: Careers -> ashby",
+   "ok": true,
+   "detail": "{\"t\":\"Careers\",\"h\":\"https://jobs.ashbyhq.com/siena\"}"
+  },
+  {
+   "name": "mobile closes back to Main",
+   "ok": true,
+   "detail": "Main"
+  },
+  {
+   "name": "mobile closed height restored",
+   "ok": true,
+   "detail": "h=113"
+  },
+  {
+   "name": "burger glyph restored (U+E0AE)",
+   "ok": true,
+   "detail": "57518"
+  }
+ ]
+}

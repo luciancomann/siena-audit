@@ -15,6 +15,7 @@ import { AccordionRuntime } from "./AccordionRuntime";
 import { FormsRuntime } from "./FormsRuntime";
 import { HoverRuntime } from "./HoverRuntime";
 import { VideoRuntime } from "./VideoRuntime";
+import { InViewRuntime } from "./InViewRuntime";
 
 export function Runtimes() {
   return (
@@ -26,6 +27,7 @@ export function Runtimes() {
       <FormsRuntime />
       <HoverRuntime />
       <VideoRuntime />
+      <InViewRuntime />
     </>
   );
 }

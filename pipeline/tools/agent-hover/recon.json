@@ -1,0 +1,963 @@
+{
+ "anchors": [
+  {
+   "text": "Find out more",
+   "href": "./blog/siena-docs-customer-service-knowledge-base",
+   "cls": "framer-text framer-styles-preset-m190pr",
+   "name": null,
+   "rect": {
+    "x": 941,
+    "y": 11,
+    "w": 100,
+    "h": 20
+   }
+  },
+  {
+   "text": "",
+   "href": "./",
+   "cls": "framer-1svwd5r framer-16aaxro",
+   "name": "Logo and Name",
+   "rect": {
+    "x": 24,
+    "y": 66,
+    "w": 130,
+    "h": 34
+   }
+  },
+  {
+   "text": "Product",
+   "href": null,
+   "cls": "framer-s904G framer-v9fmQ framer-1cncyf0 framer-v-1cncyf0 framer-5pt8ke",
+   "name": "Closed",
+   "rect": {
+    "x": 392,
+    "y": 63,
+    "w": 79,
+    "h": 40
+   }
+  },
+  {
+   "text": "Customers",
+   "href": "./customers",
+   "cls": "framer-A6ifb framer-lh6wx framer-v9fmQ framer-hYW8i framer-5m9gpc framer-v-uoypx9 framer-18lyi90",
+   "name": "ICON",
+   "rect": {
+    "x": 527,
+    "y": 75,
+    "w": 82,
+    "h": 16
+   }
+  },
+  {
+   "text": "Resources",
+   "href": null,
+   "cls": "framer-s904G framer-v9fmQ framer-1cncyf0 framer-v-1cncyf0 framer-5pt8ke",
+   "name": "Closed",
+   "rect": {
+    "x": 665,
+    "y": 63,
+    "w": 97,
+    "h": 40
+   }
+  },
+  {
+   "text": "Partners",
+   "href": null,
+   "cls": "framer-s904G framer-v9fmQ framer-1cncyf0 framer-v-1cncyf0 framer-5pt8ke",
+   "name": "Closed",
+   "rect": {
+    "x": 818,
+    "y": 63,
+    "w": 83,
+    "h": 40
+   }
+  },
+  {
+   "text": "Company",
+   "href": null,
+   "cls": "framer-s904G framer-v9fmQ framer-1cncyf0 framer-v-1cncyf0 framer-5pt8ke",
+   "name": "Closed",
+   "rect": {
+    "x": 957,
+    "y": 63,
+    "w": 92,
+    "h": 40
+   }
+  },
+  {
+   "text": "Book a demo",
+   "href": "./book-a-demo",
+   "cls": "framer-usqbM framer-v9fmQ framer-hYW8i framer-Zj5p8 framer-lh6wx framer-Tnl1r framer-7wxfsi framer-v-7wxfsi framer-xj3t0",
+   "name": "md",
+   "rect": {
+    "x": 1288,
+    "y": 59,
+    "w": 128,
+    "h": 48
+   }
+  },
+  {
+   "text": "Customer Service Agent |  | Empathic AI for support |  | ",
+   "href": "./ai-native-customer-service-vs-help-desk-ai-add-ons",
+   "cls": "framer-frCsL framer-Tnl1r framer-eiUV8 framer-IMd2b framer-LaGq8 framer-v9fmQ framer-Ylcgh framer-8nijdx framer-v-1rm6ko",
+   "name": "Mini - Icon",
+   "rect": {
+    "x": 16,
+    "y": 180,
+    "w": 448,
+    "h": 65
+   }
+  },
+  {
+   "text": "Reviews Agent |  | Put review management on autopilot |  | ",
+   "href": "./ai-native-customer-service-vs-help-desk-ai-add-ons",
+   "cls": "framer-frCsL framer-Tnl1r framer-eiUV8 framer-IMd2b framer-LaGq8 framer-v9fmQ framer-Ylcgh framer-8nijdx framer-v-1rm6ko",
+   "name": "Mini - Icon",
+   "rect": {
+    "x": 16,
+    "y": 261,
+    "w": 448,
+    "h": 65
+   }
+  },
+  {
+   "text": "Shopping Agent |  | Turn converations into purchases |  | ",
+   "href": "./ai-native-customer-service-vs-help-desk-ai-add-ons",
+   "cls": "framer-frCsL framer-Tnl1r framer-eiUV8 framer-IMd2b framer-LaGq8 framer-v9fmQ framer-Ylcgh framer-8nijdx framer-v-1rm6ko",
+   "name": "Mini - Icon",
+   "rect": {
+    "x": 16,
+    "y": 341,
+    "w": 448,
+    "h": 65
+   }
+  },
+  {
+   "text": "Topics Explorer |  | Your VoC Tool built on real conversations |  | ",
+   "href": "./ai-native-customer-service-vs-help-desk-ai-add-ons",
+   "cls": "framer-frCsL framer-Tnl1r framer-eiUV8 framer-IMd2b framer-LaGq8 framer-v9fmQ framer-Ylcgh framer-8nijdx framer-v-1rm6ko",
+   "name": "Mini - Icon",
+   "rect": {
+    "x": 496,
+    "y": 180,
+    "w": 448,
+    "h": 65
+   }
+  },
+  {
+   "text": "QA Agent |  | Score every conversation automatically |  | ",
+   "href": "./ai-native-customer-service-vs-help-desk-ai-add-ons",
+   "cls": "framer-frCsL framer-Tnl1r framer-eiUV8 framer-IMd2b framer-LaGq8 framer-v9fmQ framer-Ylcgh framer-8nijdx framer-v-1rm6ko",
+   "name": "Mini - Icon",
+   "rect": {
+    "x": 496,
+    "y": 261,
+    "w": 448,
+    "h": 65
+   }
+  },
+  {
+   "text": "Ask Siena |  | Eliminate friction to getting answers |  | ",
+   "href": "./ai-native-customer-service-vs-help-desk-ai-add-ons",
+   "cls": "framer-frCsL framer-Tnl1r framer-eiUV8 framer-IMd2b framer-LaGq8 framer-v9fmQ framer-Ylcgh framer-8nijdx framer-v-1rm6ko",
+   "name": "Mini - Icon",
+   "rect": {
+    "x": 496,
+    "y": 341,
+    "w": 448,
+    "h": 65
+   }
+  },
+  {
+   "text": " |  | Memory",
+   "href": "./memory",
+   "cls": "framer-A6ifb framer-lh6wx framer-v9fmQ framer-hYW8i framer-5m9gpc framer-v-uoypx9 framer-18lyi90",
+   "name": "ICON",
+   "rect": {
+    "x": 1000,
+    "y": 204,
+    "w": 99,
+    "h": 16
+   }
+  },
+  {
+   "text": " |  | Video",
+   "href": "./ai-review-management",
+   "cls": "framer-A6ifb framer-lh6wx framer-v9fmQ framer-hYW8i framer-5m9gpc framer-v-uoypx9 framer-18lyi90",
+   "name": "ICON",
+   "rect": {
+    "x": 1000,
+    "y": 276,
+    "w": 80,
+    "h": 16
+   }
+  },
+  {
+   "text": " |  | Order Tracking",
+   "href": "./memory",
+   "cls": "framer-A6ifb framer-lh6wx framer-v9fmQ framer-hYW8i framer-5m9gpc framer-v-uoypx9 framer-18lyi90",
+   "name": "ICON",
+   "rect": {
+    "x": 1000,
+    "y": 347,
+    "w": 147,
+    "h": 16
+   }
+  },
+  {
+   "text": " |  | Blog",
+   "href": "./ai-review-management",
+   "cls": "framer-A6ifb framer-lh6wx framer-v9fmQ framer-hYW8i framer-5m9gpc framer-v-uoypx9 framer-18lyi90",
+   "name": "ICON",
+   "rect": {
+    "x": 61,
+    "y": 221,
+    "w": 70,
+    "h": 16
+   }
+  },
+  {
+   "text": " |  | Community",
+   "href": "./memory",
+   "cls": "framer-A6ifb framer-lh6wx framer-v9fmQ framer-hYW8i framer-5m9gpc framer-v-uoypx9 framer-18lyi90",
+   "name": "ICON",
+   "rect": {
+    "x": 61,
+    "y": 266,
+    "w": 125,
+    "h": 16
+   }
+  },
+  {
+   "text": " |  | Events",
+   "href": "./memory",
+   "cls": "framer-A6ifb framer-lh6wx framer-v9fmQ framer-hYW8i framer-5m9gpc framer-v-uoypx9 framer-18lyi90",
+   "name": "ICON",
+   "rect": {
+    "x": 61,
+    "y": 311,
+    "w": 86,
+    "h": 16
+   }
+  },
+  {
+   "text": " |  | Webinars",
+   "href": "./memory",
+   "cls": "framer-A6ifb framer-lh6wx framer-v9fmQ framer-hYW8i framer-5m9gpc framer-v-uoypx9 framer-18lyi90",
+   "name": "ICON",
+   "rect": {
+    "x": 61,
+    "y": 356,
+    "w": 107,
+    "h": 16
+   }
+  },
+  {
+   "text": " |  | Certification",
+   "href": "./memory",
+   "cls": "framer-A6ifb framer-lh6wx framer-v9fmQ framer-hYW8i framer-5m9gpc framer-v-uoypx9 framer-18lyi90",
+   "name": "ICON",
+   "rect": {
+    "x": 61,
+    "y": 401,
+    "w": 129,
+    "h": 16
+   }
+  },
+  {
+   "text": " |  | ROI Calculator",
+   "href": "./memory",
+   "cls": "framer-A6ifb framer-lh6wx framer-v9fmQ framer-hYW8i framer-5m9gpc framer-v-uoypx9 framer-18lyi90",
+   "name": "ICON",
+   "rect": {
+    "x": 61,
+    "y": 446,
+    "w": 143,
+    "h": 16
+   }
+  },
+  {
+   "text": "Written by |  | Lisa Popovici |  | Siena's March AI Lab in NYC",
+   "href": "./blog/siena-march-2026-ai-lab-nyc",
+   "cls": "framer-stcy1 framer-eiUV8 framer-1Lq4q framer-157ynmd framer-v-157ynmd framer-cmpwep",
+   "name": "Variant 1",
+   "rect": {
+    "x": 563,
+    "y": 191,
+    "w": 269,
+    "h": 358
+   }
+  },
+  {
+   "text": "Written by |  | Lisa Popovici |  | HexClad AI Playbook: CX Strategy ",
+   "href": "./blog/blog-hexclad-ai-playbook-cx-results",
+   "cls": "framer-stcy1 framer-eiUV8 framer-1Lq4q framer-157ynmd framer-v-157ynmd framer-cmpwep",
+   "name": "Variant 1",
+   "rect": {
+    "x": 848,
+    "y": 191,
+    "w": 269,
+    "h": 358
+   }
+  },
+  {
+   "text": "Written by |  | Andrei Negrau |  | Video Customer Service: AI That U",
+   "href": "./blog/video-customer-service-ai-agent",
+   "cls": "framer-stcy1 framer-eiUV8 framer-1Lq4q framer-157ynmd framer-v-157ynmd framer-cmpwep",
+   "name": "Variant 1",
+   "rect": {
+    "x": 1134,
+    "y": 191,
+    "w": 269,
+    "h": 358
+   }
+  },
+  {
+   "text": "Book a demo",
+   "href": "./book-a-demo",
+   "cls": "framer-usqbM framer-v9fmQ framer-hYW8i framer-Zj5p8 framer-lh6wx framer-Tnl1r framer-7wxfsi framer-v-1ofa9m5 framer-xj3t",
+   "name": "xlg",
+   "rect": {
+    "x": 641,
+    "y": 561,
+    "w": 157,
+    "h": 58
+   }
+  },
+  {
+   "text": "Book a demo",
+   "href": "./book-a-demo",
+   "cls": "framer-usqbM framer-v9fmQ framer-hYW8i framer-Zj5p8 framer-lh6wx framer-Tnl1r framer-7wxfsi framer-v-1ofa9m5 framer-xj3t",
+   "name": "xlg",
+   "rect": {
+    "x": 176,
+    "y": 2461,
+    "w": 157,
+    "h": 58
+   }
+  },
+  {
+   "text": "Book a demo",
+   "href": "./book-a-demo",
+   "cls": "framer-usqbM framer-v9fmQ framer-hYW8i framer-Zj5p8 framer-lh6wx framer-Tnl1r framer-7wxfsi framer-v-1ofa9m5 framer-xj3t",
+   "name": "xlg",
+   "rect": {
+    "x": 176,
+    "y": 3437,
+    "w": 157,
+    "h": 58
+   }
+  },
+  {
+   "text": "Book a demo",
+   "href": "./book-a-demo",
+   "cls": "framer-usqbM framer-v9fmQ framer-hYW8i framer-Zj5p8 framer-lh6wx framer-Tnl1r framer-7wxfsi framer-v-1ofa9m5 framer-xj3t",
+   "name": "xlg",
+   "rect": {
+    "x": 176,
+    "y": 4336,
+    "w": 157,
+    "h": 58
+   }
+  },
+  {
+   "text": "How Spanx Turned CX Into a Business Driver and Cut Handle Ti",
+   "href": "./customer-stories/spanx-turned-cx-business-driver-brand-experience",
+   "cls": "framer-2kXtq framer-NlcvS framer-1vv2cil framer-v-1vv2cil framer-1d1vx1i",
+   "name": "Variant 1",
+   "rect": {
+    "x": 168,
+    "y": 5935,
+    "w": 357,
+    "h": 458
+   }
+  },
+  {
+   "text": "Coterie Turns CX into a Revenue Engine with 65% AI Automatio",
+   "href": "./customer-stories/siena-ai-customer-service-automation-coterie",
+   "cls": "framer-2kXtq framer-NlcvS framer-1vv2cil framer-v-1vv2cil framer-1d1vx1i",
+   "name": "Variant 1",
+   "rect": {
+    "x": 541,
+    "y": 5935,
+    "w": 357,
+    "h": 458
+   }
+  },
+  {
+   "text": "How Dossier Scaled International Growth with AI Agents and Z",
+   "href": "./customer-stories/dossier-handled-black-friday-customer-service-zero-panic",
+   "cls": "framer-2kXtq framer-NlcvS framer-1vv2cil framer-v-1vv2cil framer-1d1vx1i",
+   "name": "Variant 1",
+   "rect": {
+    "x": 915,
+    "y": 5935,
+    "w": 357,
+    "h": 458
+   }
+  },
+  {
+   "text": "Explore all integrations",
+   "href": "./integrations",
+   "cls": "framer-usqbM framer-v9fmQ framer-hYW8i framer-Zj5p8 framer-lh6wx framer-Tnl1r framer-7wxfsi framer-v-1ofa9m5 framer-xj3t",
+   "name": "xlg",
+   "rect": {
+    "x": 1078,
+    "y": 10012,
+    "w": 242,
+    "h": 58
+   }
+  },
+  {
+   "text": "Book a demo",
+   "href": "./book-a-demo",
+   "cls": "framer-usqbM framer-v9fmQ framer-hYW8i framer-Zj5p8 framer-lh6wx framer-Tnl1r framer-7wxfsi framer-v-1ofa9m5 framer-xj3t",
+   "name": "xlg",
+   "rect": {
+    "x": 641,
+    "y": 10559,
+    "w": 157,
+    "h": 58
+   }
+  },
+  {
+   "text": "",
+   "href": "./",
+   "cls": "framer-16lqodi framer-14pvscf",
+   "name": "siena-logo",
+   "rect": {
+    "x": 120,
+    "y": 10944,
+    "w": 122,
+    "h": 32
+   }
+  },
+  {
+   "text": "",
+   "href": "https://www.linkedin.com/company/siena-ai",
+   "cls": "framer-rCoMe framer-v9fmQ framer-hYW8i framer-Zj5p8 framer-1v24rpw framer-v-d1uiai framer-1ssunsk",
+   "name": "Secondary / md",
+   "rect": {
+    "x": 120,
+    "y": 11008,
+    "w": 46,
+    "h": 48
+   }
+  },
+  {
+   "text": "",
+   "href": "https://x.com/siena_ai",
+   "cls": "framer-rCoMe framer-v9fmQ framer-hYW8i framer-Zj5p8 framer-1v24rpw framer-v-d1uiai framer-1ssunsk",
+   "name": "Secondary / md",
+   "rect": {
+    "x": 174,
+    "y": 11008,
+    "w": 48,
+    "h": 48
+   }
+  },
+  {
+   "text": "Customer Service Agent",
+   "href": "./",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 10983,
+    "w": 182,
+    "h": 16
+   }
+  },
+  {
+   "text": "Reviews Agent",
+   "href": "./ai-review-management",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 11011,
+    "w": 109,
+    "h": 16
+   }
+  },
+  {
+   "text": "Shopping Agent",
+   "href": "./shopping-agent",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 11039,
+    "w": 121,
+    "h": 16
+   }
+  },
+  {
+   "text": "QA Agent",
+   "href": "./qa-agent",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 11067,
+    "w": 74,
+    "h": 16
+   }
+  },
+  {
+   "text": "Topics Explorer",
+   "href": "./topics-explorer",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 11095,
+    "w": 115,
+    "h": 16
+   }
+  },
+  {
+   "text": "Docs",
+   "href": "./products/docs",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 11123,
+    "w": 38,
+    "h": 16
+   }
+  },
+  {
+   "text": "Memory",
+   "href": "./memory",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 11151,
+    "w": 63,
+    "h": 16
+   }
+  },
+  {
+   "text": "Video",
+   "href": "./video",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 11179,
+    "w": 44,
+    "h": 16
+   }
+  },
+  {
+   "text": "Order Tracking",
+   "href": "./order-tracking",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 11207,
+    "w": 111,
+    "h": 16
+   }
+  },
+  {
+   "text": "Intelligence",
+   "href": null,
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 11235,
+    "w": 87,
+    "h": 16
+   }
+  },
+  {
+   "text": "Integrations",
+   "href": "./integrations",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 485,
+    "y": 11265,
+    "w": 90,
+    "h": 16
+   }
+  },
+  {
+   "text": "Blog",
+   "href": "./blog",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 715,
+    "y": 10983,
+    "w": 34,
+    "h": 16
+   }
+  },
+  {
+   "text": "Community",
+   "href": "./community",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 715,
+    "y": 11011,
+    "w": 89,
+    "h": 16
+   }
+  },
+  {
+   "text": "Events",
+   "href": "./events",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 715,
+    "y": 11039,
+    "w": 50,
+    "h": 16
+   }
+  },
+  {
+   "text": "Webinars",
+   "href": "./webinars",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 715,
+    "y": 11067,
+    "w": 71,
+    "h": 16
+   }
+  },
+  {
+   "text": "Certification",
+   "href": "./siena-ai-certification-in-customer-experience",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 715,
+    "y": 11095,
+    "w": 93,
+    "h": 16
+   }
+  },
+  {
+   "text": "ROI Calculator",
+   "href": "./roi-calculator",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 715,
+    "y": 11123,
+    "w": 107,
+    "h": 16
+   }
+  },
+  {
+   "text": "Pricing",
+   "href": "./pricing",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 715,
+    "y": 11151,
+    "w": 53,
+    "h": 16
+   }
+  },
+  {
+   "text": "Choose Dedicated AI",
+   "href": "./ai-native-customer-service-vs-help-desk-ai-add-ons",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 715,
+    "y": 11179,
+    "w": 157,
+    "h": 16
+   }
+  },
+  {
+   "text": "AI LAB",
+   "href": "./ai-lab",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 715,
+    "y": 11207,
+    "w": 50,
+    "h": 16
+   }
+  },
+  {
+   "text": "Partner with Siena",
+   "href": "./partner-with-siena",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 882,
+    "y": 10983,
+    "w": 136,
+    "h": 16
+   }
+  },
+  {
+   "text": "Refer a Friend",
+   "href": "./refer-a-friend",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 882,
+    "y": 11011,
+    "w": 103,
+    "h": 16
+   }
+  },
+  {
+   "text": "About Us",
+   "href": "./about-us",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 1101,
+    "y": 10983,
+    "w": 69,
+    "h": 16
+   }
+  },
+  {
+   "text": "Careers",
+   "href": "https://jobs.ashbyhq.com/siena",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 1101,
+    "y": 11011,
+    "w": 58,
+    "h": 16
+   }
+  },
+  {
+   "text": "Customers",
+   "href": "./customers",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 1101,
+    "y": 11039,
+    "w": 82,
+    "h": 16
+   }
+  },
+  {
+   "text": "Security",
+   "href": "https://sienaai.trust.site/",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 1101,
+    "y": 11067,
+    "w": 62,
+    "h": 16
+   }
+  },
+  {
+   "text": "Product Updates",
+   "href": "./product-updates",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 1101,
+    "y": 11095,
+    "w": 126,
+    "h": 16
+   }
+  },
+  {
+   "text": "Terms of Service",
+   "href": "./terms-of-service",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 1101,
+    "y": 11181,
+    "w": 123,
+    "h": 16
+   }
+  },
+  {
+   "text": "Privacy Policy",
+   "href": "./privacy-policy",
+   "cls": "framer-XXLkB framer-v9fmQ framer-1jxonny framer-v-1jxonny framer-l9uflg",
+   "name": "Default",
+   "rect": {
+    "x": 1101,
+    "y": 11207,
+    "w": 102,
+    "h": 16
+   }
+  }
+ ],
+ "videos": [
+  {
+   "src": "https://4positiveimpact.b-cdn.net/Abstract%20Landscape%20Moving%20Shapes.mp4",
+   "autoplay": false,
+   "loop": true,
+   "muted": true,
+   "preload": "none",
+   "playsinline": true,
+   "paused": true,
+   "currentTime": 0,
+   "readyState": 0,
+   "poster": "",
+   "cls": "",
+   "parentCls": "framer-icnbas-container",
+   "rect": {
+    "x": -7,
+    "y": 206,
+    "w": 110,
+    "h": 61
+   },
+   "inSsrVariant": false,
+   "ssrVariantCls": null,
+   "visible": true
+  },
+  {
+   "src": "https://4positiveimpact.b-cdn.net/Abstract%20Landscape%20Moving%20Shapes.mp4",
+   "autoplay": false,
+   "loop": true,
+   "muted": true,
+   "preload": "none",
+   "playsinline": true,
+   "paused": true,
+   "currentTime": 0,
+   "readyState": 0,
+   "poster": "",
+   "cls": "",
+   "parentCls": "framer-icnbas-container",
+   "rect": {
+    "x": -7,
+    "y": 287,
+    "w": 110,
+    "h": 61
+   },
+   "inSsrVariant": false,
+   "ssrVariantCls": null,
+   "visible": true
+  },
+  {
+   "src": "https://4positiveimpact.b-cdn.net/Abstract%20Landscape%20Moving%20Shapes.mp4",
+   "autoplay": false,
+   "loop": true,
+   "muted": true,
+   "preload": "none",
+   "playsinline": true,
+   "paused": true,
+   "currentTime": 0,
+   "readyState": 0,
+   "poster": "",
+   "cls": "",
+   "parentCls": "framer-icnbas-container",
+   "rect": {
+    "x": -7,
+    "y": 367,
+    "w": 110,
+    "h": 61
+   },
+   "inSsrVariant": false,
+   "ssrVariantCls": null,
+   "visible": true
+  },
+  {
+   "src": "https://4positiveimpact.b-cdn.net/Abstract%20Landscape%20Moving%20Shapes.mp4",
+   "autoplay": false,
+   "loop": true,
+   "muted": true,
+   "preload": "none",
+   "playsinline": true,
+   "paused": true,
+   "currentTime": 0,
+   "readyState": 0,
+   "poster": "",
+   "cls": "",
+   "parentCls": "framer-icnbas-container",
+   "rect": {
+    "x": 473,
+    "y": 206,
+    "w": 110,
+    "h": 61
+   },
+   "inSsrVariant": false,
+   "ssrVariantCls": null,
+   "visible": true
+  },
+  {
+   "src": "https://4positiveimpact.b-cdn.net/Abstract%20Landscape%20Moving%20Shapes.mp4",
+   "autoplay": false,
+   "loop": true,
+   "muted": true,
+   "preload": "none",
+   "playsinline": true,
+   "paused": true,
+   "currentTime": 0,
+   "readyState": 0,
+   "poster": "",
+   "cls": "",
+   "parentCls": "framer-icnbas-container",
+   "rect": {
+    "x": 473,
+    "y": 287,
+    "w": 110,
+    "h": 61
+   },
+   "inSsrVariant": false,
+   "ssrVariantCls": null,
+   "visible": true
+  },
+  {
+   "src": "https://4positiveimpact.b-cdn.net/Abstract%20Landscape%20Moving%20Shapes.mp4",
+   "autoplay": false,
+   "loop": true,
+   "muted": true,
+   "preload": "none",
+   "playsinline": true,
+   "paused": true,
+   "currentTime": 0,
+   "readyState": 0,
+   "poster": "",
+   "cls": "",
+   "parentCls": "framer-icnbas-container",
+   "rect": {
+    "x": 473,
+    "y": 367,
+    "w": 110,
+    "h": 61
+   },
+   "inSsrVariant": false,
+   "ssrVariantCls": null,
+   "visible": true
+  }
+ ],
+ "navItems": [
+  {
+   "name": "Products",
+   "tag": "DIV",
+   "cls": "framer-160figo",
+   "text": "AI AGENTS\n\n\n\nComing soon\n\nCustomer Serv"
+  },
+  {
+   "name": "Resources",
+   "tag": "DIV",
+   "cls": "framer-6do8do",
+   "text": "RESOURCES\n\n\n\nBlog\n\n\n\nCommunity\n\n\n\nEve"
+  }
+ ],
+ "scrollHeight": 11345
+}

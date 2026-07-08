@@ -1,0 +1,783 @@
+{
+  "framer-1kknw4s-container": {
+    "rect": [
+      136,
+      1104,
+      1168,
+      728
+    ],
+    "height": 728,
+    "tree": {
+      "tag": "div",
+      "cls": "framer-1kknw4s-container",
+      "style": "",
+      "rect": [
+        136,
+        1104,
+        1168,
+        728
+      ],
+      "children": [
+        {
+          "tag": "div",
+          "cls": "ssr-variant hidden-1un5pxf",
+          "style": "",
+          "rect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "children": [
+            {
+              "tag": "div",
+              "cls": "",
+              "style": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default",
+              "rect": [
+                136,
+                1104,
+                1168,
+                728
+              ],
+              "children": [
+                {
+                  "tag": "div",
+                  "cls": "",
+                  "style": "position:relative;width:100%;height:600px;flex-shrink:0",
+                  "rect": [
+                    168,
+                    1120,
+                    1104,
+                    600
+                  ],
+                  "children": [
+                    {
+                      "tag": "div",
+                      "cls": "",
+                      "style": "width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-start",
+                      "rect": [
+                        168,
+                        1120,
+                        1104,
+                        600
+                      ],
+                      "children": [
+                        {
+                          "tag": "div",
+                          "cls": "",
+                          "style": "width:100%;height:auto",
+                          "rect": [
+                            168,
+                            1120,
+                            1104,
+                            532
+                          ],
+                          "children": [
+                            {
+                              "tag": "div",
+                              "cls": "framer-ehd1hs",
+                              "style": "width: 100%; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset;",
+                              "rect": [
+                                168,
+                                1120,
+                                1104,
+                                532
+                              ],
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    168,
+                                    1120,
+                                    1104,
+                                    532
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "display: none; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "display: none; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "display: none; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "display: none; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "display: none; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "display: none; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "display: none; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "display: none; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "display: none; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-1tbaed4",
+                                  "style": "display: none; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; width: 100%;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "cls": "",
+                  "style": "width: 100%; display: flex; justify-content: center; margin-top: 24px;",
+                  "rect": [
+                    168,
+                    1744,
+                    1104,
+                    40
+                  ],
+                  "children": [
+                    {
+                      "tag": "div",
+                      "cls": "",
+                      "style": "display: flex; align-items: center; gap: 12px;",
+                      "rect": [
+                        651,
+                        1744,
+                        138,
+                        40
+                      ],
+                      "children": [
+                        {
+                          "tag": "button",
+                          "cls": "",
+                          "style": "width: 40px; height: 40px; min-width: 40px; border-radius: 40px; background: rgba(244, 237, 222, 0.6); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0px; overflow: hidden; flex-shrink: 0; z-index: 10; position: relative;",
+                          "rect": [
+                            651,
+                            1744,
+                            40,
+                            40
+                          ],
+                          "children": [
+                            {
+                              "tag": "svg",
+                              "cls": "",
+                              "style": "",
+                              "rect": [
+                                662,
+                                1755,
+                                18,
+                                18
+                              ],
+                              "children": [
+                                {
+                                  "tag": "polyline",
+                                  "cls": "",
+                                  "style": "",
+                                  "rect": [
+                                    669,
+                                    1760,
+                                    5,
+                                    9
+                                  ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "div",
+                          "cls": "",
+                          "style": "font-size: 14px; color: var(--token-76690f9a-b442-46af-8a97-1e9974f4bb5d, rgb(18, 32, 35)); user-select: none; font-variant-numeric: tabular-nums;",
+                          "rect": [
+                            703,
+                            1756,
+                            34,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "tag": "span",
+                              "cls": "",
+                              "style": "",
+                              "rect": [
+                                703,
+                                1756,
+                                8,
+                                16
+                              ],
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "cls": "",
+                              "style": "opacity: 0.4;",
+                              "rect": [
+                                711,
+                                1756,
+                                26,
+                                16
+                              ],
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "cls": "",
+                          "style": "width: 40px; height: 40px; min-width: 40px; border-radius: 40px; background: rgba(244, 237, 222, 0.6); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0px; overflow: hidden; flex-shrink: 0; z-index: 10; position: relative;",
+                          "rect": [
+                            749,
+                            1744,
+                            40,
+                            40
+                          ],
+                          "children": [
+                            {
+                              "tag": "svg",
+                              "cls": "",
+                              "style": "",
+                              "rect": [
+                                760,
+                                1755,
+                                18,
+                                18
+                              ],
+                              "children": [
+                                {
+                                  "tag": "polyline",
+                                  "cls": "",
+                                  "style": "",
+                                  "rect": [
+                                    767,
+                                    1760,
+                                    5,
+                                    9
+                                  ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "outerLen": 56782
+  },
+  "framer-66vi1x-container": {
+    "rect": [
+      136,
+      5919,
+      1168,
+      648
+    ],
+    "height": 648,
+    "tree": {
+      "tag": "div",
+      "cls": "framer-66vi1x-container",
+      "style": "",
+      "rect": [
+        136,
+        5919,
+        1168,
+        648
+      ],
+      "children": [
+        {
+          "tag": "div",
+          "cls": "ssr-variant hidden-1vabw2g hidden-1un5pxf",
+          "style": "",
+          "rect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "children": [
+            {
+              "tag": "div",
+              "cls": "",
+              "style": "width:100%;padding-top:16px;padding-right:32px;padding-bottom:48px;padding-left:32px;position:relative;height:auto;display:flex;flex-direction:column;border-radius:0;cursor:default",
+              "rect": [
+                136,
+                5919,
+                1168,
+                648
+              ],
+              "children": [
+                {
+                  "tag": "div",
+                  "cls": "",
+                  "style": "position:relative;width:100%;height:520px;flex-shrink:0",
+                  "rect": [
+                    168,
+                    5935,
+                    1104,
+                    520
+                  ],
+                  "children": [
+                    {
+                      "tag": "div",
+                      "cls": "",
+                      "style": "width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-start",
+                      "rect": [
+                        168,
+                        5935,
+                        1104,
+                        520
+                      ],
+                      "children": [
+                        {
+                          "tag": "div",
+                          "cls": "",
+                          "style": "width:100%;height:auto",
+                          "rect": [
+                            168,
+                            5935,
+                            1104,
+                            458
+                          ],
+                          "children": [
+                            {
+                              "tag": "div",
+                              "cls": "framer-aoauw8",
+                              "name": "Customer Stories",
+                              "style": "width: 100%; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; display: flex; gap: 16px; flex-flow: row; align-items: stretch;",
+                              "rect": [
+                                168,
+                                5935,
+                                1104,
+                                458
+                              ],
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    168,
+                                    5935,
+                                    357,
+                                    458
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    541,
+                                    5935,
+                                    357,
+                                    458
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    915,
+                                    5935,
+                                    357,
+                                    458
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "cls": "framer-i2kkua",
+                                  "style": "display: none; width: calc(33.3333% - 10.6667px); flex-shrink: 0; height: auto; min-width: unset; min-height: unset; max-width: unset; max-height: unset; flex-grow: 0;",
+                                  "rect": [
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "cls": "",
+                  "style": "width: 100%; display: flex; justify-content: center; margin-top: 24px;",
+                  "rect": [
+                    168,
+                    6479,
+                    1104,
+                    40
+                  ],
+                  "children": [
+                    {
+                      "tag": "div",
+                      "cls": "",
+                      "style": "display: flex; align-items: center; gap: 12px;",
+                      "rect": [
+                        654,
+                        6479,
+                        131,
+                        40
+                      ],
+                      "children": [
+                        {
+                          "tag": "button",
+                          "cls": "",
+                          "style": "width: 40px; height: 40px; min-width: 40px; border-radius: 40px; background: rgba(244, 237, 222, 0.6); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0px; overflow: hidden; flex-shrink: 0; z-index: 10; position: relative;",
+                          "rect": [
+                            654,
+                            6479,
+                            40,
+                            40
+                          ],
+                          "children": [
+                            {
+                              "tag": "svg",
+                              "cls": "",
+                              "style": "",
+                              "rect": [
+                                665,
+                                6490,
+                                18,
+                                18
+                              ],
+                              "children": [
+                                {
+                                  "tag": "polyline",
+                                  "cls": "",
+                                  "style": "",
+                                  "rect": [
+                                    672,
+                                    6494,
+                                    5,
+                                    9
+                                  ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "div",
+                          "cls": "",
+                          "style": "font-size: 14px; color: var(--token-76690f9a-b442-46af-8a97-1e9974f4bb5d, rgb(18, 32, 35)); user-select: none; font-variant-numeric: tabular-nums;",
+                          "rect": [
+                            706,
+                            6491,
+                            27,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "tag": "span",
+                              "cls": "",
+                              "style": "",
+                              "rect": [
+                                706,
+                                6491,
+                                8,
+                                16
+                              ],
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "cls": "",
+                              "style": "opacity: 0.4;",
+                              "rect": [
+                                714,
+                                6491,
+                                19,
+                                16
+                              ],
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "cls": "",
+                          "style": "width: 40px; height: 40px; min-width: 40px; border-radius: 40px; background: rgba(244, 237, 222, 0.6); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0px; overflow: hidden; flex-shrink: 0; z-index: 10; position: relative;",
+                          "rect": [
+                            746,
+                            6479,
+                            40,
+                            40
+                          ],
+                          "children": [
+                            {
+                              "tag": "svg",
+                              "cls": "",
+                              "style": "",
+                              "rect": [
+                                757,
+                                6490,
+                                18,
+                                18
+                              ],
+                              "children": [
+                                {
+                                  "tag": "polyline",
+                                  "cls": "",
+                                  "style": "",
+                                  "rect": [
+                                    763,
+                                    6494,
+                                    5,
+                                    9
+                                  ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "outerLen": 46294
+  }
+}
