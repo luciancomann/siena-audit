@@ -1,0 +1,44 @@
+/* CX Audit — shared shell styles on top of the Siena Design System.
+   Layout glue only: components style themselves; everything here uses
+   --sds-* tokens. */
+
+.cxa-root {
+  min-height: 100vh;
+  background: var(--sds-bg-page);
+  color: var(--sds-text-primary);
+  font-family: var(--sds-font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.cxa-container {
+  max-width: 1168px;
+  margin: 0 auto;
+  padding: 0 var(--sds-space-5);
+}
+
+.cxa-section {
+  padding: var(--sds-space-8) 0;
+}
+
+@media (max-width: 809px) {
+  .cxa-section {
+    padding: var(--sds-space-7) 0;
+  }
+}
+
+/* ---------------------------------------------------------------- print */
+@media print {
+  .cxa-no-print {
+    display: none !important;
+  }
+  .cxa-root {
+    background: #fff;
+  }
+  .cxa-section {
+    padding: 16px 0;
+    break-inside: avoid;
+  }
+  .cxa-page-break {
+    break-before: page;
+  }
+}

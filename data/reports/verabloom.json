@@ -1,0 +1,135 @@
+{
+  "slug": "verabloom",
+  "brand": "Verabloom",
+  "mode": "sample",
+  "createdAt": "2026-07-08T09:00:00.000Z",
+  "metrics": {
+    "sampleSize": 500,
+    "totalInExport": 4183,
+    "dateRange": { "from": "2026-06-01", "to": "2026-06-30" },
+    "monthlyVolumeEstimate": 4183,
+    "automationPotentialScore": 74,
+    "automatableShare": 0.786,
+    "medianFirstResponseMins": 252,
+    "medianResolutionHours": 11.5,
+    "repeatContacts": { "customers": 31, "tickets": 104, "topCluster": "subscription timing — skips and pauses" },
+    "channels": { "email": 312, "chat": 141, "sms": 33, "social": 14 },
+    "redactionCounts": { "emails": 512, "phones": 87, "orderNumbers": 431, "addresses": 96, "names": 388, "total": 1514 },
+    "intents": [
+      { "intent": "wismo", "count": 140, "share": 0.28, "automatable": true, "avgConfidence": 0.97, "medianFirstResponseMins": 214, "medianResolutionHours": 6.1, "sienaAction": "Order Tracking" },
+      { "intent": "pre_purchase", "count": 70, "share": 0.14, "automatable": false, "avgConfidence": 0.91, "medianFirstResponseMins": 301, "medianResolutionHours": 14.8, "sienaAction": "Shopping Agent" },
+      { "intent": "subscription_management", "count": 55, "share": 0.11, "automatable": true, "avgConfidence": 0.95, "medianFirstResponseMins": 265, "medianResolutionHours": 10.9, "sienaAction": "Subscription Management" },
+      { "intent": "returns_exchanges", "count": 45, "share": 0.09, "automatable": true, "avgConfidence": 0.94, "medianFirstResponseMins": 288, "medianResolutionHours": 16.3, "sienaAction": "Returns & Exchanges flow" },
+      { "intent": "refunds", "count": 35, "share": 0.07, "automatable": true, "avgConfidence": 0.93, "medianFirstResponseMins": 246, "medianResolutionHours": 12.4, "sienaAction": "Refunds flow" },
+      { "intent": "damaged_defective", "count": 30, "share": 0.06, "automatable": true, "avgConfidence": 0.9, "medianFirstResponseMins": 234, "medianResolutionHours": 13.2, "sienaAction": "Replacement flow + QA tagging" },
+      { "intent": "order_editing", "count": 25, "share": 0.05, "automatable": true, "avgConfidence": 0.92, "medianFirstResponseMins": 198, "medianResolutionHours": 7.8, "sienaAction": "Order Editing" },
+      { "intent": "shipping_issues", "count": 25, "share": 0.05, "automatable": true, "avgConfidence": 0.89, "medianFirstResponseMins": 275, "medianResolutionHours": 18.6, "sienaAction": "Carrier Lookup + Proactive Updates" },
+      { "intent": "discount_promo", "count": 20, "share": 0.04, "automatable": true, "avgConfidence": 0.95, "medianFirstResponseMins": 187, "medianResolutionHours": 5.4, "sienaAction": "Promo Resolution" },
+      { "intent": "address_change", "count": 18, "share": 0.036, "automatable": true, "avgConfidence": 0.96, "medianFirstResponseMins": 158, "medianResolutionHours": 4.9, "sienaAction": "Address Change" },
+      { "intent": "other", "count": 22, "share": 0.044, "automatable": false, "avgConfidence": 0.78, "medianFirstResponseMins": 322, "medianResolutionHours": 20.1, "sienaAction": null },
+      { "intent": "account_issues", "count": 15, "share": 0.03, "automatable": false, "avgConfidence": 0.86, "medianFirstResponseMins": 290, "medianResolutionHours": 15.7, "sienaAction": null }
+    ]
+  },
+  "benchmark": {
+    "volumeBand": "2,500–7,500 tickets/month",
+    "peerScore": 58,
+    "peerFirstResponseMins": 138,
+    "automationCeiling": 85,
+    "caveatLine": "Benchmarks are directional — drawn from anonymized patterns across consumer brands at your volume, not a certified study."
+  },
+  "insights": [
+    {
+      "title": "The Renewal Serum pump is failing, and nobody tagged it",
+      "pattern": "23 conversations across six weeks describe the same thing in different words: the Renewal Serum pump stops dispensing after a week or two. None of them share a tag, so native reporting shows nothing. Your customers filed the defect report for you — one ticket at a time.",
+      "evidence_count": 23,
+      "what_siena_memory_would_do": "Siena's intelligence layer clusters these on day one, flags a product-quality pattern to your team, and answers the 24th customer with a replacement already in motion."
+    },
+    {
+      "title": "586 shoppers a month are asking to be sold to",
+      "pattern": "14% of your tickets are pre-purchase questions — shade matching, ingredient compatibility, bundle advice. These are shoppers standing at the counter with their hand up. At a median first response of five hours, most of them have moved on.",
+      "evidence_count": 70,
+      "what_siena_memory_would_do": "The Shopping Agent answers in seconds, remembers skin type and past orders, and turns the question into a recommendation — with an add-to-cart in the same conversation."
+    },
+    {
+      "title": "31 customers wrote three or more times about the same thing",
+      "pattern": "Your subscription skip and pause flow is generating repeat contacts — 31 customers wrote at least three times each about timing changes, 104 tickets in this sample alone. Each repeat contact is a customer re-explaining themselves to someone new.",
+      "evidence_count": 31,
+      "what_siena_memory_would_do": "Siena remembers the last conversation, so the second message never starts from zero — and handles skips, pauses, and date changes on the spot, in your voice."
+    }
+  ],
+  "chatMockups": [
+    {
+      "intentLabel": "Where is my order?",
+      "endsInCart": false,
+      "lines": [
+        { "role": "customer", "text": "Hi! I ordered the Daily Glow set last week and haven't seen any movement on tracking 😕" },
+        { "role": "siena", "text": "I checked — your set left our Reno warehouse yesterday and the carrier scan just hadn't caught up. It lands Thursday. I'll send you the new tracking link right now, and I'm sorry the silence made you wonder." },
+        { "role": "customer", "text": "Oh perfect, thank you!" }
+      ]
+    },
+    {
+      "intentLabel": "Pre-purchase question",
+      "endsInCart": true,
+      "lines": [
+        { "role": "customer", "text": "Is the Renewal Serum okay to layer with retinol? I use it every other night." },
+        { "role": "siena", "text": "Yes — on your retinol nights, apply the serum first and give it a minute to settle. On off nights it pairs beautifully with the Barrier Cream you bought in March. Want me to add the serum to a cart with your usual 10% subscriber pricing?" },
+        { "role": "customer", "text": "Yes please — add it!" }
+      ]
+    },
+    {
+      "intentLabel": "Subscription timing",
+      "endsInCart": false,
+      "lines": [
+        { "role": "customer", "text": "I still have half a bottle left, can I push my next delivery?" },
+        { "role": "siena", "text": "Done — I moved your next Renewal Serum shipment to August 12 and kept your subscriber price. If you're ever running low early, just tell me and I'll pull it forward. No forms, no waiting." }
+      ]
+    }
+  ],
+  "assumptions": { "handleTimeMins": 8, "loadedCostPerTicket": 6.5, "automatedCostPerTicket": 0.9 },
+  "math": {
+    "hoursRecoverablePerMonth": 438,
+    "costTodayPerMonth": 21372,
+    "costAutomatedPerMonth": 2959,
+    "savingsPerMonth": 18413,
+    "prePurchaseTicketsPerMonth": 586,
+    "prePurchaseRevenueNote": "586 pre-purchase conversations a month is a sales channel hiding in your support queue. Answered in seconds instead of five hours, a portion of those become orders — we'll model that with your AOV on a call."
+  },
+  "copy": {
+    "headlineStat": "74",
+    "headlineHuman": "Your customers asked 4,183 questions last month. 74% could have been resolved in seconds, warmly, in your voice.",
+    "volumeIntro": "Here's what your customers actually wrote in about. The checked intents map to actions Siena resolves end to end — not routed, not queued, resolved.",
+    "chatIntro": "This is how those conversations could sound. Same questions, your voice, answered in seconds.",
+    "insightsIntro": "A support queue is the most honest customer research you own. Here's what yours has been trying to tell you.",
+    "mathIntro": "The math, with our assumptions in the open — change them and the numbers update.",
+    "benchmarkIntro": "Brands your size typically sit here. You have more headroom than most.",
+    "couldntSee": [
+      "Your export didn't include macros or saved replies, so we can't see what your team already automates by hand.",
+      "Social DMs weren't in this export — for most consumer brands they add 10–20% more volume with the same intent mix.",
+      "CSAT was present on 62% of tickets; the medians above use what's there. A full audit reads every channel and every field."
+    ],
+    "ctaLine": "Walk through your audit with us — 30 minutes, your numbers, no slides."
+  },
+  "crm": {
+    "company": "Verabloom",
+    "audit_slug": "verabloom",
+    "automation_potential_score": 74,
+    "monthly_volume_estimate": 4183,
+    "fast_track": true,
+    "top_intents": [
+      { "intent": "wismo", "share": 0.28 },
+      { "intent": "pre_purchase", "share": 0.14 },
+      { "intent": "subscription_management", "share": 0.11 }
+    ],
+    "insights": [
+      { "title": "The Renewal Serum pump is failing, and nobody tagged it", "pattern": "23 untagged defect reports across six weeks.", "evidence_count": 23, "what_siena_memory_would_do": "Cluster on day one, flag product quality, auto-resolve replacements." },
+      { "title": "586 shoppers a month are asking to be sold to", "pattern": "14% of volume is pre-purchase.", "evidence_count": 70, "what_siena_memory_would_do": "Shopping Agent answers in seconds and converts." },
+      { "title": "31 customers wrote three or more times", "pattern": "Subscription skip/pause friction drives repeat contacts.", "evidence_count": 31, "what_siena_memory_would_do": "Memory kills repeat contacts; handles timing changes instantly." }
+    ],
+    "median_first_response_mins": 252,
+    "repeat_contact_customers": 31,
+    "assumptions": { "handleTimeMins": 8, "loadedCostPerTicket": 6.5, "automatedCostPerTicket": 0.9 },
+    "report_url": "/cx-audit/report/verabloom",
+    "generated_at": "2026-07-08T09:00:00.000Z",
+    "source": "cx-audit-agent"
+  }
+}
