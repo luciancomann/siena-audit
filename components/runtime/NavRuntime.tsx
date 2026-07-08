@@ -55,12 +55,14 @@ type NavPayload = {
     footers: { product: string; partnersCompany: string };
     linkVars: { open: string; closedDim: string; closedNormal: string };
   };
+  css?: string;
   mobile: {
     states: Record<string, { body: string }>;
     variants: Record<string, string>;
     names: Record<string, string>;
     banner142: string;
     burgerOpenInner: string;
+    logoBackInner: string;
   };
   sprites: string;
 };
@@ -316,6 +318,11 @@ function initDesktop(payload: NavPayload, cleanups: Array<() => void>) {
   let open: DesktopKey | null = null;
   let solid = false;
   let pointerOverCard = false;
+  // After a scroll closes the menu, Chrome re-dispatches pointerenter at the
+  // unchanged cursor position, which would instantly reopen it (live does not
+  // reopen). Suppress opens until the pointer actually moves.
+  let suppressPos: { x: number; y: number } | null = null;
+  let lastPointer = { x: -1, y: -1 };
 
   const setCardVariant = (variant: string, name: string) => {
     swapVariantClass(card, variant);
@@ -393,9 +400,22 @@ function initDesktop(payload: NavPayload, cleanups: Array<() => void>) {
     cleanups.push(() => el.removeEventListener(type, fn as EventListener, opts));
   };
 
+  on(window, "pointermove", (e) => {
+    const pe = e as PointerEvent;
+    lastPointer = { x: pe.clientX, y: pe.clientY };
+    if (suppressPos && (Math.abs(pe.clientX - suppressPos.x) > 2 || Math.abs(pe.clientY - suppressPos.y) > 2)) {
+      suppressPos = null;
+    }
+  }, { passive: true });
+
   (Object.keys(LINK_CONTAINERS) as DesktopKey[]).forEach((key) => {
     const a = nav.querySelector<HTMLElement>(`div.${LINK_CONTAINERS[key]} a`);
-    if (a) on(a, "pointerenter", () => openMenu(key));
+    if (a)
+      on(a, "pointerenter", (e) => {
+        const pe = e as PointerEvent;
+        if (suppressPos && Math.abs(pe.clientX - suppressPos.x) <= 2 && Math.abs(pe.clientY - suppressPos.y) <= 2) return;
+        openMenu(key);
+      });
   });
 
   const customersA = nav.querySelector<HTMLElement>("div.framer-1uwyr6h-container a");
@@ -412,7 +432,10 @@ function initDesktop(payload: NavPayload, cleanups: Array<() => void>) {
 
   const onScroll = () => {
     if (window.scrollY > 0) {
-      if (open) closeMenu(); // live closes the dropdown on scroll
+      if (open) {
+        closeMenu(); // live closes the dropdown on scroll
+        suppressPos = { ...lastPointer };
+      }
       toSolid(false);
     } else if (!open && !pointerOverCard) {
       toTransparent();
@@ -514,9 +537,13 @@ function initMobile(payload: NavPayload, cleanups: Array<() => void>) {
   if (!burgerInnerOrig) return;
   const burgerInnerOpen = htmlToElement(m.burgerOpenInner);
   const banner142 = htmlToElement(m.banner142);
+  const logo = nav.querySelector<HTMLElement>("a.framer-r22od7");
+  const logoInnerOrig = logo ? logo.innerHTML : "";
+  const logoHrefOrig = logo ? logo.getAttribute("href") : null;
 
   let state: MobileKey = "closed";
   let bodyEl: HTMLElement | null = null;
+  let logoIsBack = false;
 
   const setState = (next: MobileKey) => {
     if (next === state) return;
@@ -538,6 +565,14 @@ function initMobile(payload: NavPayload, cleanups: Array<() => void>) {
     const current = burger.querySelector<HTMLElement>("div.framer-a3zmiv");
     const wanted = next === "closed" ? burgerInnerOrig : burgerInnerOpen;
     if (current && current !== wanted) current.replaceWith(wanted);
+    // in submenus the logo link becomes a "Back" control (live DOM)
+    const wantBack = next !== "closed" && next !== "opened";
+    if (logo && wantBack !== logoIsBack) {
+      logoIsBack = wantBack;
+      logo.innerHTML = wantBack ? m.logoBackInner : logoInnerOrig;
+      if (wantBack) logo.removeAttribute("href");
+      else if (logoHrefOrig) logo.setAttribute("href", logoHrefOrig);
+    }
   };
 
   const rowLabel = (row: HTMLElement): MobileKey | null => {
@@ -584,6 +619,14 @@ function initMobile(payload: NavPayload, cleanups: Array<() => void>) {
 
 /* ------------------------------------------------------------------ */
 
+function injectCss(payload: NavPayload) {
+  if (!payload.css || document.getElementById("nav-runtime-css")) return;
+  const style = document.createElement("style");
+  style.id = "nav-runtime-css";
+  style.textContent = payload.css;
+  document.head.appendChild(style);
+}
+
 function injectSprites(payload: NavPayload) {
   if (!payload.sprites || document.getElementById("nav-runtime-sprites")) return;
   const holder = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -604,6 +647,7 @@ export function NavRuntime() {
       .then((r) => r.json())
       .then((payload: NavPayload) => {
         if (disposed) return;
+        injectCss(payload);
         injectSprites(payload);
         initDesktop(payload, cleanups);
         initMobile(payload, cleanups);

@@ -8,7 +8,7 @@
 cd "$(dirname "$0")/.."
 
 fingerprint() {
-  find components app -name "*.tsx" -o -name "*.css" | xargs stat -f "%N %m" 2>/dev/null | sort | md5
+  find components app -name "*.tsx" -o -name "*.ts" -o -name "*.css" | xargs stat -f "%N %m" 2>/dev/null | sort | md5
 }
 
 build() {
