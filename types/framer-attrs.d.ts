@@ -9,8 +9,9 @@ declare module "csstype" {
   interface Properties {
     // Framer relies heavily on CSS custom properties in inline styles
     [index: `--${string}`]: string | number | undefined;
-    // Bleeding-edge CSS used by Framer that csstype doesn't know yet
+    // Bleeding-edge / non-standard CSS used by Framer that csstype doesn't know
     cornerShape?: string;
+    MozMaskImage?: string;
   }
 }
 
@@ -21,6 +22,7 @@ declare module "react" {
     radius?: string;
     rotation?: string;
     shadows?: string;
+    name?: string;
   }
   interface SVGAttributes<T> {
     _constraints?: string;

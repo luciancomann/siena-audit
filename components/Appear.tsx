@@ -28,10 +28,15 @@ type Keyframe = {
     duration?: number;
     ease?: number[] | string;
     type?: string;
+    bounce?: number;
+    stiffness?: number;
+    damping?: number;
+    mass?: number;
+    [key: string]: unknown;
   };
 };
 
-type Variant = { initial: Keyframe; animate: Keyframe };
+type Variant = { initial: Keyframe; animate: Keyframe; transformTemplate?: string };
 export type AppearSpec = Record<string, Record<string, Variant>>; // appearId → breakpointHash|default → variant
 export type Breakpoint = { hash: string; mediaQuery: string };
 
@@ -67,30 +72,43 @@ export function AppearRunner({ spec, breakpoints }: { spec: AppearSpec; breakpoi
       if (!els.length) continue;
       const variant = pickVariant(variants, breakpoints);
       if (!variant) continue;
-      const { initial: from, animate: to } = variant;
+      const { initial: from, animate: to, transformTemplate } = variant;
       const t = to.transition ?? {};
+      const applyTemplate = (transform: string) =>
+        transformTemplate ? transformTemplate.replace("__Appear_Animation_Transform__", transform) : transform;
 
       els.forEach((el) => {
         if (reduced) {
           el.style.opacity = String(to.opacity ?? 1);
-          el.style.transform = toTransform(to);
+          el.style.transform = applyTemplate(toTransform(to));
           return;
         }
         el.style.opacity = String(from.opacity ?? 1);
-        el.style.transform = toTransform(from);
+        el.style.transform = applyTemplate(toTransform(from));
 
-        const options = {
-          delay: t.delay ?? 0,
-          duration: t.duration ?? 0.5,
-          ease: (Array.isArray(t.ease) ? (t.ease as [number, number, number, number]) : t.ease) as never,
-        };
+        const options =
+          t.type === "spring"
+            ? {
+                type: "spring" as const,
+                delay: t.delay ?? 0,
+                duration: t.duration,
+                bounce: t.bounce,
+                stiffness: t.stiffness,
+                damping: t.damping,
+                mass: t.mass,
+              }
+            : {
+                delay: t.delay ?? 0,
+                duration: t.duration ?? 0.5,
+                ease: (Array.isArray(t.ease) ? (t.ease as [number, number, number, number]) : t.ease) as never,
+              };
         const lerp = (a: number, b: number, p: number) => a + (b - a) * p;
         controls.push(
           animate(0, 1, {
             ...options,
             onUpdate: (p) => {
               el.style.opacity = String(lerp(from.opacity ?? 1, to.opacity ?? 1, p));
-              el.style.transform = toTransform({
+              el.style.transform = applyTemplate(toTransform({
                 x: lerp(from.x ?? 0, to.x ?? 0, p),
                 y: lerp(from.y ?? 0, to.y ?? 0, p),
                 rotate: lerp(from.rotate ?? 0, to.rotate ?? 0, p),
@@ -99,11 +117,11 @@ export function AppearRunner({ spec, breakpoints }: { spec: AppearSpec; breakpoi
                 scale: lerp(from.scale ?? 1, to.scale ?? 1, p),
                 skewX: lerp(from.skewX ?? 0, to.skewX ?? 0, p),
                 skewY: lerp(from.skewY ?? 0, to.skewY ?? 0, p),
-              });
+              }));
             },
             onComplete: () => {
               el.style.opacity = String(to.opacity ?? 1);
-              el.style.transform = toTransform(to);
+              el.style.transform = applyTemplate(toTransform(to));
             },
           }),
         );
