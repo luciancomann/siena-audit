@@ -41,6 +41,13 @@ export function MountedRuntime() {
   useEffect(() => {
     let cancelled = false;
 
+    // a container instance is "live" when its ssr-variant wrapper (if any)
+    // is displayed at the current breakpoint
+    function isVisibleSlot(el: HTMLElement): boolean {
+      const wrapper = el.closest<HTMLElement>(".ssr-variant");
+      return !wrapper || getComputedStyle(wrapper).display !== "none";
+    }
+
     function inject() {
       if (!cache) return;
       const bp = currentBp();
@@ -48,12 +55,22 @@ export function MountedRuntime() {
         const html = pick(variants);
         if (!html) continue;
         for (const el of document.querySelectorAll<HTMLElement>(`.${cls}`)) {
-          if (el.dataset.mounted === bp) continue;
           // skip containers nested inside an already-injected subtree: their
           // parent's harvested HTML already includes their mounted content
           // (e.g. the shared visual component inside each feature card)
           const outer = el.parentElement?.closest<HTMLElement>("[data-mounted]");
           if (outer) continue;
+          // only the visible breakpoint slot gets content — injecting the same
+          // HTML into hidden duplicates creates duplicate SVG def ids, which
+          // breaks url(#id) masks/gradients in the visible copy
+          if (!isVisibleSlot(el)) {
+            if (el.dataset.mounted) {
+              el.innerHTML = "";
+              delete el.dataset.mounted;
+            }
+            continue;
+          }
+          if (el.dataset.mounted === bp) continue;
           el.innerHTML = html;
           el.dataset.mounted = bp;
           // muted autoplay videos injected via innerHTML need a nudge
