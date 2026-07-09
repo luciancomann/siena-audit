@@ -1,0 +1,176 @@
+/* Qualify wizard — gradient-framed cream card after the clone's pricing
+   form. Tokens only; layout mirrors the measured form (step chips, sand
+   option rows, right-set footer). */
+
+.cxq-frame {
+  box-sizing: border-box;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.5px; /* the gradient border */
+  border-radius: 26px;
+  background: var(--sds-gradient-brand);
+}
+
+.cxq-card {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--sds-space-6) var(--sds-space-6) var(--sds-space-5) !important;
+  background-color: var(--sds-sand-50) !important; /* the form sits lighter than feature cream */
+  gap: var(--sds-space-5);
+}
+
+/* ------------------------------------------------------------ step chips */
+.cxq-steps {
+  display: flex;
+  align-items: center;
+  gap: var(--sds-space-5);
+  flex-wrap: wrap;
+}
+
+.cxq-step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sds-space-2);
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--sds-text-primary);
+}
+
+.cxq-step__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.cxq-step--active .cxq-step__box,
+.cxq-step--done .cxq-step__box {
+  background: var(--sds-ink-900);
+  color: var(--sds-sand-50);
+}
+
+.cxq-step--todo .cxq-step__box {
+  background: transparent;
+  border: 1px solid var(--sds-sand-400);
+  color: var(--sds-text-primary);
+}
+
+.cxq-step--todo .cxq-step__label {
+  color: var(--sds-text-secondary);
+}
+
+/* ------------------------------------------------------------------ body */
+.cxq-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-5);
+  animation: cxq-in 0.28s ease both;
+}
+
+.cxq-body--email {
+  gap: var(--sds-space-6);
+  padding: var(--sds-space-6) 0;
+}
+
+@keyframes cxq-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cxq-question {
+  margin: 0;
+  font-family: var(--sds-font-display);
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 400;
+  color: var(--sds-text-primary);
+}
+
+/* --------------------------------------------------------------- options */
+.cxq-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-3);
+}
+
+.cxq-opt {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 17px var(--sds-space-4);
+  border: 0;
+  border-radius: 12px;
+  background: var(--sds-bg-card); /* #f4edde */
+  font-family: var(--sds-font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--sds-text-primary);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.cxq-opt:hover {
+  background: var(--sds-sand-300);
+}
+
+.cxq-opt--picked,
+.cxq-opt--picked:hover {
+  background: var(--sds-ink-900);
+  color: var(--sds-sand-50);
+}
+
+/* ---------------------------------------------------------------- footer */
+.cxq-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sds-space-3);
+}
+
+/* ---------------------------------------------------- post-wizard summary */
+.cxq-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sds-space-3);
+  flex-wrap: wrap;
+}
+
+.cxq-summary__edit {
+  border: 0;
+  padding: 0;
+  background: none;
+  font-family: var(--sds-font-sans);
+  font-size: 13px;
+  color: var(--sds-text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cxq-summary__edit:hover {
+  color: var(--sds-text-primary);
+}
+
+@media (max-width: 809px) {
+  .cxq-card {
+    padding: var(--sds-space-5) var(--sds-space-4) !important;
+  }
+  .cxq-question {
+    font-size: 26px;
+  }
+  .cxq-steps {
+    gap: var(--sds-space-3);
+  }
+}

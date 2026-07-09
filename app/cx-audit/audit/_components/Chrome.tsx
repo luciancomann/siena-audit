@@ -41,6 +41,7 @@ export function CxaNav() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        flexWrap: "wrap", // at phone widths the action drops below the logo
         gap: "var(--sds-space-3)",
         padding: "var(--sds-space-5) 0",
       }}

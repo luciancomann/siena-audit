@@ -64,10 +64,11 @@ export default function CxAuditLandingPage() {
                     aria-hidden="true"
                     className="cxl-underline__stroke"
                   />
-                </span>
+                </span>{" "}
+                Get your real AI automation number.
               </>
             }
-            subtitle="Most brands guess what AI could automate. Your last 500 tickets hold the real answer. Free audit, 5 minutes."
+            subtitle="Most brands guess what AI could automate. Your last 500 tickets hold the proof. Free audit, 5 minutes."
           />
           <div className="cxl-hero__ctas">
             <Button variant="primary" size="xl" href="/cx-audit/audit">
@@ -79,7 +80,53 @@ export default function CxAuditLandingPage() {
           </div>
         </div>
 
-        <AuditMockup />
+        {/* The mockup with the queue's stories floating out of it — blurred
+            brand blobs + stippled circles behind, annotation chips in front,
+            all numbers straight from the Verabloom sample. */}
+        <div className="cxl-scene">
+          <span className="cxl-scene__blob cxl-scene__blob--warm" aria-hidden="true" />
+          <span className="cxl-scene__blob cxl-scene__blob--cool" aria-hidden="true" />
+          <span className="cxl-scene__dots cxl-scene__dots--tl" aria-hidden="true" />
+          <span className="cxl-scene__dots cxl-scene__dots--br" aria-hidden="true" />
+
+          <AuditMockup />
+
+          <span className="cxl-tag cxl-tag--flag" aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="15" height="15">
+              <path
+                d="M4 14.5V2.2M4 2.5h7.6l-1.8 2.8 1.8 2.8H4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <span className="cxl-tag cxl-tag--check" aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="14" height="14">
+              <path
+                d="M3 8.4 6.6 12 13 4.6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <span className="cxl-tag cxl-tag--chip cxl-tag--repeat" aria-hidden="true">
+            <span className="cxl-tag__dot" /> 31 repeat-contact customers
+          </span>
+          <span className="cxl-tag cxl-tag--chip cxl-tag--defect" aria-hidden="true">
+            <span className="cxl-tag__dot" /> 23 defect reports, untagged
+          </span>
+          <span className="cxl-tag cxl-tag--pill" aria-hidden="true">
+            <span className="cxl-tag__pill-inner">
+              <span className="cxl-tag__arrow">↗</span> 586 pre-purchase questions a month
+            </span>
+          </span>
+        </div>
       </section>
 
       {/* ---------------------------------------------------- how it works */}

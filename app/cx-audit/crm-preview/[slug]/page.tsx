@@ -76,7 +76,12 @@ export default async function CrmPreviewPage({ params }: PageProps) {
             <Avatar initials={crm.company} size="lg" />
             <div className="cxa-crm-head-id">
               <h2 className="sds-display-md cxa-crm-company">{crm.company}</h2>
-              <p className="cxa-crm-source">source: {crm.source}</p>
+              <p className="cxa-crm-source">
+                source: {crm.source}
+                {crm.contact
+                  ? ` · ${crm.contact.email} · team ${crm.contact.team_size} · ${crm.contact.tickets_per_month} tickets/mo (self-reported)`
+                  : " · no contact captured — audit ran without the qualify step"}
+              </p>
             </div>
             {crm.fast_track && (
               <Badge variant="filled" className="cxa-crm-fasttrack">

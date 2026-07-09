@@ -17,6 +17,7 @@ import {
   initialStageStatus,
   type StageStatus,
 } from "./PipelineProgress";
+import type { QualifyAnswers } from "./QualifyWizard";
 
 const MAX_BYTES = 10 * 1024 * 1024; // 10MB
 
@@ -46,7 +47,7 @@ function validateFile(file: File): string | null {
   return null;
 }
 
-export function AuditFlow() {
+export function AuditFlow({ contact }: { contact?: QualifyAnswers | null }) {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>({ kind: "choose" });
   const [file, setFile] = useState<File | null>(null);
@@ -134,6 +135,11 @@ export function AuditFlow() {
       try {
         const form = new FormData();
         form.append("file", upload);
+        if (contact) {
+          form.append("contact_email", contact.email);
+          form.append("team_size", contact.teamSize);
+          form.append("tickets_per_month", contact.ticketsPerMonth);
+        }
         const res = await fetch("/api/cx-audit", { method: "POST", body: form });
 
         if (!res.ok || !res.body) {
@@ -190,7 +196,7 @@ export function AuditFlow() {
         fail("We couldn't reach the audit service. Check your connection and try again — or open the sample.");
       }
     },
-    [router],
+    [router, contact],
   );
 
   // ---------------------------------------------------------------- running

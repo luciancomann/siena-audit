@@ -3,7 +3,7 @@
  * (keys match PIPELINE_STAGES) and resolves to a complete AuditReport.
  */
 import { customAlphabet } from "nanoid";
-import type { AuditReport, ProgressEvent } from "../types";
+import type { AuditReport, CrmContact, ProgressEvent } from "../types";
 import { buildBenchmark } from "./benchmark";
 import { classifyTickets } from "./classify";
 import { buildCrmPayload, sendCrmPayload } from "./crm";
@@ -19,6 +19,8 @@ export { NoApiKeyError, IngestError, VoiceViolationError } from "./errors";
 export interface PipelineOptions {
   brand: string;
   mode: "sample" | "upload";
+  /** Captured by the qualify step before the run; rides into the CRM payload. */
+  contact?: CrmContact;
 }
 
 /**
@@ -122,6 +124,7 @@ export async function runPipeline(
     metrics,
     insights,
     assumptions,
+    contact: opts.contact,
   });
   await sendCrmPayload(crm);
   emit("crm", "end", "context packaged for the follow-up");

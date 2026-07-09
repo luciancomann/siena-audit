@@ -5,7 +5,7 @@
  * resolves. Delivery failures never fail the pipeline — the payload is
  * always included in the report JSON regardless.
  */
-import type { Assumptions, CrmPayload, Insight, Metrics } from "../types";
+import type { Assumptions, CrmContact, CrmPayload, Insight, Metrics } from "../types";
 
 export interface CrmInput {
   brand: string;
@@ -13,16 +13,18 @@ export interface CrmInput {
   metrics: Metrics;
   insights: Insight[];
   assumptions: Assumptions;
+  contact?: CrmContact;
 }
 
 export function buildCrmPayload(input: CrmInput): CrmPayload {
-  const { brand, slug, metrics, insights, assumptions } = input;
+  const { brand, slug, metrics, insights, assumptions, contact } = input;
   const score = metrics.automationPotentialScore;
   const monthlyVolume = metrics.monthlyVolumeEstimate;
 
   return {
     company: brand,
     audit_slug: slug,
+    ...(contact ? { contact } : {}),
     automation_potential_score: score,
     monthly_volume_estimate: monthlyVolume,
     fast_track: score > 70 && monthlyVolume > 3000,

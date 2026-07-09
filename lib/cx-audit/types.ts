@@ -167,9 +167,18 @@ export interface ReportCopy {
   ctaLine: string;
 }
 
+/** What the qualify step on /cx-audit/audit captures before a run. */
+export interface CrmContact {
+  email: string;
+  team_size: string;
+  tickets_per_month: string;
+}
+
 export interface CrmPayload {
   company: string;
   audit_slug: string;
+  /** Present only when the prospect filled the qualify step (uploads). */
+  contact?: CrmContact;
   automation_potential_score: number;
   monthly_volume_estimate: number;
   fast_track: boolean; // score > 70 && volume > 3000

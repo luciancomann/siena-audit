@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Banner, SectionHeading } from "@siena/design-system";
+import { Banner } from "@siena/design-system";
 import { CxaNav, CxaFooter } from "./_components/Chrome";
-import { AuditFlow } from "./_components/AuditFlow";
+import { AuditOnboarding } from "./_components/AuditOnboarding";
 import "./audit.css";
 
 export const metadata: Metadata = {
@@ -25,15 +25,7 @@ export default function AuditInputPage() {
       <div className="cxa-container">
         <CxaNav />
 
-        <section className="cxa-section cxa-audit-head">
-          <SectionHeading
-            as="h1"
-            eyebrow="Free CX audit"
-            title="Start with your last 500 tickets."
-            subtitle="Three ways in — a CSV export, a helpdesk connection, or the sample. The same nine agents read them either way."
-          />
-          <AuditFlow />
-        </section>
+        <AuditOnboarding />
 
         <CxaFooter />
       </div>

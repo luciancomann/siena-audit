@@ -13,8 +13,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--sds-space-4);
+  flex-wrap: wrap; /* at phone widths the actions drop below the logo */
+  gap: var(--sds-space-2) var(--sds-space-4);
   min-height: 64px;
+  padding-top: var(--sds-space-2);
+  padding-bottom: var(--sds-space-2);
 }
 
 .cxa-wordmark {

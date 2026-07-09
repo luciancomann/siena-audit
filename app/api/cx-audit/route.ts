@@ -11,7 +11,7 @@
 import { runPipeline } from "@/lib/cx-audit/pipeline";
 import { IngestError, NoApiKeyError, VoiceViolationError } from "@/lib/cx-audit/pipeline/errors";
 import * as store from "@/lib/cx-audit/store";
-import { PIPELINE_STAGES, type ProgressEvent } from "@/lib/cx-audit/types";
+import { PIPELINE_STAGES, type CrmContact, type ProgressEvent } from "@/lib/cx-audit/types";
 
 export const runtime = "nodejs";
 
@@ -79,12 +79,29 @@ function respondWithSample(): Response {
   });
 }
 
-function respondWithUpload(csvText: string, brand: string): Response {
+function respondWithUpload(
+  csvText: string,
+  brand: string,
+  contact: CrmContact | undefined,
+): Response {
   return ndjsonStream(async (send) => {
-    const report = await runPipeline(csvText, { brand, mode: "upload" }, send);
+    const report = await runPipeline(csvText, { brand, mode: "upload", contact }, send);
     const slug = await store.save(report);
     send({ type: "done", slug });
   });
+}
+
+/** Read the qualify-step fields; all three must be present to count. */
+function contactFromForm(form: FormData): CrmContact | undefined {
+  const field = (name: string): string => {
+    const v = form.get(name);
+    return typeof v === "string" ? v.trim().slice(0, 120) : "";
+  };
+  const email = field("contact_email");
+  const teamSize = field("team_size");
+  const ticketsPerMonth = field("tickets_per_month");
+  if (!email || !email.includes("@")) return undefined;
+  return { email, team_size: teamSize, tickets_per_month: ticketsPerMonth };
 }
 
 /** Derive a presentable brand name from an uploaded file's name. */
@@ -164,7 +181,7 @@ export async function POST(request: Request): Promise<Response> {
         : brandFromFilename(file.name);
 
     const csvText = await file.text();
-    return respondWithUpload(csvText, brand);
+    return respondWithUpload(csvText, brand, contactFromForm(form));
   }
 
   return Response.json(

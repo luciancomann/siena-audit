@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# build dirs used by scripts/watch-rebuild.sh (never track)
+/.next-live/
+/.next-live */
+/.next-staging/
+/.next-old/

@@ -58,13 +58,13 @@ function Donut() {
 export function AuditMockup() {
   return (
     <div className="cxm" aria-label="Preview of an audit report">
-      <Card tone="sand" radius="lg" padding="none" className="cxm__panel cxm__panel--score">
+      <Card tone="dark" radius="lg" padding="none" className="cxm__panel cxm__panel--score">
         <span className="cxm__eyebrow">Verabloom · June 2026</span>
         <span className="cxm__score">74%</span>
         <span className="cxm__eyebrow">Automation potential</span>
       </Card>
 
-      <Card tone="white" radius="lg" padding="none" className="cxm__panel cxm__panel--donut">
+      <Card tone="dark" radius="lg" padding="none" className="cxm__panel cxm__panel--donut">
         <span className="cxm__panel-title">500 tickets analyzed</span>
         <div className="cxm__donut-row">
           <Donut />
@@ -80,7 +80,7 @@ export function AuditMockup() {
         </div>
       </Card>
 
-      <Card tone="white" radius="lg" padding="none" className="cxm__panel cxm__panel--bars">
+      <Card tone="dark" radius="lg" padding="none" className="cxm__panel cxm__panel--bars">
         <span className="cxm__panel-title">Volume by intent</span>
         <ul className="cxm__bars">
           {INTENT_BARS.map((bar) => (
