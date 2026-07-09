@@ -84,11 +84,23 @@ function respondWithUpload(
   brand: string,
   contact: CrmContact | undefined,
 ): Response {
+  const preparedFor = contact ? preparedForFromEmail(contact.email) : undefined;
   return ndjsonStream(async (send) => {
-    const report = await runPipeline(csvText, { brand, mode: "upload", contact }, send);
+    const report = await runPipeline(
+      csvText,
+      { brand, mode: "upload", contact, preparedFor },
+      send,
+    );
     const slug = await store.save(report);
     send({ type: "done", slug });
   });
+}
+
+/** "tom.hale@brand.com" -> "Tom" — best-effort first name for the header. */
+function preparedForFromEmail(email: string): string | undefined {
+  const first = email.split("@")[0]?.split(/[._+-]/)[0] ?? "";
+  if (!/^[a-zA-Z]{2,20}$/.test(first)) return undefined;
+  return first.charAt(0).toUpperCase() + first.slice(1).toLowerCase();
 }
 
 /** Read the qualify-step fields; all three must be present to count. */

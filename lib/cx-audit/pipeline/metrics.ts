@@ -7,6 +7,7 @@ import type {
   ClassifiedTicket,
   Intent,
   IntentMetrics,
+  LongTailEntry,
   MathSection,
   Metrics,
   NormalizedTicket,
@@ -59,6 +60,38 @@ function resolutionHours(tickets: NormalizedTicket[]): number | null {
       .filter((v): v is number => v !== null),
   );
   return raw === null ? null : round(raw / 60, 1);
+}
+
+/**
+ * The "other" bucket, read closer: micro-intents that are each a sliver of
+ * volume but real work — matched in priority order on the redacted text.
+ * Whatever matches nothing stays a one-off.
+ */
+const LONG_TAIL_RULES: { label: string; re: RegExp }[] = [
+  { label: "Wholesale inquiries", re: /wholesale/i },
+  {
+    label: "Influencer collabs",
+    re: /creator|influencer|ambassador|affiliate|podcast|pr list|brand partnership/i,
+  },
+  { label: "Donation requests", re: /donat|charity|fundraiser/i },
+];
+
+function computeLongTail(others: ClassifiedTicket[]): LongTailEntry[] {
+  const counts = new Map<string, number>();
+  for (const t of others) {
+    const text = `${t.subject}\n${t.body}`;
+    const rule = LONG_TAIL_RULES.find((r) => r.re.test(text));
+    const label = rule ? rule.label : "One-offs";
+    counts.set(label, (counts.get(label) ?? 0) + 1);
+  }
+  const themed = LONG_TAIL_RULES.map((r) => ({
+    label: r.label,
+    count: counts.get(r.label) ?? 0,
+  }))
+    .filter((e) => e.count > 0)
+    .sort((a, b) => b.count - a.count);
+  const oneOffs = counts.get("One-offs") ?? 0;
+  return oneOffs > 0 ? [...themed, { label: "One-offs", count: oneOffs }] : themed;
 }
 
 export function computeMetrics(
@@ -139,6 +172,7 @@ export function computeMetrics(
     automationPotentialScore,
     automatableShare,
     intents,
+    longTail: computeLongTail(tickets.filter((t) => t.intent === "other")),
     medianFirstResponseMins: firstResponseMins(tickets) ?? 0,
     medianResolutionHours: resolutionHours(tickets) ?? 0,
     repeatContacts: {

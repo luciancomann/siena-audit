@@ -31,6 +31,7 @@ export const AUTHORED_META = {
   mode: "sample",
   createdAt: "2026-07-08T09:00:00.000Z",
   reportUrl: "/cx-audit/report/verabloom",
+  preparedFor: "Tom",
 } as const;
 
 /** Default assumptions (types.ts documents these defaults). */

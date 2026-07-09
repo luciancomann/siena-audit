@@ -4,16 +4,25 @@
  * no axes, value labels always outside the bar.
  */
 import { Badge } from "@siena/design-system";
-import { INTENT_LABELS, type IntentMetrics } from "@/lib/cx-audit/types";
+import {
+  INTENT_LABELS,
+  type IntentMetrics,
+  type LongTailEntry,
+} from "@/lib/cx-audit/types";
 import { formatNumber, formatShare } from "./format";
 
-/** Report-only label warmups; everywhere else keeps the plain INTENT_LABELS. */
-const DISPLAY_LABELS: Partial<Record<IntentMetrics["intent"], string>> = {
-  other: "Everything else, the long tail your team knows best",
-};
-
-export function IntentBars({ intents }: { intents: IntentMetrics[] }) {
-  const sorted = [...intents].sort((a, b) => b.count - a.count);
+export function IntentBars({
+  intents,
+  longTail,
+}: {
+  intents: IntentMetrics[];
+  /** The "other" bucket, read closer — rendered as a chip row, not a bar. */
+  longTail?: LongTailEntry[];
+}) {
+  // "other" lives in the chip row below, not in the bars
+  const sorted = [...intents]
+    .filter((i) => i.intent !== "other")
+    .sort((a, b) => b.count - a.count);
   const max = Math.max(...sorted.map((i) => i.count), 1);
 
   return (
@@ -22,7 +31,7 @@ export function IntentBars({ intents }: { intents: IntentMetrics[] }) {
         // Pre-purchase gets its own lane: not a cost to automate away, a
         // revenue conversation the Shopping Agent turns into orders.
         const isRevenue = row.intent === "pre_purchase";
-        const label = DISPLAY_LABELS[row.intent] ?? INTENT_LABELS[row.intent];
+        const label = INTENT_LABELS[row.intent];
         return (
           <div className="cxa-bar-row" key={row.intent}>
             <div className="cxa-bar-label">
@@ -70,6 +79,20 @@ export function IntentBars({ intents }: { intents: IntentMetrics[] }) {
           </div>
         );
       })}
+      {longTail && longTail.length > 0 && (
+        <div className="cxa-longtail">
+          <span className="cxa-longtail__label">
+            Under 1% each, we read these too
+          </span>
+          <span className="cxa-longtail__chips">
+            {longTail.map((entry) => (
+              <Badge variant="outline" key={entry.label}>
+                {entry.label} · {entry.count}
+              </Badge>
+            ))}
+          </span>
+        </div>
+      )}
       <p className="cxa-bars-legend">
         <span
           className="cxa-legend-swatch cxa-legend-swatch--auto"

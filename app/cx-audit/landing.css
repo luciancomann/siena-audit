@@ -357,11 +357,10 @@
   background: var(--sds-green-500);
 }
 
-/* in the seam between the score and donut panels — clear of both the
-   "Automation potential" line and the "500 tickets analyzed" title */
+/* top-right corner of the mockup */
 .cxl-tag--repeat {
-  top: 150px;
-  left: -66px;
+  top: -14px;
+  right: -48px;
   animation-delay: 0.4s;
 }
 
@@ -456,8 +455,8 @@
 .cxl-underline__stroke {
   position: absolute;
   left: 0;
-  bottom: -0.08em;
+  bottom: -0.28em; /* fully below the baseline — never across descenders */
   width: 100%;
-  height: auto;
+  height: 0.22em; /* keep the stroke slim however wide the phrase is */
   pointer-events: none;
 }

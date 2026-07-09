@@ -1,6 +1,7 @@
 {
   "slug": "verabloom",
   "brand": "Verabloom",
+  "prepared_for": "Tom",
   "mode": "sample",
   "createdAt": "2026-07-08T09:00:00.000Z",
   "metrics": {
@@ -135,6 +136,24 @@
         "sienaAction": null
       }
     ],
+    "longTail": [
+      {
+        "label": "Influencer collabs",
+        "count": 7
+      },
+      {
+        "label": "Wholesale inquiries",
+        "count": 5
+      },
+      {
+        "label": "Donation requests",
+        "count": 3
+      },
+      {
+        "label": "One-offs",
+        "count": 7
+      }
+    ],
     "medianFirstResponseMins": 252,
     "medianResolutionHours": 11.5,
     "repeatContacts": {
@@ -267,6 +286,7 @@
   "crm": {
     "company": "Verabloom",
     "audit_slug": "verabloom",
+    "prepared_for": "Tom",
     "automation_potential_score": 74,
     "monthly_volume_estimate": 4183,
     "fast_track": true,

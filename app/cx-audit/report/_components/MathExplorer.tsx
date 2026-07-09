@@ -70,11 +70,16 @@ export function MathExplorer({
           label={`today — vs ${formatMoney(costAutomated)} at ${formatPerTicket(autoCost.value)} a ticket`}
           size="md"
         />
-        <StatCard
-          value={formatMoney(savings)}
-          label="saved every month, at your volume"
-          size="md"
-        />
+        <div className="cxa-math-savings">
+          <StatCard
+            value={formatMoney(savings)}
+            label="saved every month, at your volume"
+            size="md"
+          />
+          <p className="cxa-math-annual">
+            {formatMoney(savings * 12)} a year, at your volume
+          </p>
+        </div>
       </div>
       <p className="cxa-math-basis">
         Basis: {formatNumber(autoTickets)} of your {formatNumber(monthlyVolumeEstimate)}{" "}

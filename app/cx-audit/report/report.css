@@ -575,3 +575,155 @@
   background: var(--sds-ink-900);
   color: var(--sds-text-on-dark);
 }
+
+/* ---------------------------------------------------------- smooth anchor */
+html {
+  scroll-behavior: smooth;
+}
+
+#book {
+  scroll-margin-top: var(--sds-space-6);
+}
+
+/* ------------------------------------------------------- long-tail chips */
+.cxa-longtail {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sds-space-4);
+  flex-wrap: wrap;
+  padding: var(--sds-space-4) 0 var(--sds-space-2);
+  border-top: 1px solid var(--sds-black-alpha-20);
+  margin-top: var(--sds-space-4);
+}
+
+.cxa-longtail__label {
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sds-text-muted);
+}
+
+.cxa-longtail__chips {
+  display: inline-flex;
+  gap: var(--sds-space-2);
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------- the complexity ladder */
+.cxa-ladder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-5);
+}
+
+.cxa-ladder-track {
+  display: flex;
+  height: 12px;
+  border-radius: var(--sds-radius-pill);
+  overflow: hidden;
+  gap: 3px;
+}
+
+.cxa-ladder-seg {
+  display: block;
+  height: 100%;
+  min-width: 14px;
+}
+
+.cxa-ladder-seg--macro {
+  background: var(--sds-sand-300);
+}
+.cxa-ladder-seg--addon {
+  background: var(--sds-sand-500);
+}
+.cxa-ladder-seg--siena {
+  background: var(--sds-ink-900);
+}
+.cxa-ladder-seg--team {
+  background: var(--sds-sand-400);
+}
+
+.cxa-ladder-rungs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sds-space-5);
+}
+
+@media (max-width: 999px) {
+  .cxa-ladder-rungs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 649px) {
+  .cxa-ladder-rungs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cxa-ladder-rung {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-2);
+}
+
+.cxa-ladder-swatch {
+  width: 22px;
+  height: 8px;
+  border-radius: var(--sds-radius-pill);
+}
+
+.cxa-ladder-rung__title {
+  margin: 0;
+  font-family: var(--sds-font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--sds-text-primary);
+}
+
+.cxa-ladder-rung__body {
+  margin: 0;
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-ladder-rung__value {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--sds-text-muted);
+}
+
+.cxa-ladder-footnote {
+  margin: 0;
+  font-family: var(--sds-font-serif);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--sds-text-secondary);
+  border-left: 2px solid var(--sds-green-500);
+  padding-left: var(--sds-space-4);
+  max-width: 56ch;
+}
+
+/* ------------------------------------------------------- annual math line */
+.cxa-math-savings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-1);
+}
+
+.cxa-math-annual {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--sds-text-secondary);
+}

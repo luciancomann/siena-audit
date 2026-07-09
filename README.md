@@ -76,7 +76,8 @@ A free-audit lead magnet built on `@siena/design-system`: upload a helpdesk expo
 - **Redaction is designed as pre-processing** (regex strip of emails, phones, order numbers, addresses, names before any model call) and exercised on synthetic data only in this build.
 - **Sampling**: a seeded random 500-ticket sample (seed = file hash, reproducible reruns). Production would offer 30/60/90-day windows.
 - **Model calls need `ANTHROPIC_API_KEY`** (`claude-sonnet-4-6`, structured outputs, classification in batches of 25). Without a key: uploads fall back to keyword-only classification and fail the insight stage with an honest error; **the sample path needs no key at all** — it serves a precomputed report whose deterministic stages (ingest → sample → redact → classify → metrics → benchmark → CRM) really ran over the generated CSV, with the two LLM-stage outputs (insights, report copy) hand-authored to the voice rules and verified against the pipeline's numbers by `scripts/precompute-verabloom.ts` (fails loudly on drift).
-- **Synthetic dataset**: `scripts/generate-verabloom.ts` — 500 seeded, byte-reproducible tickets with three planted, discoverable stories (23 untagged pump-defect reports, 14% pre-purchase volume, 31 repeat-contact subscription customers).
+- **Synthetic dataset**: `scripts/generate-verabloom.ts` — 500 seeded, byte-reproducible tickets with three planted, discoverable stories (23 untagged pump-defect reports, 14% pre-purchase volume, 31 repeat-contact subscription customers), plus a long-tail split inside the "other" bucket (7 influencer collab requests, 5 wholesale inquiries, 3 donation requests, 7 one-offs) that the metrics stage reads into the report's chip row and the ladder section.
+- **"Prepared for" name**: authored as "Tom" on the sample; on uploads it's best-effort derived from the qualify-step email's local part. It rides into the report header and the CRM payload.
 
 ## Pipeline
 

@@ -172,6 +172,17 @@ async function main(): Promise<void> {
   expectEq(benchmark.peerFirstResponseMins, 138, "benchmark.peerFirstResponseMins");
   expectEq(benchmark.automationCeiling, 85, "benchmark.automationCeiling");
 
+  expectEq(
+    metrics.longTail,
+    [
+      { label: "Influencer collabs", count: 7 },
+      { label: "Wholesale inquiries", count: 5 },
+      { label: "Donation requests", count: 3 },
+      { label: "One-offs", count: 7 },
+    ],
+    "metrics.longTail (chip row)",
+  );
+
   const csatCovered = classified.filter((t) => t.csat !== null).length;
   expectEq(Math.round((100 * csatCovered) / classified.length), 62, "CSAT coverage %");
 
@@ -207,6 +218,7 @@ async function main(): Promise<void> {
   const report: AuditReport = {
     slug: AUTHORED_META.slug,
     brand: AUTHORED_META.brand,
+    prepared_for: AUTHORED_META.preparedFor,
     mode: AUTHORED_META.mode,
     createdAt: AUTHORED_META.createdAt, // fixed — the file is byte-reproducible
     metrics,
@@ -227,6 +239,7 @@ async function main(): Promise<void> {
         metrics,
         insights: AUTHORED_CRM_INSIGHTS,
         assumptions,
+        preparedFor: AUTHORED_META.preparedFor,
       }),
       generated_at: AUTHORED_META.createdAt, // fixed for reproducibility
     },
@@ -243,6 +256,7 @@ async function main(): Promise<void> {
     "crm.top_intents",
   );
   expectEq(report.crm.report_url, "/cx-audit/report/verabloom", "crm.report_url");
+  expectEq(report.crm.prepared_for, "Tom", "crm.prepared_for");
 
   writeFileSync(outPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
   console.log(

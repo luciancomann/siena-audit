@@ -20,6 +20,7 @@ import type { AuditReport } from "@/lib/cx-audit/types";
 import { CxaLogo } from "../../audit/_components/Chrome";
 import { loadReport } from "../_components/load-report";
 import { IntentBars } from "../_components/IntentBars";
+import { Ladder } from "../_components/Ladder";
 import { MathExplorer } from "../_components/MathExplorer";
 import { CopyLinkButton } from "../_components/CopyLinkButton";
 import { PrintButton } from "../_components/PrintButton";
@@ -63,6 +64,7 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
       {/* 1 — Headline */}
       <header className="cxa-container cxa-section cxa-hero">
         <p className="cxa-hero-eyebrow">
+          {report.prepared_for ? `Prepared for ${report.prepared_for} · ` : ""}
           {report.brand} · {formatNumber(metrics.sampleSize)} of{" "}
           {formatNumber(metrics.totalInExport)} tickets ·{" "}
           {formatDateRange(metrics.dateRange.from, metrics.dateRange.to)}
@@ -92,7 +94,19 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
           title="Volume by intent"
           subtitle={copy.volumeIntro}
         />
-        <IntentBars intents={metrics.intents} />
+        <IntentBars intents={metrics.intents} longTail={metrics.longTail} />
+      </section>
+
+      {/* 2b — The complexity ladder */}
+      <section className="cxa-container cxa-section">
+        <SectionHeading
+          align="left"
+          as="h2"
+          eyebrow="02 · The ladder"
+          title="Where the ladder ends"
+          subtitle="Not all automation is equal. Here's where each rung stops on your queue."
+        />
+        <Ladder intents={metrics.intents} sampleSize={metrics.sampleSize} />
       </section>
 
       {/* 3 — What Siena would say */}
@@ -100,7 +114,7 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
         <SectionHeading
           align="left"
           as="h2"
-          eyebrow="02 · Conversations"
+          eyebrow="03 · Conversations"
           title="What Siena would say"
           subtitle={copy.chatIntro}
         />
@@ -141,7 +155,7 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
         <SectionHeading
           align="left"
           as="h2"
-          eyebrow="03 · Patterns"
+          eyebrow="04 · Patterns"
           title="What your tickets know that you don't"
           subtitle={copy.insightsIntro}
         />
@@ -180,7 +194,7 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
         <SectionHeading
           align="left"
           as="h2"
-          eyebrow="04 · Cost and hours"
+          eyebrow="05 · Cost and hours"
           title="The math"
           subtitle={copy.mathIntro}
         />
@@ -202,7 +216,7 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
         <SectionHeading
           align="left"
           as="h2"
-          eyebrow="05 · Benchmark"
+          eyebrow="06 · Benchmark"
           title="Next to brands your size"
           subtitle={copy.benchmarkIntro}
         />
@@ -258,7 +272,7 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
         <SectionHeading
           align="left"
           as="h2"
-          eyebrow="06 · Honest limits"
+          eyebrow="07 · Honest limits"
           title="What we couldn't see"
         />
         <ul className="cxa-couldnt-list">
@@ -274,7 +288,7 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
       </section>
 
       {/* 8 — CTA (screen only) */}
-      <section className="cxa-container cxa-section cxa-no-print">
+      <section id="book" className="cxa-container cxa-section cxa-no-print">
         <Card tone="sand" radius="xl" padding="lg" className="cxa-cta-card">
           <h2 className="sds-display-md cxa-cta-line">{copy.ctaLine}</h2>
           <div className="cxa-cta-actions">
@@ -325,6 +339,9 @@ function TopBar({
               View the sales handoff
             </Link>
           )}
+          <Button variant="secondary" size="sm" href="#book">
+            Walk through it with us
+          </Button>
           <PrintButton />
         </div>
       </div>

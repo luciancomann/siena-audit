@@ -1,9 +1,7 @@
 /**
  * Hero mockup: a glimpse of the audit itself — three stacked panels
  * (score, sample breakdown, volume by intent) with a slight perspective
- * tilt, built from the design system's warm sand Card surfaces
- * (tone="sand" — the promo surface). Pre-purchase renders in the revenue
- * green, matching the report's revenue lane.
+ * tilt, built from the design system's dark Card surfaces (tone="dark").
  * Numbers mirror the Verabloom sample report so the teaser and the real
  * artifact agree.
  */
@@ -16,9 +14,9 @@ const DONUT = [
   { label: "Low confidence", value: 6, token: "var(--sds-sky-300)" },
 ];
 
-const INTENT_BARS: { label: string; pct: number; revenue?: boolean }[] = [
+const INTENT_BARS = [
   { label: "Where is my order?", pct: 28 },
-  { label: "Pre-purchase", pct: 14, revenue: true },
+  { label: "Pre-purchase", pct: 14 },
   { label: "Subscriptions", pct: 11 },
   { label: "Returns", pct: 9 },
   { label: "Refunds", pct: 7 },
@@ -59,13 +57,13 @@ function Donut() {
 export function AuditMockup() {
   return (
     <div className="cxm" aria-label="Preview of an audit report">
-      <Card tone="sand" radius="lg" padding="none" className="cxm__panel cxm__panel--score">
+      <Card tone="dark" radius="lg" padding="none" className="cxm__panel cxm__panel--score">
         <span className="cxm__eyebrow">Verabloom · June 2026</span>
         <span className="cxm__score">74%</span>
         <span className="cxm__eyebrow">Automation potential</span>
       </Card>
 
-      <Card tone="sand" radius="lg" padding="none" className="cxm__panel cxm__panel--donut">
+      <Card tone="dark" radius="lg" padding="none" className="cxm__panel cxm__panel--donut">
         <span className="cxm__panel-title">500 tickets analyzed</span>
         <div className="cxm__donut-row">
           <Donut />
@@ -81,17 +79,14 @@ export function AuditMockup() {
         </div>
       </Card>
 
-      <Card tone="sand" radius="lg" padding="none" className="cxm__panel cxm__panel--bars">
+      <Card tone="dark" radius="lg" padding="none" className="cxm__panel cxm__panel--bars">
         <span className="cxm__panel-title">Volume by intent</span>
         <ul className="cxm__bars">
           {INTENT_BARS.map((bar) => (
             <li key={bar.label}>
               <span className="cxm__bar-label">{bar.label}</span>
               <span className="cxm__bar-track">
-                <span
-                  className={bar.revenue ? "cxm__bar-fill cxm__bar-fill--revenue" : "cxm__bar-fill"}
-                  style={{ width: `${bar.pct * 3}%` }}
-                />
+                <span className="cxm__bar-fill" style={{ width: `${bar.pct * 3}%` }} />
               </span>
               <span className="cxm__bar-value">{bar.pct}%</span>
             </li>

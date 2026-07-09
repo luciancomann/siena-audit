@@ -21,6 +21,8 @@ export interface PipelineOptions {
   mode: "sample" | "upload";
   /** Captured by the qualify step before the run; rides into the CRM payload. */
   contact?: CrmContact;
+  /** First name the report is addressed to (derived from the contact email). */
+  preparedFor?: string;
 }
 
 /**
@@ -125,6 +127,7 @@ export async function runPipeline(
     insights,
     assumptions,
     contact: opts.contact,
+    preparedFor: opts.preparedFor,
   });
   await sendCrmPayload(crm);
   emit("crm", "end", "context packaged for the follow-up");

@@ -53,14 +53,14 @@ function datePart(iso: string): { y: number; m: number; d: number } {
   return { y, m, d };
 }
 
-/** "2026-06-01" + "2026-06-30" -> "Jun 1 – Jun 30, 2026". */
+/** "2026-06-01" + "2026-06-30" -> "Jun 1 to 30, 2026". */
 export function formatDateRange(from: string, to: string): string {
   const a = datePart(from);
   const b = datePart(to);
+  if (a.y === b.y && a.m === b.m) return `${MONTHS[a.m - 1]} ${a.d} to ${b.d}, ${b.y}`;
   const left =
     a.y === b.y ? `${MONTHS[a.m - 1]} ${a.d}` : `${MONTHS[a.m - 1]} ${a.d}, ${a.y}`;
-  const right = `${MONTHS[b.m - 1]} ${b.d}, ${b.y}`;
-  return `${left} – ${right}`;
+  return `${left} to ${MONTHS[b.m - 1]} ${b.d}, ${b.y}`;
 }
 
 /** ISO timestamp -> "Jul 8, 2026, 09:00 UTC" (UTC getters, no TZ drift). */

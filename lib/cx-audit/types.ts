@@ -85,6 +85,11 @@ export interface IntentMetrics {
   sienaAction: string | null;
 }
 
+export interface LongTailEntry {
+  label: string;
+  count: number;
+}
+
 export interface Metrics {
   sampleSize: number;
   totalInExport: number;
@@ -93,7 +98,9 @@ export interface Metrics {
   /** 0..100 — automatable volume share weighted by confidence. Pure code. */
   automationPotentialScore: number;
   automatableShare: number; // 0..1
-  intents: IntentMetrics[]; // sorted by count desc
+  intents: IntentMetrics[];
+  /** Sub-themes inside the "other" bucket — the micro-intents we still read. */
+  longTail: LongTailEntry[]; // sorted by count desc
   medianFirstResponseMins: number;
   medianResolutionHours: number;
   repeatContacts: { customers: number; tickets: number; topCluster: string };
@@ -177,6 +184,8 @@ export interface CrmContact {
 export interface CrmPayload {
   company: string;
   audit_slug: string;
+  /** First name the report is addressed to (from the qualify step / authored). */
+  prepared_for?: string;
   /** Present only when the prospect filled the qualify step (uploads). */
   contact?: CrmContact;
   automation_potential_score: number;
@@ -197,6 +206,8 @@ export interface CrmPayload {
 export interface AuditReport {
   slug: string;
   brand: string;
+  /** First name the report is addressed to, when known. */
+  prepared_for?: string;
   mode: "sample" | "upload";
   createdAt: string;
   metrics: Metrics;

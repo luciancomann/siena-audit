@@ -741,28 +741,32 @@ const prePurchaseCores: Record<string, Core[]> = {
 };
 
 const otherCores: Core[] = [
+  // wholesale inquiries — 5 (long-tail rule: /wholesale/)
   (c) => ({ subject: "Wholesale inquiry", body: `I run a small boutique in ${c.city} and would love to stock Verabloom. Who handles wholesale?` }),
   (c) => ({ subject: "Stocking your line", body: `Buyer for a three-store apothecary chain here — is Verabloom open to wholesale partners this year?` }),
   (c) => ({ subject: "Boutique partnership", body: `We're opening a self-care studio in ${c.city} this fall and want Verabloom on the shelves. What are your wholesale terms?` }),
   (c) => ({ subject: "Wholesale minimums?", body: `What are your wholesale minimums and lead times? Asking for our ${c.city} storefront.` }),
+  (c) => ({ subject: "Bulk pricing for our spa", body: `We'd love to carry the line at our day spa in ${c.city} — could you share wholesale pricing and lead times?` }),
+  // influencer collab requests — 7 (rule: creator|influencer|ambassador|affiliate|podcast|pr list|brand partnership)
   (c) => ({ subject: "Creator collab", body: `I'm a skincare creator (120k on TikTok) and genuinely use the ${c.product}. Do you work with creators?` }),
   (c) => ({ subject: "Content partnership", body: `I make beauty content and my audience keeps asking about your serum. Is there someone on brand partnerships I can talk to?` }),
   (c) => ({ subject: "PR list?", body: `How do I get on your PR list? I review indie skincare weekly on YouTube.` }),
-  (c) => ({ subject: "Press request", body: `I'm writing a piece on independent skincare brands for a regional magazine — could someone chat for 20 minutes this week?` }),
   (c) => ({ subject: "Podcast invite", body: `We host a small-business podcast and would love your founder on for an episode. Who books interviews?` }),
-  (c) => ({ subject: "Donation request", body: `Our school auction is putting together gift baskets — would Verabloom consider donating a set?` }),
+  (c) => ({ subject: "Affiliate program", body: `How do I join your affiliate program? I run a wellness newsletter with 8k readers.` }),
+  (c) => ({ subject: "Affiliate terms", body: `What are the affiliate terms — flat fee or rev share? Want to pitch you to my book club, of all things.` }),
+  (c) => ({ subject: "Ambassador program?", body: `Do you have a brand ambassador program? My followers keep asking what's in my routine and it's mostly Verabloom.` }),
+  // donation requests — 3 (rule: donat|charity|fundraiser)
+  (c) => ({ subject: "Donation request", body: `Our school auction is putting together baskets — would Verabloom consider donating a set?` }),
   (c) => ({ subject: "Charity drive", body: `I organize a women's shelter drive in ${c.city} each summer. Would you contribute skincare minis?` }),
+  (c) => ({ subject: "Raffle donation", body: `Our neighborhood fundraiser is collecting raffle prizes — would Verabloom donate a small set? It's for the ${c.city} library.` }),
+  // true one-offs — 7 (match none of the rules above)
+  (c) => ({ subject: "Press request", body: `I'm writing a piece on independent skincare brands for a regional magazine — could someone chat for 20 minutes this week?` }),
   (c) => ({ subject: "Do you sell in stores?", body: `Do you sell in any stores in ${c.city}, or is it online only? I'd rather see everything in person first.` }),
   (c) => ({ subject: "Find you locally?", body: `Is there anywhere in ${c.city} that carries the line? My sister wants to smell everything first.` }),
-  (c) => ({ subject: "Retail locations", body: `Any retail presence planned? Asking because gift-shopping is easier in person.` }),
+  (c) => ({ subject: "Retail locations", body: `Any retail presence planned? Asking because shopping for my mom is easier in person.` }),
   (c) => ({ subject: "Careers", body: `Do you have openings on your support team? I've admired how you talk to customers and I'd love to send a portfolio.` }),
   (c) => ({ subject: "Internship?", body: `I'm a cosmetic chemistry student — do you take summer interns in the lab?` }),
   (c) => ({ subject: "Recyclable bottles?", body: `Are the serum bottles recyclable curbside, or do I mail them back through a program?` }),
-  (c) => ({ subject: "Refill program?", body: `Any plans for refill pouches? I'd happily reuse the glass jars forever.` }),
-  (c) => ({ subject: "Packaging feedback", body: `Genuine compliment: the June box used way less plastic. Is that here to stay?` }),
-  (c) => ({ subject: "Affiliate program", body: `How do I join your affiliate program? I run a wellness newsletter with 8k readers.` }),
-  (c) => ({ subject: "Affiliate terms", body: `What are the affiliate terms — flat fee or rev share? Want to pitch you to my book club, of all things.` }),
-  (c) => ({ subject: "Pop-up this summer?", body: `Heard a rumor about a Verabloom pop-up in ${c.city} this summer — is that happening?` }),
 ];
 
 // ---------------------------------------------------------------- assembly
@@ -1184,14 +1188,27 @@ function simulateRedact(text: string): string {
 }
 
 const confidenceSums = new Map<Intent, number>();
+// long-tail sub-themes inside "other" — must mirror metrics.ts LONG_TAIL_RULES
+const longTailFound = { wholesale: 0, influencer: 0, donation: 0, oneoff: 0 };
 for (const s of specs) {
   const raw = `${s.subject} ${s.body}`.toLowerCase();
   for (const w of BANNED_WORDS) assert(!raw.includes(w), `banned word "${w}" in: "${s.body}"`);
   assert(!raw.includes("order_unset"), `unset order leaked: "${s.body}"`);
 
-  const hit = simulateClassify(simulateRedact(s.subject!), simulateRedact(s.body!));
+  const redactedSubject = simulateRedact(s.subject!);
+  const redactedBody = simulateRedact(s.body!);
+  const hit = simulateClassify(redactedSubject, redactedBody);
   if (s.intent === "other") {
     assert(hit === null, `"other" ticket matched ${hit?.intent}: "${s.subject}" / "${s.body}"`);
+    const text = `${redactedSubject}\n${redactedBody}`;
+    const bucket = /wholesale/i.test(text)
+      ? "wholesale"
+      : /creator|influencer|ambassador|affiliate|podcast|pr list|brand partnership/i.test(text)
+        ? "influencer"
+        : /donat|charity|fundraiser/i.test(text)
+          ? "donation"
+          : "oneoff";
+    longTailFound[bucket] += 1;
     continue;
   }
   assert(hit !== null, `${s.intent} ticket matched nothing: "${s.subject}" / "${s.body}"`);
@@ -1209,6 +1226,11 @@ for (const k of Object.keys(PII_TARGETS) as (keyof typeof PII_TARGETS)[]) {
   assert(found === PII_TARGETS[k], `pii ${k}: redaction agent would strip ${found} != target ${PII_TARGETS[k]}`);
 }
 assert(specs.filter((s) => s.name).length === PII_TARGETS.names, "planted name flags = 388");
+// long-tail quotas (metrics.ts renders these as the chip row)
+assert(longTailFound.influencer === 7, `long tail: influencer ${longTailFound.influencer} != 7`);
+assert(longTailFound.wholesale === 5, `long tail: wholesale ${longTailFound.wholesale} != 5`);
+assert(longTailFound.donation === 3, `long tail: donation ${longTailFound.donation} != 3`);
+assert(longTailFound.oneoff === 7, `long tail: one-offs ${longTailFound.oneoff} != 7`);
 
 // confidence engineering: per-intent avgConfidence (2dp, metrics.ts rounding)
 // must land on the authored table, and APS on exactly 74.
@@ -1338,6 +1360,7 @@ console.log(
         pumpTickets: 23,
         prePurchaseThemes: { shade: 24, ingredient: 24, bundle: 22 },
         repeatContacts: { customers: 31, tickets: 104 },
+        longTail: { influencerCollabs: 7, wholesaleInquiries: 5, donationRequests: 3, oneOffs: 7 },
       },
       verifiedAgainst: [
         "lib/cx-audit/pipeline/classify.ts — keyword table + priority order + 0.97/0.88 confidences replicated; every ticket classifies to its intended intent keyword-only (no API key), 'other' matches nothing and falls back to other@0.5.",

@@ -10,11 +10,9 @@ export const metadata: Metadata = {
   description:
     "Experience AI agents that combine empathy with automation for commerce. Provide personalized shopper support. Schedule a demo today!",
   icons: {
-    icon: [
-      { url: "/assets/images/kL7LC48C9HNuGNWImObgKkOgJY.png", media: "(prefers-color-scheme: light)" },
-      { url: "/assets/images/AU3mKAHO32N07sUbamHcsejzfBM.png", media: "(prefers-color-scheme: dark)" },
-    ],
-    apple: [{ url: "/assets/images/Of7MbFxej7RYhdnkqPyjFhmirRw.png" }],
+    // the large Siena mark provided for this playground (180x180 PNG)
+    icon: [{ url: "/assets/images/siena-favicon-large.png", type: "image/png" }],
+    apple: [{ url: "/assets/images/siena-favicon-large.png" }],
   },
 };
 

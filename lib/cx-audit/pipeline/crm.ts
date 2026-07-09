@@ -14,16 +14,18 @@ export interface CrmInput {
   insights: Insight[];
   assumptions: Assumptions;
   contact?: CrmContact;
+  preparedFor?: string;
 }
 
 export function buildCrmPayload(input: CrmInput): CrmPayload {
-  const { brand, slug, metrics, insights, assumptions, contact } = input;
+  const { brand, slug, metrics, insights, assumptions, contact, preparedFor } = input;
   const score = metrics.automationPotentialScore;
   const monthlyVolume = metrics.monthlyVolumeEstimate;
 
   return {
     company: brand,
     audit_slug: slug,
+    ...(preparedFor ? { prepared_for: preparedFor } : {}),
     ...(contact ? { contact } : {}),
     automation_potential_score: score,
     monthly_volume_estimate: monthlyVolume,
