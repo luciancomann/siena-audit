@@ -39,6 +39,12 @@
     ".next-staging/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next",
+    ".next-live",
+    ".next-live *",
+    ".next-staging",
+    ".next-old",
+    "pipeline"
   ]
 }

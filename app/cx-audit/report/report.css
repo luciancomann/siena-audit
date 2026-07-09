@@ -1,0 +1,521 @@
+/* CX Audit report — layout glue over the Siena Design System.
+   Tokens only (--sds-*); components style themselves. */
+
+/* ---------------------------------------------------------------- top bar */
+
+.cxa-topbar {
+  border-bottom: 1px solid var(--sds-black-alpha-20);
+  background: var(--sds-bg-page);
+}
+
+.cxa-topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sds-space-4);
+  min-height: 64px;
+}
+
+.cxa-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sds-space-2);
+  text-decoration: none;
+  color: var(--sds-text-primary);
+}
+
+.cxa-wordmark-siena {
+  font-family: var(--sds-font-display);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.cxa-wordmark-sub {
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sds-space-4);
+}
+
+.cxa-topbar-link {
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sds-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--sds-sand-400);
+}
+
+.cxa-topbar-link:hover {
+  text-decoration-color: var(--sds-ink-900);
+}
+
+@media (max-width: 809px) {
+  .cxa-topbar-link {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- hero */
+
+.cxa-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sds-space-5);
+  text-align: center;
+  padding-top: var(--sds-space-8);
+}
+
+.cxa-hero-eyebrow {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-hero-score .sds-statcard {
+  align-items: center;
+  text-align: center;
+}
+
+.cxa-hero-human {
+  margin: 0 auto;
+  max-width: 880px;
+  text-wrap: balance;
+}
+
+/* ---------------------------------------------------------------- bars */
+
+.cxa-bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-4);
+  margin-top: var(--sds-space-6);
+}
+
+.cxa-bar-row {
+  display: grid;
+  grid-template-columns: 300px 1fr 96px;
+  gap: var(--sds-space-4);
+  align-items: center;
+}
+
+.cxa-bar-label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sds-space-2);
+  min-width: 0;
+}
+
+.cxa-bar-name {
+  font-family: var(--sds-font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--sds-text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cxa-bar-check {
+  color: var(--sds-ink-900);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.cxa-bar-track {
+  position: relative;
+  height: 14px;
+  border-radius: 7px;
+  background: var(--sds-sand-150);
+  overflow: hidden;
+}
+
+.cxa-bar-fill {
+  height: 100%;
+  border-radius: 7px;
+  background: var(--sds-sand-400);
+  min-width: 3px;
+}
+
+.cxa-bar-fill--auto {
+  background: var(--sds-ink-900);
+}
+
+.cxa-bar-value {
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--sds-text-secondary);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.cxa-bars-legend {
+  margin: var(--sds-space-2) 0 0;
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--sds-text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--sds-space-2);
+  flex-wrap: wrap;
+}
+
+.cxa-legend-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--sds-sand-400);
+}
+
+.cxa-legend-swatch--auto {
+  background: var(--sds-ink-900);
+}
+
+.cxa-legend-sep {
+  color: var(--sds-text-muted);
+}
+
+@media (max-width: 809px) {
+  .cxa-bar-row {
+    grid-template-columns: 1fr 88px;
+    row-gap: var(--sds-space-2);
+  }
+  .cxa-bar-label {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------------------------------------------------------------- chat */
+
+.cxa-chat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sds-space-5);
+  margin-top: var(--sds-space-6);
+  align-items: start;
+}
+
+.cxa-chat-card {
+  gap: var(--sds-space-4);
+}
+
+.cxa-chat-card-label {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-chat-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-4);
+}
+
+.cxa-chat-cart {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 999px) {
+  .cxa-chat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------- insights */
+
+.cxa-insights {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-5);
+  margin-top: var(--sds-space-6);
+}
+
+.cxa-insight-card {
+  gap: var(--sds-space-4);
+}
+
+.cxa-insight-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sds-space-4);
+  flex-wrap: wrap;
+}
+
+.cxa-insight-title {
+  margin: 0;
+  max-width: 720px;
+}
+
+.cxa-insight-pattern {
+  margin: 0;
+  font-family: var(--sds-font-serif);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--sds-ink-alpha-80);
+  max-width: 860px;
+}
+
+.cxa-insight-memory {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sds-space-3);
+  padding-top: var(--sds-space-4);
+  border-top: 1px solid var(--sds-black-alpha-20);
+}
+
+.cxa-insight-memory-text {
+  margin: 0;
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--sds-text-primary);
+  max-width: 760px;
+}
+
+/* ---------------------------------------------------------------- math */
+
+.cxa-math-card {
+  margin-top: var(--sds-space-6);
+  gap: var(--sds-space-6);
+}
+
+.cxa-math-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sds-space-6);
+}
+
+.cxa-math-basis {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-math-inputs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sds-space-5);
+}
+
+.cxa-math-note {
+  margin: 0;
+  font-family: var(--sds-font-serif);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--sds-ink-alpha-80);
+  padding-top: var(--sds-space-4);
+  border-top: 1px solid var(--sds-black-alpha-20);
+}
+
+@media (max-width: 809px) {
+  .cxa-math-stats,
+  .cxa-math-inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------- benchmark */
+
+.cxa-bench-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sds-space-5);
+  margin-top: var(--sds-space-6);
+}
+
+.cxa-bench-col {
+  gap: var(--sds-space-5);
+}
+
+.cxa-bench-col-label {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-bench-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sds-space-5);
+}
+
+.cxa-bench-ceiling {
+  margin: var(--sds-space-5) 0 0;
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-bench-caveat {
+  margin: var(--sds-space-2) 0 0;
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--sds-text-muted);
+}
+
+@media (max-width: 809px) {
+  .cxa-bench-grid,
+  .cxa-bench-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------- couldn't see */
+
+.cxa-couldnt-list {
+  list-style: none;
+  margin: var(--sds-space-6) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cxa-couldnt-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sds-space-4);
+  padding: var(--sds-space-4) 0;
+  border-top: 1px solid var(--sds-black-alpha-20);
+}
+
+.cxa-couldnt-item:last-child {
+  border-bottom: 1px solid var(--sds-black-alpha-20);
+}
+
+.cxa-couldnt-index {
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--sds-text-muted);
+  flex: none;
+  padding-top: 2px;
+}
+
+.cxa-couldnt-text {
+  margin: 0;
+  font-family: var(--sds-font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--sds-text-secondary);
+  max-width: 760px;
+}
+
+/* ---------------------------------------------------------------- CTA */
+
+.cxa-cta-card {
+  align-items: center;
+  text-align: center;
+  gap: var(--sds-space-6);
+}
+
+.cxa-cta-line {
+  margin: 0;
+  max-width: 640px;
+  text-wrap: balance;
+}
+
+.cxa-cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sds-space-4);
+  flex-wrap: wrap;
+}
+
+.cxa-cta-calendar {
+  width: 100%;
+  max-width: 640px;
+  min-height: 180px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--sds-sand-400);
+}
+
+.cxa-cta-calendar-note {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-text-muted);
+}
+
+/* ---------------------------------------------------------------- print */
+
+@media print {
+  .cxa-report {
+    background: #fff;
+  }
+
+  .cxa-hero {
+    padding-top: var(--sds-space-5);
+  }
+
+  /* Bars must print with their real fills. */
+  .cxa-bar-track,
+  .cxa-bar-fill,
+  .cxa-legend-swatch,
+  .cxa-hero-score .sds-statcard__value {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Never split a card or a bar row across pages. */
+  .cxa-chat-card,
+  .cxa-insight-card,
+  .cxa-bench-col,
+  .cxa-math-card,
+  .cxa-bar-row,
+  .cxa-couldnt-item {
+    break-inside: avoid;
+  }
+
+  /* Keep the three conversations side by side on paper. */
+  .cxa-chat-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sds-space-4);
+  }
+
+  .cxa-bench-grid,
+  .cxa-bench-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cxa-math-stats,
+  .cxa-math-inputs {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -62,6 +62,21 @@ npm run build && npm run start     # production — recommended
 | 1024 px | 0.124% | exact (10657px) |
 | 390 px  | 0.198% | exact (13829px) |
 
+## CX Audit Agent (`/cx-audit`)
+
+A free-audit lead magnet built on `@siena/design-system`: upload a helpdesk export (or click the sample) and a chain of nine agents returns a Siena-voiced audit — automation potential score, resolution gaps, benchmark, and the insights sitting unread in the queue. Routes: `/cx-audit` (landing), `/cx-audit/audit` (input + live agent progress), `/cx-audit/report/[slug]`, `/cx-audit/crm-preview/[slug]`.
+
+**Stated out loud — what's real and what's staged:**
+
+- **OAuth is simulated.** "Connect Gorgias / Zendesk" renders a realistic consent screen and then routes to the sample in demo mode. A production flow would exchange a real OAuth code server-side and pull tickets via the provider API; the connect screens mark this.
+- **Benchmarks are synthetic and directional** — a static table by monthly-volume band, labeled as such in the report.
+- **Cost assumptions are visible and editable** in the report (8 min handle time, $6.50 loaded cost, $0.90 automated) — change them and the math recomputes client-side.
+- **The HubSpot webhook is stubbed.** The payload and the routing rule (score > 70 AND volume > 3,000/month ⇒ fast-track) are the design; set `CX_AUDIT_HUBSPOT_WEBHOOK` to POST for real. `/cx-audit/crm-preview/[slug]` shows exactly what sales would see.
+- **Redaction is designed as pre-processing** (regex strip of emails, phones, order numbers, addresses, names before any model call) and exercised on synthetic data only in this build.
+- **Sampling**: a seeded random 500-ticket sample (seed = file hash, reproducible reruns). Production would offer 30/60/90-day windows.
+- **Model calls need `ANTHROPIC_API_KEY`** (`claude-sonnet-4-6`, structured outputs, classification in batches of 25). Without a key: uploads fall back to keyword-only classification and fail the insight stage with an honest error; **the sample path needs no key at all** — it serves a precomputed report whose deterministic stages (ingest → sample → redact → classify → metrics → benchmark → CRM) really ran over the generated CSV, with the two LLM-stage outputs (insights, report copy) hand-authored to the voice rules and verified against the pipeline's numbers by `scripts/precompute-verabloom.ts` (fails loudly on drift).
+- **Synthetic dataset**: `scripts/generate-verabloom.ts` — 500 seeded, byte-reproducible tickets with three planted, discoverable stories (23 untagged pump-defect reports, 14% pre-purchase volume, 31 repeat-contact subscription customers).
+
 ## Pipeline
 
 `pipeline/` contains everything used to produce and verify the clone — capture

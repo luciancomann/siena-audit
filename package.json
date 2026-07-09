@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.110.0",
-    "@siena/design-system": "file:../siena-ds",
+    "@siena/design-system": "file:../siena-ds/siena-design-system-0.1.0.tgz",
     "framer-motion": "^12.42.2",
     "nanoid": "^5.1.16",
     "next": "16.2.10",

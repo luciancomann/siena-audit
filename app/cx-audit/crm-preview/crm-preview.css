@@ -1,0 +1,395 @@
+/* CRM preview — "what sales sees". HubSpot-style contact card rendered
+   with Siena Design System tokens only. */
+
+/* ---------------------------------------------------------------- top bar
+   (mirrors report.css — the two pages import separate stylesheets) */
+
+.cxa-topbar {
+  border-bottom: 1px solid var(--sds-black-alpha-20);
+  background: var(--sds-bg-page);
+}
+
+.cxa-topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sds-space-4);
+  min-height: 64px;
+}
+
+.cxa-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sds-space-2);
+  text-decoration: none;
+  color: var(--sds-text-primary);
+}
+
+.cxa-wordmark-siena {
+  font-family: var(--sds-font-display);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.cxa-wordmark-sub {
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-topbar-link {
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sds-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--sds-sand-400);
+}
+
+.cxa-topbar-link:hover {
+  text-decoration-color: var(--sds-ink-900);
+}
+
+/* ---------------------------------------------------------------- hero */
+
+.cxa-crm-hero {
+  background: var(--sds-bg-dark);
+  color: var(--sds-text-on-dark);
+  padding: var(--sds-space-7) 0;
+}
+
+.cxa-crm-hero-eyebrow {
+  margin: 0 0 var(--sds-space-4);
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-sand-300);
+}
+
+.cxa-crm-hero-title {
+  margin: 0;
+  color: var(--sds-text-on-dark);
+}
+
+.cxa-crm-hero-sub {
+  margin: var(--sds-space-4) 0 0;
+  font-family: var(--sds-font-sans);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--sds-sand-300);
+  max-width: 640px;
+}
+
+/* ---------------------------------------------------------------- body */
+
+.cxa-crm-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-5);
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.cxa-crm-card {
+  gap: var(--sds-space-6);
+}
+
+.cxa-crm-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sds-space-4);
+  flex-wrap: wrap;
+}
+
+.cxa-crm-head-id {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-1);
+  min-width: 0;
+}
+
+.cxa-crm-company {
+  margin: 0;
+}
+
+.cxa-crm-source {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-text-muted);
+}
+
+.cxa-crm-fasttrack {
+  margin-left: auto;
+  flex: none;
+}
+
+.cxa-crm-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sds-space-5);
+}
+
+/* Compact stat values so "4h 12m" holds one line inside the card column. */
+.cxa-crm-stats .sds-statcard__value {
+  font-size: 44px;
+  white-space: nowrap;
+}
+
+.cxa-crm-stats .sds-statcard__label {
+  font-size: 13px;
+}
+
+.cxa-crm-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-4);
+  padding-top: var(--sds-space-5);
+  border-top: 1px solid var(--sds-black-alpha-20);
+}
+
+.cxa-crm-block-title {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-text-secondary);
+}
+
+/* mini bars */
+
+.cxa-crm-minibars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-3);
+}
+
+.cxa-crm-minibar-row {
+  display: grid;
+  grid-template-columns: 220px 1fr 48px;
+  gap: var(--sds-space-4);
+  align-items: center;
+}
+
+.cxa-crm-minibar-label {
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sds-text-primary);
+}
+
+.cxa-crm-minibar-track {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--sds-sand-150);
+  overflow: hidden;
+}
+
+.cxa-crm-minibar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--sds-ink-900);
+}
+
+.cxa-crm-minibar-value {
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  color: var(--sds-text-secondary);
+  text-align: right;
+}
+
+/* insights */
+
+.cxa-crm-insights {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-5);
+}
+
+.cxa-crm-insight {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-2);
+}
+
+.cxa-crm-insight-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sds-space-4);
+  flex-wrap: wrap;
+}
+
+.cxa-crm-insight-title {
+  margin: 0;
+  font-family: var(--sds-font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--sds-text-primary);
+}
+
+.cxa-crm-insight-pattern {
+  margin: 0;
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-crm-insight-memory {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sds-space-2);
+}
+
+.cxa-crm-insight-memory-text {
+  margin: 0;
+  font-family: var(--sds-font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--sds-text-primary);
+}
+
+/* handoff properties */
+
+.cxa-crm-props {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cxa-crm-prop {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: var(--sds-space-4);
+  padding: var(--sds-space-3) 0;
+  border-bottom: 1px solid var(--sds-sand-150);
+}
+
+.cxa-crm-prop:last-child {
+  border-bottom: none;
+}
+
+.cxa-crm-prop dt {
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-text-muted);
+  padding-top: 2px;
+}
+
+.cxa-crm-prop dd {
+  margin: 0;
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--sds-text-primary);
+}
+
+.cxa-crm-report-link {
+  color: var(--sds-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--sds-sand-400);
+}
+
+.cxa-crm-report-link:hover {
+  text-decoration-color: var(--sds-ink-900);
+}
+
+/* footnote + raw payload */
+
+.cxa-crm-footnote {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--sds-text-muted);
+}
+
+.cxa-crm-raw {
+  border: 1px solid var(--sds-black-alpha-20);
+  border-radius: var(--sds-radius-md);
+  background: var(--sds-sand-150);
+  overflow: hidden;
+}
+
+.cxa-crm-raw summary {
+  cursor: pointer;
+  padding: var(--sds-space-3) var(--sds-space-4);
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-crm-raw pre {
+  margin: 0;
+  padding: var(--sds-space-4);
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--sds-text-primary);
+  background: var(--sds-white);
+  border-top: 1px solid var(--sds-black-alpha-20);
+  overflow-x: auto;
+}
+
+/* ---------------------------------------------------------------- responsive */
+
+@media (max-width: 999px) {
+  .cxa-crm-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 809px) {
+  .cxa-crm-minibar-row {
+    grid-template-columns: 1fr 48px;
+    row-gap: var(--sds-space-1);
+  }
+  .cxa-crm-minibar-label {
+    grid-column: 1 / -1;
+  }
+  .cxa-crm-prop {
+    grid-template-columns: 1fr;
+    gap: var(--sds-space-1);
+  }
+}
+
+/* ---------------------------------------------------------------- print */
+
+@media print {
+  .cxa-crm-hero {
+    background: #fff;
+    color: var(--sds-ink-900);
+    padding: 16px 0;
+  }
+  .cxa-crm-hero-title,
+  .cxa-crm-hero-sub,
+  .cxa-crm-hero-eyebrow {
+    color: var(--sds-ink-900);
+  }
+  .cxa-crm-minibar-track,
+  .cxa-crm-minibar-fill {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .cxa-crm-card,
+  .cxa-crm-insight {
+    break-inside: avoid;
+  }
+}
