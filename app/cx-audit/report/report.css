@@ -473,10 +473,12 @@
     padding-top: var(--sds-space-5);
   }
 
-  /* Bars must print with their real fills. */
+  /* Bars, the ladder, and swatches must print with their real fills. */
   .cxa-bar-track,
   .cxa-bar-fill,
   .cxa-legend-swatch,
+  .cxa-ladder-seg,
+  .cxa-ladder-swatch,
   .cxa-hero-score .sds-statcard__value {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
@@ -488,14 +490,29 @@
   .cxa-bench-col,
   .cxa-math-card,
   .cxa-bar-row,
+  .cxa-ladder,
   .cxa-couldnt-item {
     break-inside: avoid;
   }
 
-  /* Keep the three conversations side by side on paper. */
-  .cxa-chat-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--sds-space-4);
+  /* Chromium can't fragment flex/grid stacks — a tall stack jumps to the
+     next page as one block and leaves the previous page half blank.
+     Flatten the big stacks to block flow so pages fill naturally. */
+  .cxa-bars,
+  .cxa-chat-grid,
+  .cxa-insights {
+    display: block;
+  }
+
+  .cxa-bar-row {
+    margin-bottom: var(--sds-space-4);
+  }
+
+  /* Conversations print stacked, full width — three squeezed columns of
+     one-word lines aren't a conversation. */
+  .cxa-chat-card,
+  .cxa-insight-card {
+    margin-bottom: var(--sds-space-4);
   }
 
   .cxa-bench-grid,
@@ -726,4 +743,10 @@ html {
   font-size: 12px;
   letter-spacing: 0.04em;
   color: var(--sds-text-secondary);
+}
+
+/* Chili Piper concierge container */
+.cxa-booking {
+  width: 100%;
+  min-height: 40px;
 }

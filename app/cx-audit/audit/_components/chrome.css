@@ -1,8 +1,11 @@
 /* Shared CX Audit chrome — loaded wherever CxaNav/CxaLogo render. */
 
-/* every CX Audit surface: the page never scrolls sideways, whatever a
-   full-bleed band, blob, or long badge tries */
+/* every CX Audit surface: no UA body margin (it reads as a white frame
+   over the cream page), page-colored backdrop, and the page never scrolls
+   sideways, whatever a full-bleed band, blob, or long badge tries */
 body {
+  margin: 0;
+  background: var(--sds-bg-page);
   overflow-x: clip;
 }
 

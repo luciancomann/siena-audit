@@ -22,6 +22,7 @@ import { loadReport } from "../_components/load-report";
 import { IntentBars } from "../_components/IntentBars";
 import { Ladder } from "../_components/Ladder";
 import { MathExplorer } from "../_components/MathExplorer";
+import { BookingEmbed } from "../_components/BookingEmbed";
 import { CopyLinkButton } from "../_components/CopyLinkButton";
 import { PrintButton } from "../_components/PrintButton";
 import {
@@ -303,11 +304,7 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
             </Button>
             <CopyLinkButton />
           </div>
-          <Card tone="white" radius="md" padding="sm" className="cxa-cta-calendar">
-            <p className="cxa-cta-calendar-note">
-              calendar embed — live availability goes here
-            </p>
-          </Card>
+          <BookingEmbed />
         </Card>
       </section>
     </main>

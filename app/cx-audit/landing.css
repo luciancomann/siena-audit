@@ -225,7 +225,7 @@
   font-size: 18px;
   line-height: 1.5;
   color: var(--sds-text-secondary);
-  max-width: 560px;
+  max-width: none; /* the one-liner stays a one-liner */
 }
 
 .cxl-cta-card__buttons {
@@ -455,8 +455,8 @@
 .cxl-underline__stroke {
   position: absolute;
   left: 0;
-  bottom: -0.28em; /* fully below the baseline — never across descenders */
+  bottom: -0.2em; /* below the baseline, above the next line's caps */
   width: 100%;
-  height: 0.22em; /* keep the stroke slim however wide the phrase is */
+  height: 0.18em; /* keep the stroke slim however wide the phrase is */
   pointer-events: none;
 }

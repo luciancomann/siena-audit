@@ -34,9 +34,11 @@
   .cxa-root {
     background: #fff;
   }
+  /* Sections must fragment across pages — atomic sections leave half-blank
+     pages whenever one doesn't fit. Cards and rows carry their own
+     break-inside guards. */
   .cxa-section {
     padding: 16px 0;
-    break-inside: avoid;
   }
   .cxa-page-break {
     break-before: page;
