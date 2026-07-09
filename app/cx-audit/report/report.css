@@ -294,8 +294,15 @@
 
 .cxa-math-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--sds-space-6);
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sds-space-5);
+  align-items: start;
+}
+
+@media (max-width: 1099px) {
+  .cxa-math-stats {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .cxa-math-basis {
@@ -520,9 +527,18 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .cxa-math-stats,
   .cxa-math-inputs {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* four stat cards don't fit A4 four-up — print them 2x2 */
+  .cxa-math-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cxa-revenue-card {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
 
@@ -749,4 +765,70 @@ html {
 .cxa-booking {
   width: 100%;
   min-height: 40px;
+}
+
+/* ---------------------------------------------------- revenue thread */
+
+/* hero: the quiet second line under the headline */
+.cxa-hero-revenue {
+  margin: calc(-1 * var(--sds-space-2)) 0 0;
+  font-family: var(--sds-font-serif);
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--sds-text-secondary);
+}
+
+.cxa-hero-revenue__num {
+  color: var(--sds-green-600);
+  font-weight: 600;
+}
+
+/* conversations: the order caption under the adds-to-cart card */
+.cxa-chat-revenue-caption {
+  margin: var(--sds-space-2) 0 0;
+  font-family: var(--sds-font-sans);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--sds-text-muted);
+  text-align: right;
+}
+
+/* the math: revenue scenario card — labeled, green-edged, never summed */
+.cxa-revenue-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-1);
+  border: 1.5px solid var(--sds-green-500);
+  border-radius: 16px;
+  padding: var(--sds-space-3) var(--sds-space-4) var(--sds-space-3);
+}
+
+.cxa-revenue-card__tag {
+  position: absolute;
+  top: -9px;
+  left: 14px;
+  padding: 2px 8px;
+  border-radius: var(--sds-radius-pill);
+  background: var(--sds-green-500);
+  font-family: var(--sds-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-white);
+  white-space: nowrap;
+}
+
+.cxa-math-inputs--revenue {
+  padding-top: var(--sds-space-4);
+  border-top: 1px solid var(--sds-black-alpha-20);
+}
+
+/* CTA: bring-your-AOV line */
+.cxa-cta-aov {
+  margin: calc(-1 * var(--sds-space-2)) 0 0;
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--sds-text-secondary);
 }

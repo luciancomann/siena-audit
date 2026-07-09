@@ -1,14 +1,16 @@
 "use client";
 
 /**
- * "The math" — three stats over three editable assumptions. Recomputes live
- * in the client with the exact arithmetic the pipeline's MathSection uses:
- * round the automatable ticket count first, then hours and dollars. With the
- * report's default assumptions this reproduces report.math to the dollar.
+ * "The math" — the savings stats over editable assumptions, plus the
+ * revenue scenario: a separately-labeled model of what answering
+ * pre-purchase questions in seconds is worth. The two are never summed —
+ * savings are savings, the scenario is a scenario. Both recompute live
+ * with the exact arithmetic the pipeline's MathSection uses, so the
+ * defaults reproduce report.math to the dollar.
  */
 import { useState } from "react";
 import { Card, Input, StatCard } from "@siena/design-system";
-import type { Assumptions } from "@/lib/cx-audit/types";
+import type { Assumptions, RevenueScenario } from "@/lib/cx-audit/types";
 import {
   formatMoney,
   formatNumber,
@@ -19,7 +21,7 @@ interface MathExplorerProps {
   monthlyVolumeEstimate: number;
   automatableShare: number;
   defaults: Assumptions;
-  revenueNote: string;
+  revenueDefaults: RevenueScenario;
 }
 
 interface Field {
@@ -40,15 +42,21 @@ export function MathExplorer({
   monthlyVolumeEstimate,
   automatableShare,
   defaults,
-  revenueNote,
+  revenueDefaults,
 }: MathExplorerProps) {
   const [handleRaw, setHandleRaw] = useState(String(defaults.handleTimeMins));
   const [loadedRaw, setLoadedRaw] = useState(String(defaults.loadedCostPerTicket));
   const [autoRaw, setAutoRaw] = useState(String(defaults.automatedCostPerTicket));
+  const [preRaw, setPreRaw] = useState(String(revenueDefaults.prePurchasePerMonth));
+  const [convRaw, setConvRaw] = useState(String(revenueDefaults.incrementalConversionPct));
+  const [aovRaw, setAovRaw] = useState(String(revenueDefaults.averageOrderValue));
 
   const handleTime = parseField(handleRaw, defaults.handleTimeMins);
   const loadedCost = parseField(loadedRaw, defaults.loadedCostPerTicket);
   const autoCost = parseField(autoRaw, defaults.automatedCostPerTicket);
+  const prePurchase = parseField(preRaw, revenueDefaults.prePurchasePerMonth);
+  const conversion = parseField(convRaw, revenueDefaults.incrementalConversionPct);
+  const aov = parseField(aovRaw, revenueDefaults.averageOrderValue);
 
   // Mirrors MathSection: pure arithmetic, no model math.
   const autoTickets = Math.round(automatableShare * monthlyVolumeEstimate);
@@ -56,6 +64,12 @@ export function MathExplorer({
   const costToday = Math.round(autoTickets * loadedCost.value);
   const costAutomated = Math.round(autoTickets * autoCost.value);
   const savings = costToday - costAutomated;
+
+  // Mirrors computeRevenueScenario: annual from the unrounded monthly, so
+  // the two lines never disagree by a rounding step.
+  const revenueExact = prePurchase.value * (conversion.value / 100) * aov.value;
+  const revenueMonthly = Math.round(revenueExact);
+  const revenueAnnual = Math.round(revenueExact * 12);
 
   return (
     <Card tone="cream" radius="lg" padding="md" className="cxa-math-card">
@@ -78,6 +92,18 @@ export function MathExplorer({
           />
           <p className="cxa-math-annual">
             {formatMoney(savings * 12)} a year, at your volume
+          </p>
+        </div>
+        {/* the revenue side — a labeled scenario, never summed with savings */}
+        <div className="cxa-revenue-card">
+          <span className="cxa-revenue-card__tag">Revenue scenario</span>
+          <StatCard
+            value={formatMoney(revenueMonthly)}
+            label="recovered revenue per month, modeled"
+            size="md"
+          />
+          <p className="cxa-math-annual">
+            {formatMoney(revenueAnnual)} a year, at your volume
           </p>
         </div>
       </div>
@@ -108,7 +134,34 @@ export function MathExplorer({
           error={autoCost.error}
         />
       </div>
-      <p className="cxa-math-note">{revenueNote}</p>
+      <div className="cxa-math-inputs cxa-math-inputs--revenue">
+        <Input
+          label="Pre-purchase conversations / month"
+          type="number"
+          value={preRaw}
+          onChange={(e) => setPreRaw(e.target.value)}
+          error={prePurchase.error}
+        />
+        <Input
+          label="Incremental conversion rate (%)"
+          type="number"
+          value={convRaw}
+          onChange={(e) => setConvRaw(e.target.value)}
+          error={conversion.error}
+        />
+        <Input
+          label="Average order value ($)"
+          type="number"
+          value={aovRaw}
+          onChange={(e) => setAovRaw(e.target.value)}
+          error={aov.error}
+        />
+      </div>
+      <p className="cxa-math-note">
+        The scenario: shoppers who get an answer in seconds instead of five hours,
+        and a portion buys who otherwise moved on. Change the assumptions —
+        it&rsquo;s your math now.
+      </p>
     </Card>
   );
 }

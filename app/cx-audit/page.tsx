@@ -87,6 +87,11 @@ export default function CxAuditLandingPage() {
               See a sample audit
             </Button>
           </div>
+          <p className="cxl-hero__proof">
+            From the sample audit: 438 hours back, a defect pattern across 23
+            tickets nobody tagged, and a $4.6K a month revenue scenario hiding in
+            pre-purchase questions.
+          </p>
         </div>
 
         {/* The mockup with the queue's stories floating out of it — blurred

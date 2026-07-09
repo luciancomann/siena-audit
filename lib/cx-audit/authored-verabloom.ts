@@ -57,7 +57,7 @@ export const AUTHORED_INSIGHTS: Insight[] = [
       "14% of your tickets are pre-purchase questions — shade matching, ingredient compatibility, bundle advice. These are shoppers standing at the counter with their hand up. At a median first response of five hours, most of them have moved on.",
     evidence_count: 70,
     what_siena_memory_would_do:
-      "The Shopping Agent answers in seconds, remembers skin type and past orders, and turns the question into a recommendation — with an add-to-cart in the same conversation.",
+      "The Shopping Agent answers in seconds, remembers skin type and past orders, and turns the question into a recommendation — with an add-to-cart in the same conversation. Modeled conservatively in the math below: about $4,571 a month in recovered revenue.",
   },
   {
     title: "31 customers wrote three or more times about the same thing",
@@ -166,9 +166,6 @@ export const AUTHORED_COPY: ReportCopy = {
     "Walk through your audit with us — 30 minutes, your numbers, no slides.",
 };
 
-/** The one authored string that lives inside the math section. */
-export const AUTHORED_PRE_PURCHASE_REVENUE_NOTE =
-  "586 pre-purchase conversations a month is a sales channel hiding in your support queue. Answered in seconds instead of five hours, a portion of those become orders — we'll model that with your AOV on a call.";
 
 /** Every authored user-facing string, flattened, for voice linting. */
 export function allAuthoredStrings(): string[] {
@@ -190,7 +187,6 @@ export function allAuthoredStrings(): string[] {
     c.benchmarkIntro,
     ...c.couldntSee,
     c.ctaLine,
-    AUTHORED_PRE_PURCHASE_REVENUE_NOTE,
   );
   return out;
 }

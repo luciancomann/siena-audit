@@ -5,12 +5,20 @@
  * resolves. Delivery failures never fail the pipeline — the payload is
  * always included in the report JSON regardless.
  */
-import type { Assumptions, CrmContact, CrmPayload, Insight, Metrics } from "../types";
+import type {
+  Assumptions,
+  CrmContact,
+  CrmPayload,
+  Insight,
+  MathSection,
+  Metrics,
+} from "../types";
 
 export interface CrmInput {
   brand: string;
   slug: string;
   metrics: Metrics;
+  math: MathSection;
   insights: Insight[];
   assumptions: Assumptions;
   contact?: CrmContact;
@@ -18,7 +26,7 @@ export interface CrmInput {
 }
 
 export function buildCrmPayload(input: CrmInput): CrmPayload {
-  const { brand, slug, metrics, insights, assumptions, contact, preparedFor } = input;
+  const { brand, slug, metrics, math, insights, assumptions, contact, preparedFor } = input;
   const score = metrics.automationPotentialScore;
   const monthlyVolume = metrics.monthlyVolumeEstimate;
 
@@ -34,6 +42,12 @@ export function buildCrmPayload(input: CrmInput): CrmPayload {
     insights,
     median_first_response_mins: metrics.medianFirstResponseMins,
     repeat_contact_customers: metrics.repeatContacts.customers,
+    revenue_scenario_mo: math.revenueScenario.monthlyRevenue,
+    revenue_scenario_assumptions: {
+      pre_purchase_per_month: math.revenueScenario.prePurchasePerMonth,
+      incremental_conversion_pct: math.revenueScenario.incrementalConversionPct,
+      average_order_value: math.revenueScenario.averageOrderValue,
+    },
     assumptions,
     report_url: `/cx-audit/report/${slug}`,
     generated_at: new Date().toISOString(),

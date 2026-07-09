@@ -14,6 +14,7 @@ import { loadReport } from "../../report/_components/load-report";
 import {
   formatDateTime,
   formatMins,
+  formatMoney,
   formatNumber,
   formatPerTicket,
   formatShare,
@@ -173,6 +174,16 @@ export default async function CrmPreviewPage({ params }: PageProps) {
                   {crm.assumptions.handleTimeMins} min handle ·{" "}
                   {formatPerTicket(crm.assumptions.loadedCostPerTicket)} loaded ·{" "}
                   {formatPerTicket(crm.assumptions.automatedCostPerTicket)} automated
+                </dd>
+              </div>
+              <div className="cxa-crm-prop">
+                <dt>Revenue scenario</dt>
+                <dd>
+                  {formatMoney(crm.revenue_scenario_mo)}/mo, modeled —{" "}
+                  {formatNumber(crm.revenue_scenario_assumptions.pre_purchase_per_month)}{" "}
+                  pre-purchase × {crm.revenue_scenario_assumptions.incremental_conversion_pct}% ×{" "}
+                  {formatMoney(crm.revenue_scenario_assumptions.average_order_value)} AOV.
+                  Never summed with savings.
                 </dd>
               </div>
               <div className="cxa-crm-prop">

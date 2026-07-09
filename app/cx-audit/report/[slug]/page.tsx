@@ -79,6 +79,12 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
           />
         </div>
         <h1 className="sds-display-lg cxa-hero-human">{copy.headlineHuman}</h1>
+        <p className="cxa-hero-revenue">
+          <span className="cxa-hero-revenue__num">
+            {formatNumber(math.prePurchaseTicketsPerMonth)}
+          </span>{" "}
+          of them were trying to buy.
+        </p>
         <p className="cxa-hero-reconcile">
           {Math.round(metrics.automatableShare * 1000) / 10}% of your volume maps to
           actions Siena resolves end to end. Confidence-weighting what we could read
@@ -142,9 +148,15 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
                 ))}
               </div>
               {mock.endsInCart && (
-                <div className="cxa-chat-cart">
-                  <Badge variant="filled">adds to cart</Badge>
-                </div>
+                <>
+                  <div className="cxa-chat-cart">
+                    <Badge variant="filled">adds to cart</Badge>
+                  </div>
+                  <p className="cxa-chat-revenue-caption">
+                    This conversation ended in an order. There were{" "}
+                    {formatNumber(math.prePurchaseTicketsPerMonth)} like it last month.
+                  </p>
+                </>
               )}
             </Card>
           ))}
@@ -203,12 +215,12 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
           monthlyVolumeEstimate={metrics.monthlyVolumeEstimate}
           automatableShare={metrics.automatableShare}
           defaults={report.assumptions}
-          revenueNote={math.prePurchaseRevenueNote}
+          revenueDefaults={math.revenueScenario}
         />
         <p className="cxa-math-exclusion">
           We left your {formatNumber(math.prePurchaseTicketsPerMonth)}{" "}
           pre-purchase tickets out of the savings math on purpose. Selling
-          isn&rsquo;t a cost to cut.
+          isn&rsquo;t a cost to cut — it gets its own model, and its own agent.
         </p>
       </section>
 
@@ -292,6 +304,9 @@ export default async function ReportPage({ params, searchParams }: PageProps) {
       <section id="book" className="cxa-container cxa-section cxa-no-print">
         <Card tone="sand" radius="xl" padding="lg" className="cxa-cta-card">
           <h2 className="sds-display-md cxa-cta-line">{copy.ctaLine}</h2>
+          <p className="cxa-cta-aov">
+            Bring your real AOV. We&rsquo;ll turn the scenario into your number.
+          </p>
           <div className="cxa-cta-actions">
             <Button
               variant="primary"

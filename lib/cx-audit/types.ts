@@ -152,13 +152,22 @@ export interface Assumptions {
   automatedCostPerTicket: number; // default 0.90
 }
 
+/** The revenue side, always a labeled scenario — never summed with savings. */
+export interface RevenueScenario {
+  prePurchasePerMonth: number; // auto-filled from the audit
+  incrementalConversionPct: number; // default 12
+  averageOrderValue: number; // default 65
+  monthlyRevenue: number; // rounded for display
+  annualRevenue: number; // rounded from the unrounded monthly x 12
+}
+
 export interface MathSection {
   hoursRecoverablePerMonth: number;
   costTodayPerMonth: number;
   costAutomatedPerMonth: number;
   savingsPerMonth: number;
   prePurchaseTicketsPerMonth: number;
-  prePurchaseRevenueNote: string;
+  revenueScenario: RevenueScenario;
 }
 
 /** All strings the report writer produces. Numbers come verbatim from Metrics. */
@@ -195,6 +204,13 @@ export interface CrmPayload {
   insights: Insight[];
   median_first_response_mins: number;
   repeat_contact_customers: number;
+  /** The modeled revenue scenario — labeled, never summed with savings. */
+  revenue_scenario_mo: number;
+  revenue_scenario_assumptions: {
+    pre_purchase_per_month: number;
+    incremental_conversion_pct: number;
+    average_order_value: number;
+  };
   assumptions: Assumptions;
   report_url: string;
   generated_at: string;

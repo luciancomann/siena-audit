@@ -36,7 +36,6 @@ import {
   AUTHORED_CRM_INSIGHTS,
   AUTHORED_INSIGHTS,
   AUTHORED_META,
-  AUTHORED_PRE_PURCHASE_REVENUE_NOTE,
 } from "../lib/cx-audit/authored-verabloom";
 import { buildBenchmark } from "../lib/cx-audit/pipeline/benchmark";
 import { classifyTickets } from "../lib/cx-audit/pipeline/classify";
@@ -166,6 +165,9 @@ async function main(): Promise<void> {
   expectEq(computedMath.costAutomatedPerMonth, 2959, "math.costAutomatedPerMonth");
   expectEq(computedMath.savingsPerMonth, 18413, "math.savingsPerMonth");
   expectEq(computedMath.prePurchaseTicketsPerMonth, 586, "math.prePurchaseTicketsPerMonth");
+  expectEq(computedMath.revenueScenario.monthlyRevenue, 4571, "revenue scenario $/mo (586 x 12% x $65)");
+  expectEq(computedMath.revenueScenario.annualRevenue, 54850, "revenue scenario $/yr (unrounded monthly x 12)");
+  expectEq(computedMath.revenueScenario.prePurchasePerMonth, 586, "revenue scenario pre-purchase basis");
 
   expectEq(benchmark.volumeBand, "2,500–7,500 tickets/month", "benchmark.volumeBand");
   expectEq(benchmark.peerScore, 58, "benchmark.peerScore");
@@ -204,8 +206,8 @@ async function main(): Promise<void> {
   if (!AUTHORED_INSIGHTS[2].pattern.includes(`${metrics.repeatContacts.tickets} tickets`)) {
     fail("repeat-contact insight lost the 104-ticket figure");
   }
-  if (!AUTHORED_PRE_PURCHASE_REVENUE_NOTE.includes(String(computedMath.prePurchaseTicketsPerMonth))) {
-    fail("authored revenue note lost the 586/month figure");
+  if (!AUTHORED_INSIGHTS[1].what_siena_memory_would_do.includes("$4,571")) {
+    fail("shopper insight lost the modeled $4,571/month figure");
   }
 
   // Every authored string obeys the voice rules.
@@ -226,17 +228,14 @@ async function main(): Promise<void> {
     insights: AUTHORED_INSIGHTS,
     chatMockups: AUTHORED_CHAT_MOCKUPS,
     assumptions,
-    math: {
-      ...computedMath,
-      // The one authored sentence in the math section (same 586, voice-true).
-      prePurchaseRevenueNote: AUTHORED_PRE_PURCHASE_REVENUE_NOTE,
-    },
+    math: computedMath,
     copy: AUTHORED_COPY,
     crm: {
       ...buildCrmPayload({ //                                  7 — crm handoff
         brand: AUTHORED_META.brand,
         slug: AUTHORED_META.slug,
         metrics,
+        math: computedMath,
         insights: AUTHORED_CRM_INSIGHTS,
         assumptions,
         preparedFor: AUTHORED_META.preparedFor,
@@ -257,6 +256,12 @@ async function main(): Promise<void> {
   );
   expectEq(report.crm.report_url, "/cx-audit/report/verabloom", "crm.report_url");
   expectEq(report.crm.prepared_for, "Tom", "crm.prepared_for");
+  expectEq(report.crm.revenue_scenario_mo, 4571, "crm.revenue_scenario_mo");
+  expectEq(
+    report.crm.revenue_scenario_assumptions,
+    { pre_purchase_per_month: 586, incremental_conversion_pct: 12, average_order_value: 65 },
+    "crm.revenue_scenario_assumptions",
+  );
 
   writeFileSync(outPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
   console.log(

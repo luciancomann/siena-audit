@@ -23,6 +23,27 @@ export const DEFAULT_ASSUMPTIONS: Assumptions = {
   automatedCostPerTicket: 0.9,
 };
 
+/** Scenario defaults for the revenue model — deliberately conservative. */
+export const DEFAULT_REVENUE_ASSUMPTIONS = {
+  incrementalConversionPct: 12,
+  averageOrderValue: 65,
+};
+
+/** monthly = pre-purchase x conversion x AOV; annual rounds the unrounded
+    monthly x 12 so the two lines never disagree by a rounding step. */
+export function computeRevenueScenario(
+  prePurchasePerMonth: number,
+  incrementalConversionPct: number,
+  averageOrderValue: number,
+): { monthlyRevenue: number; annualRevenue: number } {
+  const monthlyExact =
+    prePurchasePerMonth * (incrementalConversionPct / 100) * averageOrderValue;
+  return {
+    monthlyRevenue: Math.round(monthlyExact),
+    annualRevenue: Math.round(monthlyExact * 12),
+  };
+}
+
 function median(values: number[]): number | null {
   if (values.length === 0) return null;
   const sorted = [...values].sort((a, b) => a - b);
@@ -206,11 +227,12 @@ export function computeMath(metrics: Metrics, assumptions: Assumptions): MathSec
     ? Math.round(metrics.monthlyVolumeEstimate * prePurchase.share)
     : 0;
 
-  const frtPhrase = formatMinutes(metrics.medianFirstResponseMins);
-  const prePurchaseRevenueNote =
-    prePurchaseTicketsPerMonth > 0
-      ? `${prePurchaseTicketsPerMonth.toLocaleString("en-US")} pre-purchase conversations a month is a sales channel hiding in your support queue. Answered in seconds instead of ${frtPhrase}, a portion of those become orders — we'll model that with your AOV on a call.`
-      : `This export shows almost no pre-purchase questions. Either shoppers aren't finding your support channel before they buy, or those conversations live in a channel this export can't see — worth checking, because they convert.`;
+  const { incrementalConversionPct, averageOrderValue } = DEFAULT_REVENUE_ASSUMPTIONS;
+  const scenario = computeRevenueScenario(
+    prePurchaseTicketsPerMonth,
+    incrementalConversionPct,
+    averageOrderValue,
+  );
 
   return {
     hoursRecoverablePerMonth,
@@ -218,29 +240,12 @@ export function computeMath(metrics: Metrics, assumptions: Assumptions): MathSec
     costAutomatedPerMonth,
     savingsPerMonth: costTodayPerMonth - costAutomatedPerMonth,
     prePurchaseTicketsPerMonth,
-    prePurchaseRevenueNote,
+    revenueScenario: {
+      prePurchasePerMonth: prePurchaseTicketsPerMonth,
+      incrementalConversionPct,
+      averageOrderValue,
+      ...scenario,
+    },
   };
 }
 
-/** "252" minutes -> "four hours"; small values -> "18 minutes". */
-function formatMinutes(mins: number): string {
-  if (mins <= 0) return "hours";
-  if (mins < 90) return `${Math.round(mins)} minutes`;
-  const hours = Math.round(mins / 60);
-  const words = [
-    "zero",
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine",
-    "ten",
-    "eleven",
-    "twelve",
-  ];
-  return hours <= 12 ? `${words[hours]} hours` : `${hours} hours`;
-}

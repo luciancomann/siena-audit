@@ -92,7 +92,7 @@ export function Ladder({
         <p className="cxa-ladder-footnote">
           Your {formatNumber(prePurchase.count)} pre-purchase conversations (
           {formatShare(prePurchase.share)}) sit off this ladder on purpose — they&rsquo;re
-          revenue, not cost.
+          revenue, not cost. We modeled what that&rsquo;s worth in section 05.
         </p>
       )}
     </div>

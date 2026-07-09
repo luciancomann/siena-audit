@@ -31,6 +31,15 @@
   flex-wrap: wrap;
 }
 
+.cxl-hero__proof {
+  margin: 0;
+  font-family: var(--sds-font-sans);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--sds-text-muted);
+  max-width: 52ch;
+}
+
 .cxl-chat-card {
   gap: var(--sds-space-4);
   min-width: 0;

@@ -124,6 +124,7 @@ export async function runPipeline(
     brand: opts.brand,
     slug,
     metrics,
+    math,
     insights,
     assumptions,
     contact: opts.contact,
