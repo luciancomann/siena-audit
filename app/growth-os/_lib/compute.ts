@@ -82,33 +82,42 @@ export function writeDigest(spend: Record<ChannelId, number>): string {
   const t = totals(spend);
   const withCpm = CHANNELS.map((c) => ({
     c,
+    spend: spend[c.id] ?? c.defaultSpend,
     cpm: costPerMeeting(spend[c.id] ?? c.defaultSpend, c.meetings),
   }));
-  const paid = withCpm.filter((x) => x.cpm !== null && x.cpm !== Infinity && (spend[x.c.id] ?? x.c.defaultSpend) > 0);
+  const paid = withCpm.filter((x) => x.cpm !== null && x.cpm !== Infinity && x.spend > 0);
   const meetingsTrend = trendPct(t.meetings, t.meetingsLastMonth);
   const pipeTotal = PIPELINE.newValue + PIPELINE.expansionValue;
   const pipeTrend = trendPct(pipeTotal, PIPELINE.lastMonthTotal);
+  const sign = (n: number) => `${n >= 0 ? "+" : ""}${n}%`;
 
   if (paid.length === 0) {
-    // every spend zeroed out — the digest still reads honestly
     return (
-      `Meetings ${t.meetings} this month (${meetingsTrend >= 0 ? "+" : ""}${meetingsTrend}% vs last), ` +
-      `pipeline ${moneyK(pipeTotal)} across ${PIPELINE.newDeals + PIPELINE.expansionDeals} deals (${pipeTrend >= 0 ? "+" : ""}${pipeTrend}%). ` +
-      `Spend is set to zero across the board this week, so cost per meeting is a free lunch until the inputs come back. ` +
-      `The audit tool did ${AUDIT_FEED.runsThisWeek} runs, ${AUDIT_FEED.leadsCreated} leads, ${moneyK(AUDIT_FEED.pipelineAttributed)} attributed.`
+      `MTD: ${t.meetings} meetings (${sign(meetingsTrend)} vs last month), pipeline ${moneyK(pipeTotal)} ` +
+      `across ${PIPELINE.newDeals + PIPELINE.expansionDeals} deals (${sign(pipeTrend)}). Spend is zeroed across ` +
+      `the board, so cost per meeting is a free lunch until the inputs come back. This week the audit did ` +
+      `${AUDIT_FEED.runsThisWeek} runs → ${AUDIT_FEED.leadsCreated} leads → ${AUDIT_FEED.fastTracked} fast-tracked.`
     );
   }
 
   const cheapest = paid.reduce((a, b) => ((a.cpm ?? 0) <= (b.cpm ?? 0) ? a : b));
   const priciest = paid.reduce((a, b) => ((a.cpm ?? 0) >= (b.cpm ?? 0) ? a : b));
+  const audit = withCpm.find((x) => x.c.id === "audit");
+  const auditCpm = audit?.cpm ?? null;
+  const auditClause =
+    auditCpm !== null && auditCpm !== Infinity
+      ? cheapest.c.id === "audit"
+        ? `at ${money(auditCpm)} a meeting it's our cheapest paid lane`
+        : `${money(auditCpm)} a meeting — ${cheapest.c.label.toLowerCase()} currently holds the cheapest-paid crown at ${money(cheapest.cpm ?? 0)}`
+      : `spend zeroed, so the lane rides free this month`;
 
   return (
-    `Meetings ${t.meetings} this month (${meetingsTrend >= 0 ? "+" : ""}${meetingsTrend}% vs last), ` +
-    `pipeline ${moneyK(pipeTotal)} across ${PIPELINE.newDeals + PIPELINE.expansionDeals} deals (${pipeTrend >= 0 ? "+" : ""}${pipeTrend}%). ` +
-    `The audit tool is the story again: ${AUDIT_FEED.runsThisWeek} runs this week, ${AUDIT_FEED.leadsCreated} leads, ` +
-    `${moneyK(AUDIT_FEED.pipelineAttributed)} attributed, and ${cheapest.c.label.toLowerCase()} is our cheapest meeting at ${money(cheapest.cpm ?? 0)}. ` +
-    `${priciest.c.label} is the expensive lane at ${money(priciest.cpm ?? 0)} per meeting — it's on the kill list for Friday's call, ` +
-    `and the money moves to what's working. Expansion did ${moneyK(PIPELINE.expansionValue)} of the total; ` +
-    `lifecycle keeps earning its spend. Nothing else changed that the numbers don't already say.`
+    `MTD: ${t.meetings} meetings booked (${sign(meetingsTrend)} vs last month), qualified pipeline ` +
+    `${moneyK(pipeTotal)} across ${PIPELINE.newDeals + PIPELINE.expansionDeals} deals (${sign(pipeTrend)}), ` +
+    `expansion ${moneyK(PIPELINE.expansionValue)} of it. This week: the audit ran ${AUDIT_FEED.runsThisWeek} times → ` +
+    `${AUDIT_FEED.leadsCreated} leads → ${AUDIT_FEED.fastTracked} fast-tracked, ${moneyK(AUDIT_FEED.pipelineAttributed)} ` +
+    `attributed MTD — ${auditClause}. ${priciest.c.label} is the expensive lane at ${money(priciest.cpm ?? 0)} per ` +
+    `meeting; it's on Friday's kill call, and the money moves to what's working. Nothing else changed that the ` +
+    `numbers don't already say.`
   );
 }

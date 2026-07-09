@@ -74,8 +74,8 @@ export default function LoopPage() {
                   <span className={`gos-agent__dot gos-agent__dot--${a.status}`} aria-hidden="true" />
                   <span className="gos-agent__name">{a.name}</span>
                   <span className="gos-agent__line">{a.line}</span>
-                  <span className="gos-agent__status">
-                    {a.status === "running" ? "running" : "needs attention"}
+                  <span className={`gos-agent__status${a.status === "attention" ? " gos-agent__status--warn" : ""}`}>
+                    {a.status === "running" ? "running" : a.note ?? "needs attention"}
                   </span>
                 </li>
               ))}

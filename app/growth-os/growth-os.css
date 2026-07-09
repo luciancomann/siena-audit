@@ -745,7 +745,7 @@ body {
 
 .gos-auditfeed {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 }
 
@@ -1170,4 +1170,20 @@ body {
   .gos-bet__dials {
     grid-column: 2;
   }
+}
+
+/* the priced option is gated, not queued */
+.gos-status--gate {
+  background: transparent;
+  border: 1px dashed var(--sds-sand-600);
+  color: var(--sds-sand-800);
+  cursor: default;
+}
+
+.gos-bet__now {
+  color: var(--sds-green-600);
+}
+
+.gos-agent__status--warn {
+  color: var(--sds-coral-600);
 }

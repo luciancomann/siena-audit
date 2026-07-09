@@ -152,16 +152,22 @@ export default function BetsPage() {
                 <span className="gos-bet__what">{bet.what}</span>
               </div>
               <div className="gos-bet__mid">
-                <button
-                  className={`gos-status gos-status--${status}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    cycleStatus(bet);
-                  }}
-                  title="Click to change status"
-                >
-                  {STATUS_LABEL[status]}
-                </button>
+                {bet.unranked ? (
+                  <span className="gos-status gos-status--gate" title="Priced option — gated, not queued for a WIP slot">
+                    Gate
+                  </span>
+                ) : (
+                  <button
+                    className={`gos-status gos-status--${status}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      cycleStatus(bet);
+                    }}
+                    title="Click to change status"
+                  >
+                    {STATUS_LABEL[status]}
+                  </button>
+                )}
                 <OwnerChip name={bet.owner} />
               </div>
               <div className="gos-bet__dials">
@@ -185,7 +191,12 @@ export default function BetsPage() {
                 </span>
                 <Spark points={bet.spark} />
               </div>
-              <span className="gos-bet__metric">moves: {bet.metric}</span>
+              <span className="gos-bet__metric">
+                moves: {bet.metric}
+                {bet.currentValue && status === "live" && (
+                  <span className="gos-bet__now"> · now {bet.currentValue}</span>
+                )}
+              </span>
             </div>
           );
         })}
@@ -202,9 +213,13 @@ export default function BetsPage() {
               </button>
             </div>
             <div className="gos-detail__row">
-              <span className={`gos-status gos-status--${statusOf(openBet)}`}>
-                {STATUS_LABEL[statusOf(openBet)]}
-              </span>
+              {openBet.unranked ? (
+                <span className="gos-status gos-status--gate">Gate</span>
+              ) : (
+                <span className={`gos-status gos-status--${statusOf(openBet)}`}>
+                  {STATUS_LABEL[statusOf(openBet)]}
+                </span>
+              )}
               <OwnerChip name={openBet.owner} />
               {openBet.unranked ? (
                 <span className="gos-chip gos-unranked-tag">{openBet.unrankedLabel}</span>
@@ -226,8 +241,12 @@ export default function BetsPage() {
                     <span className="gos-auditfeed__k">leads created</span>
                   </span>
                   <span className="gos-auditfeed__cell">
+                    <span className="gos-auditfeed__v">{AUDIT_FEED.fastTracked}</span>
+                    <span className="gos-auditfeed__k">fast-tracked</span>
+                  </span>
+                  <span className="gos-auditfeed__cell">
                     <span className="gos-auditfeed__v">{moneyK(AUDIT_FEED.pipelineAttributed)}</span>
-                    <span className="gos-auditfeed__k">pipeline attributed</span>
+                    <span className="gos-auditfeed__k">pipeline attributed MTD</span>
                   </span>
                 </div>
               </>

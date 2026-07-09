@@ -45,8 +45,8 @@ export const CHANNELS: Channel[] = [
   {
     id: "audit",
     label: "Audit tool",
-    meetings: 11,
-    meetingsLastMonth: 7,
+    meetings: 7,
+    meetingsLastMonth: 5,
     defaultSpend: 1400,
     note: "bet 1 — every run writes context to HubSpot first",
   },
@@ -63,7 +63,7 @@ export const CHANNELS: Channel[] = [
     label: "Lifecycle",
     meetings: 6,
     meetingsLastMonth: 4,
-    defaultSpend: 900,
+    defaultSpend: 1450,
     note: "expansion plays triggered off product data",
   },
   {
@@ -87,7 +87,7 @@ export const PIPELINE = {
   lastMonthDeals: 25,
   expansionLastMonth: 73_000,
   winRatePct: 24,
-  salesCycleDays: 38,
+  salesCycleDays: 48,
 };
 
 // ---------------------------------------------------------------- audit bet feed
@@ -96,8 +96,9 @@ export const PIPELINE = {
 export const AUDIT_FEED = {
   runsThisWeek: 27,
   leadsCreated: 19,
+  fastTracked: 8, // score > 70 && volume > 3,000 routing rule
   pipelineAttributed: 168_000,
-  meetingsThisMonth: 11, // mirrors CHANNELS.audit
+  meetingsThisMonth: 7, // mirrors CHANNELS.audit
 };
 
 // ---------------------------------------------------------------- bets
@@ -120,6 +121,8 @@ export interface Bet {
   costToRun: CostToRun;
   categoryFit: 1 | 2 | 3 | 4 | 5;
   defaultStatus: BetStatus;
+  /** The metric it moves, as a live number (shown on Live bets). */
+  currentValue?: string;
   /** Outside the ranked list — priced, not planned. */
   unranked?: boolean;
   unrankedLabel?: string;
@@ -142,6 +145,7 @@ export const BETS: Bet[] = [
     nextAction: "Ship the Gorgias one-click connect path; watch run→meeting rate weekly.",
     owner: "Lucian",
     metric: "Meetings from audit runs",
+    currentValue: "7 MTD · $200/meeting",
     compounds: true,
     timeToSignalWeeks: 2,
     costToRun: "low",
@@ -162,6 +166,7 @@ export const BETS: Bet[] = [
     nextAction: "Sequence the next cohort: 22 accounts above 70% Support automation, Shopping pitch.",
     owner: "Dana",
     metric: "Expansion pipeline $",
+    currentValue: "$96K MTD ▲32%",
     compounds: true,
     timeToSignalWeeks: 3,
     costToRun: "low",
@@ -182,6 +187,7 @@ export const BETS: Bet[] = [
     nextAction: "Polish this week's draft (the Verabloom pump-defect pattern) and ship with outbound attached.",
     owner: "Alex",
     metric: "Reply rate on story-led lines",
+    currentValue: "3.4% vs 1.7% generic",
     compounds: true,
     timeToSignalWeeks: 2,
     costToRun: "low",
@@ -254,7 +260,7 @@ export const BETS: Bet[] = [
     whatFull:
       "The product team ships constantly; almost none of it reaches the market as a moment. Every meaningful ship gets the launch treatment by default: a story angle from the signal repo, a founder post, a lifecycle touch to affected customers, and an outbound line for prospects it unblocks. Nothing ships naked.",
     why:
-      "The cadence already exists — we're paying for the ships and pocketing none of the attention. Launch muscle also compounds into the AEO surface: every launch page is a citable artifact.",
+      "The cadence already exists — we're paying for the ships and pocketing none of the attention. Launch muscle also feeds the AEO surface: every launch page is a citable artifact. Scored compounds: no, on purpose — a launch is a moment, not an asset that accrues on its own. The honest score is the framework having teeth.",
     killCriteria:
       "Kill if three consecutive launches produce no measurable signup or meeting bump.",
     nextAction: "Backfill the launch kit for the last two unlaunched ships; measure the delta.",
@@ -345,6 +351,8 @@ export interface LoopAgent {
   name: string;
   line: string;
   status: "running" | "attention";
+  /** The one-line reason, when status is attention. */
+  note?: string;
 }
 
 export interface LoopStage {
@@ -370,7 +378,8 @@ export const LOOP: LoopStage[] = [
     agents: [
       { name: "Sales intelligence agent", line: "reads every call, extracts objections + language that moves deals", status: "running" },
       { name: "Memory miner", line: "voice-of-customer across 130 brands, with permission", status: "running" },
-      { name: "Review & community watcher", line: "reviews, threads, win/loss notes into the repo", status: "running" },
+      { name: "Review & community watcher", line: "reviews, threads, win/loss notes into the repo", status: "attention", note: "G2 re-auth needed" },
+      { name: "Audit intake", line: "every audit run adds queue patterns + benchmark rows to the repo", status: "running" },
     ],
   },
   {
@@ -410,12 +419,13 @@ export const LOOP: LoopStage[] = [
     health: [
       { label: "sends this week", value: "1,840", ok: true },
       { label: "replies", value: "43 (2.3%)", ok: true },
+      { label: "story-led / generic reply", value: "3.4% / 1.7%", ok: true },
       { label: "promoted to paid", value: "2", ok: true },
     ],
     agents: [
       { name: "Clay ICP agent", line: "lists segmented + enriched: Shopify, helpdesk, volume signals", status: "running" },
       { name: "Personalization agent", line: "first lines at scale into the sending infrastructure", status: "running" },
-      { name: "Sender infra monitor", line: "warmed, rotated, watched — deliverability is a metric", status: "attention" },
+      { name: "Sender infra monitor", line: "warmed, rotated, watched — deliverability is a metric", status: "attention", note: "deliverability dipped 0.4% — pool rotating" },
     ],
   },
   {
@@ -443,7 +453,7 @@ export const LOOP: LoopStage[] = [
     ],
     agents: [
       { name: "Memory intake", line: "every new brand starts generating voice-of-customer on day one", status: "running" },
-      { name: "Benchmark accretion", line: "every audit run grows the dataset the report is built from", status: "attention" },
+      { name: "Benchmark accretion", line: "every audit run grows the dataset the report is built from", status: "attention", note: "reruns below target — 4 vs 6" },
     ],
   },
 ];
@@ -460,13 +470,13 @@ export interface TrackedMetric {
 export const TRACKED: TrackedMetric[] = [
   {
     name: "Qualified meetings booked, by source",
-    value: "46 this month",
+    value: "42 this month",
     why: "The leading indicator — everything upstream exists to move this.",
     cadence: "Weekly",
   },
   {
     name: "Cost per qualified meeting, by channel",
-    value: "$464 blended · per-channel below",
+    value: "$521 blended · per-channel on This Week",
     why: "Spend follows return; the blend hides which channel earns it.",
     cadence: "Weekly",
   },
@@ -478,14 +488,14 @@ export const TRACKED: TrackedMetric[] = [
   },
   {
     name: "Win rate and sales cycle length",
-    value: "24% · 38 days",
+    value: "24% · 48 days",
     why: "If these degrade while meetings climb, the funnel is lying — wrong message shipping.",
     cadence: "Monthly",
   },
   {
     name: "CAC payback, by channel",
-    value: "9.8 months blended",
-    why: "The ceiling on how fast we're allowed to grow each lane.",
+    value: "9.8 mo blended — fully loaded, incl. team",
+    why: "Media-only flatters to ~2 months; the loaded number is the ceiling on how fast each lane may grow.",
     cadence: "Monthly",
   },
 ];
