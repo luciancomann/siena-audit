@@ -3,10 +3,11 @@
 /**
  * Growth OS chrome: fixed left sidebar (five modules + a pointer back to
  * the audit tool), top header with the quiet "runs inside Siena OS" label
- * and the user chip. Dense, no marketing.
+ * and the user chip. Built on the DS Avatar marks; dense, no marketing.
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Avatar } from "@siena/design-system";
 
 const NAV = [
   { href: "/growth-os", label: "This Week", key: "week" },
@@ -22,7 +23,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
     <div className="gos">
       <aside className="gos-side">
         <div className="gos-side__brand">
-          <span className="gos-side__mark" aria-hidden="true" />
+          <Avatar variant="agent" size="sm" className="gos-side__mark" />
           Growth OS
         </div>
         <nav className="gos-side__nav" aria-label="Growth OS modules">
@@ -46,7 +47,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <Link href="/cx-audit" className="gos-side__item gos-side__item--ext">
             CX Audit tool ↗
           </Link>
-          <span className="gos-side__wip">WIP rule: max 3 bets live</span>
+          <span className="gos-side__wip sds-mono-label">WIP rule: max 3 bets live</span>
         </div>
       </aside>
 
@@ -57,9 +58,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <span className="gos-head__quiet">runs inside Siena OS</span>
           </div>
           <span className="gos-user">
-            <span className="gos-user__dot" aria-hidden="true">
-              L
-            </span>
+            <Avatar initials="L" size="sm" className="gos-user__avatar" />
             Lucian · Growth
           </span>
         </header>

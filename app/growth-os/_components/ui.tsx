@@ -1,6 +1,8 @@
 /**
- * Growth OS shared atoms — dense, mono-labeled, token-colored. Server-safe.
+ * Growth OS shared atoms — thin wrappers over the Siena Design System
+ * (StatCard, Badge, Avatar), densified for ops via gos-* modifier classes.
  */
+import { Avatar, Badge, StatCard as SdsStatCard } from "@siena/design-system";
 import type { Efficiency } from "../_lib/data-types";
 
 export function StatCard({
@@ -19,8 +21,7 @@ export function StatCard({
   const good = trendGoodWhenUp ? trendPct >= 0 : trendPct <= 0;
   return (
     <div className="gos-stat">
-      <span className="gos-stat__label">{label}</span>
-      <span className="gos-stat__value">{value}</span>
+      <SdsStatCard value={value} label={label} size="md" divider />
       <span className="gos-stat__foot">
         {sub && <span className="gos-stat__sub">{sub}</span>}
         <span className={`gos-trend ${good ? "gos-trend--good" : "gos-trend--bad"}`}>
@@ -34,9 +35,7 @@ export function StatCard({
 export function OwnerChip({ name }: { name: string }) {
   return (
     <span className="gos-owner">
-      <span className="gos-owner__dot" aria-hidden="true">
-        {name.charAt(0)}
-      </span>
+      <Avatar initials={name} size="sm" className="gos-owner__avatar" />
       {name}
     </span>
   );
@@ -45,7 +44,11 @@ export function OwnerChip({ name }: { name: string }) {
 export function EffChip({ level }: { level: Efficiency }) {
   const label =
     level === "efficient" ? "efficient" : level === "watch" ? "watch" : "expensive";
-  return <span className={`gos-eff gos-eff--${level}`}>{label}</span>;
+  return (
+    <Badge variant="outline" className={`gos-eff gos-eff--${level}`}>
+      {label}
+    </Badge>
+  );
 }
 
 export function TrendGlyph({ trend }: { trend: "up" | "down" | "flat" }) {
@@ -75,7 +78,7 @@ export function Spark({ points, height = 26 }: { points: number[]; height?: numb
 export function SectionTitle({ title, note }: { title: string; note?: string }) {
   return (
     <div className="gos-sectiontitle">
-      <h2>{title}</h2>
+      <h2 className="sds-mono-label">{title}</h2>
       {note && <span>{note}</span>}
     </div>
   );

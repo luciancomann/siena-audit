@@ -81,8 +81,10 @@ A free-audit lead magnet built on `@siena/design-system`: upload a helpdesk expo
 
 ## Growth OS (`/growth-os`)
 
-Internal growth-operations app on the same Siena tokens in a denser,
-utilitarian variant. Five modules behind a left sidebar: **This Week**
+Internal growth-operations app built on `@siena/design-system` (Card,
+StatCard, Badge, Avatar, Input, PersonaTabs, Button) with a thin `gos-*`
+density layer on top — the ops-tool variant of the same system the CX
+Audit uses. Five modules behind a left sidebar: **This Week**
 (stat cards, meetings-by-source with editable spend that recomputes cost
 per meeting, ship lists, and the reporting agent's auto-written digest),
 **Bets** (the ranked pipeline with composite scoring, drag reorder, a

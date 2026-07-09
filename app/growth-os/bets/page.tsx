@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { AUDIT_FEED, BETS, MAX_LIVE, type Bet, type BetStatus } from "../_lib/data";
 import { compositeScore, liveCount, moneyK, orderedBets } from "../_lib/compute";
 import { useGrowthState } from "../_lib/state";
+import { Badge, Button, Card } from "@siena/design-system";
 import { OwnerChip, SectionTitle, Spark } from "../_components/ui";
 
 const STATUS_CYCLE: BetStatus[] = ["queued", "live", "shipped", "killed"];
@@ -97,11 +98,15 @@ export default function BetsPage() {
           </span>
           {live} of {MAX_LIVE} live
         </span>
-        {toast && <span className="gos-wiptoast" role="alert">{toast}</span>}
+        {toast && (
+          <Badge variant="filled" className="gos-wiptoast">
+            <span role="alert">{toast}</span>
+          </Badge>
+        )}
         {state.betOrder && (
-          <button className="gos-resetorder" onClick={() => update({ betOrder: null })}>
+          <Button variant="secondary" size="sm" onClick={() => update({ betOrder: null })}>
             Reset to score order
-          </button>
+          </Button>
         )}
       </div>
 
@@ -110,8 +115,11 @@ export default function BetsPage() {
           const status = statusOf(bet);
           const score = compositeScore(bet);
           return (
-            <div
+            <Card
               key={bet.id}
+              tone="white"
+              radius="md"
+              padding="none"
               className={`gos-bet${bet.unranked ? " gos-bet--unranked" : ""}${
                 dragId === bet.id ? " gos-bet--dragging" : ""
               }${dropId === bet.id && dragId !== bet.id ? " gos-bet--dropover" : ""}`}
@@ -144,7 +152,9 @@ export default function BetsPage() {
                 <span className="gos-bet__name">
                   {bet.name}
                   {bet.unranked ? (
-                    <span className="gos-chip gos-unranked-tag">{bet.unrankedLabel}</span>
+                    <Badge variant="filled" className="gos-unranked-tag">
+                      {bet.unrankedLabel}
+                    </Badge>
                   ) : (
                     <span className="gos-bet__score">score {score}</span>
                   )}
@@ -153,12 +163,12 @@ export default function BetsPage() {
               </div>
               <div className="gos-bet__mid">
                 {bet.unranked ? (
-                  <span className="gos-status gos-status--gate" title="Priced option — gated, not queued for a WIP slot">
+                  <Badge variant="outline" className="gos-status gos-status--gate">
                     Gate
-                  </span>
+                  </Badge>
                 ) : (
                   <button
-                    className={`gos-status gos-status--${status}`}
+                    className={`sds-badge sds-badge--outline gos-status gos-status--${status}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       cycleStatus(bet);
@@ -197,7 +207,7 @@ export default function BetsPage() {
                   <span className="gos-bet__now"> · now {bet.currentValue}</span>
                 )}
               </span>
-            </div>
+            </Card>
           );
         })}
       </div>
@@ -208,21 +218,28 @@ export default function BetsPage() {
           <aside className="gos-detail" aria-label={`${openBet.name} detail`}>
             <div className="gos-detail__head">
               <h2>{openBet.name}</h2>
-              <button className="gos-detail__close" onClick={() => setOpenId(null)}>
-                Esc
-              </button>
+              <Button variant="secondary" size="sm" onClick={() => setOpenId(null)}>
+                Close
+              </Button>
             </div>
             <div className="gos-detail__row">
               {openBet.unranked ? (
-                <span className="gos-status gos-status--gate">Gate</span>
+                <Badge variant="outline" className="gos-status gos-status--gate">
+                  Gate
+                </Badge>
               ) : (
-                <span className={`gos-status gos-status--${statusOf(openBet)}`}>
+                <Badge
+                  variant="outline"
+                  className={`gos-status gos-status--${statusOf(openBet)}`}
+                >
                   {STATUS_LABEL[statusOf(openBet)]}
-                </span>
+                </Badge>
               )}
               <OwnerChip name={openBet.owner} />
               {openBet.unranked ? (
-                <span className="gos-chip gos-unranked-tag">{openBet.unrankedLabel}</span>
+                <Badge variant="filled" className="gos-unranked-tag">
+                  {openBet.unrankedLabel}
+                </Badge>
               ) : (
                 <span className="gos-bet__score">composite {compositeScore(openBet)}</span>
               )}

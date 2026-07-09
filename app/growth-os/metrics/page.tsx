@@ -3,6 +3,7 @@
  * refuse to track. The exclusion panel is a product decision and renders
  * like one. Server component; nothing here needs state.
  */
+import { Badge, Card } from "@siena/design-system";
 import { NOT_TRACKED, TRACKED } from "../_lib/data";
 
 export const metadata = { title: "Metrics · Growth OS" };
@@ -19,7 +20,7 @@ export default function MetricsPage() {
       </div>
 
       <div className="gos-metrics">
-        <div className="gos-panel">
+        <Card tone="white" radius="md" padding="none" className="gos-panel">
           <h2>What we track</h2>
           {TRACKED.map((m) => (
             <div key={m.name} className="gos-metric">
@@ -31,10 +32,12 @@ export default function MetricsPage() {
               <span className="gos-metric__cadence">reviewed {m.cadence}</span>
             </div>
           ))}
-        </div>
+        </Card>
 
-        <div className="gos-panel gos-excluded">
-          <span className="gos-excluded__tag">Not tracked, on purpose</span>
+        <Card tone="sand" radius="md" padding="none" className="gos-panel gos-excluded">
+          <Badge variant="filled" className="gos-excluded__tag">
+            Not tracked, on purpose
+          </Badge>
           {NOT_TRACKED.map((m) => (
             <div key={m.name} className="gos-metric">
               <div className="gos-metric__top">
@@ -46,7 +49,7 @@ export default function MetricsPage() {
           <p className="gos-excluded__note">
             If a number shows up here twice in board decks, it moves left or it dies.
           </p>
-        </div>
+        </Card>
       </div>
     </>
   );

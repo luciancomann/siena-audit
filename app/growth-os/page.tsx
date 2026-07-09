@@ -16,6 +16,7 @@ import {
   trendPct,
   writeDigest,
 } from "./_lib/compute";
+import { Badge, Card, Input } from "@siena/design-system";
 import { useGrowthState } from "./_lib/state";
 import { EffChip, OwnerChip, SectionTitle, StatCard } from "./_components/ui";
 
@@ -63,7 +64,7 @@ export default function ThisWeekPage() {
       </div>
 
       <SectionTitle title="Meetings by source" note="spend is editable — cost per meeting recomputes" />
-      <div className="gos-panel">
+      <Card tone="white" radius="md" padding="none" className="gos-panel">
         <table className="gos-table">
           <thead>
             <tr>
@@ -92,12 +93,11 @@ export default function ThisWeekPage() {
                     </span>
                   </td>
                   <td>
-                    <input
-                      className="gos-spendinput"
+                    <Input
+                      className="gos-spendfield"
                       type="number"
-                      min={0}
                       aria-label={`${c.label} spend this month`}
-                      value={spend}
+                      value={String(spend)}
                       onChange={(e) => {
                         const v = Math.max(0, Math.min(1_000_000, Number(e.target.value) || 0));
                         update((prev) => ({ spend: { ...prev.spend, [c.id]: v } }));
@@ -127,7 +127,7 @@ export default function ThisWeekPage() {
             </tr>
           </tbody>
         </table>
-      </div>
+      </Card>
 
       <SectionTitle title="This week" note="one line each, owners attached" />
       <div className="gos-week">
@@ -167,9 +167,11 @@ export default function ThisWeekPage() {
       </div>
 
       <SectionTitle title="The digest" note="reporting agent output, rendered" />
-      <div className="gos-panel gos-digest">
+      <Card tone="sand" radius="md" padding="none" className="gos-panel gos-digest">
         <div className="gos-digest__meta">
-          <span className="gos-digest__slack">Posted to #growth · Monday 9:00</span>
+          <Badge variant="filled" className="gos-digest__slack">
+            Posted to #growth · Monday 9:00
+          </Badge>
           <span>
             audit feed: {AUDIT_FEED.runsThisWeek} runs · {AUDIT_FEED.leadsCreated} leads ·{" "}
             {moneyK(AUDIT_FEED.pipelineAttributed)} attributed · {fmt(AUDIT_FEED.meetingsThisMonth)}{" "}
@@ -177,7 +179,7 @@ export default function ThisWeekPage() {
           </span>
         </div>
         <p>{writeDigest(state.spend)}</p>
-      </div>
+      </Card>
     </>
   );
 }

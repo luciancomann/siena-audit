@@ -7,13 +7,15 @@
  */
 import Link from "next/link";
 import { useState } from "react";
+import { Badge, Card, PersonaTabs } from "@siena/design-system";
 import { COMPETITORS, OBJECTIONS, PERSONA_LANGUAGE } from "../_lib/data";
 import { SectionTitle, TrendGlyph } from "../_components/ui";
 
 const PERSONAS = Object.keys(PERSONA_LANGUAGE);
 
 export default function SignalsPage() {
-  const [persona, setPersona] = useState<string>(PERSONAS[0]);
+  const [personaIndex, setPersonaIndex] = useState(0);
+  const persona = PERSONAS[personaIndex];
 
   return (
     <>
@@ -28,12 +30,12 @@ export default function SignalsPage() {
       <div className="gos-signals">
         <div>
           <SectionTitle title="Objections, ranked" note="frequency this month" />
-          <div className="gos-panel" style={{ marginTop: 14 }}>
+          <Card tone="white" radius="md" padding="none" className="gos-panel" style={{ marginTop: 14 }}>
             {OBJECTIONS.map((o) => (
               <div key={o.text} className="gos-sig">
                 <div className="gos-sig__top">
                   <span className="gos-sig__text">{o.text}</span>
-                  <span className="gos-count">{o.count}</span>
+                  <Badge variant="outline" className="gos-count">{o.count}</Badge>
                   <TrendGlyph trend={o.trend} />
                 </div>
                 <div className="gos-sig__meta">
@@ -48,26 +50,20 @@ export default function SignalsPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </Card>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
           <div>
             <SectionTitle title="Winning language" note="per persona, from the field" />
-            <div className="gos-panel" style={{ marginTop: 14 }}>
-              <div className="gos-tabs" role="tablist" aria-label="Persona">
-                {PERSONAS.map((p) => (
-                  <button
-                    key={p}
-                    role="tab"
-                    aria-selected={persona === p}
-                    className={`gos-tab${persona === p ? " gos-tab--active" : ""}`}
-                    onClick={() => setPersona(p)}
-                  >
-                    {p}
-                  </button>
-                ))}
-              </div>
+            <Card tone="white" radius="md" padding="none" className="gos-panel" style={{ marginTop: 14 }}>
+              <PersonaTabs
+                className="gos-personatabs"
+                label="Persona"
+                personas={PERSONAS.map((name) => ({ name }))}
+                activeIndex={personaIndex}
+                onChange={setPersonaIndex}
+              />
               {PERSONA_LANGUAGE[persona].map((ph) => (
                 <div key={ph.phrase} className="gos-sig">
                   <div className="gos-sig__top">
@@ -81,17 +77,17 @@ export default function SignalsPage() {
                   </div>
                 </div>
               ))}
-            </div>
+            </Card>
           </div>
 
           <div>
             <SectionTitle title="Competitor mentions" note="this month · up = more pressure" />
-            <div className="gos-panel" style={{ marginTop: 14 }}>
+            <Card tone="white" radius="md" padding="none" className="gos-panel" style={{ marginTop: 14 }}>
               {COMPETITORS.map((c) => (
                 <div key={c.name} className="gos-sig">
                   <div className="gos-sig__top">
                     <span className="gos-sig__text">{c.name}</span>
-                    <span className="gos-count">{c.mentions}</span>
+                    <Badge variant="outline" className="gos-count">{c.mentions}</Badge>
                     <TrendGlyph trend={c.trend} />
                   </div>
                   <span className="gos-phrase__note">{c.note}</span>
@@ -102,7 +98,7 @@ export default function SignalsPage() {
                   </div>
                 </div>
               ))}
-            </div>
+            </Card>
           </div>
         </div>
       </div>

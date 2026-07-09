@@ -6,6 +6,7 @@
  * with status dots). Answers "how does growth actually run day to day."
  */
 import { useState } from "react";
+import { Badge, Card } from "@siena/design-system";
 import { LOOP } from "../_lib/data";
 import { SectionTitle } from "../_components/ui";
 
@@ -26,10 +27,21 @@ export default function LoopPage() {
 
       <div className="gos-loop">
         {LOOP.map((s, i) => (
-          <button
+          <Card
             key={s.id}
+            tone="white"
+            radius="md"
+            padding="none"
             className={`gos-stage${open === s.id ? " gos-stage--open" : ""}`}
             onClick={() => setOpen(open === s.id ? null : s.id)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setOpen(open === s.id ? null : s.id);
+              }
+            }}
             aria-expanded={open === s.id}
           >
             {i < LOOP.length - 1 && (
@@ -39,7 +51,11 @@ export default function LoopPage() {
             )}
             <span className="gos-stage__name">
               {s.name}
-              {s.human && <span className="gos-stage__human">human</span>}
+              {s.human && (
+                <Badge variant="outline" className="gos-stage__human">
+                  human
+                </Badge>
+              )}
             </span>
             <span className="gos-stage__health">
               {s.health.map((h) => (
@@ -57,7 +73,7 @@ export default function LoopPage() {
                 <b>out</b> {s.outputs}
               </span>
             </span>
-          </button>
+          </Card>
         ))}
       </div>
 
@@ -67,7 +83,7 @@ export default function LoopPage() {
             title={`${stage.name} — machinery`}
             note={stage.human ? "deliberately human — the agent surfaces, we decide" : "agents, one line each"}
           />
-          <div className="gos-panel gos-loopdetail">
+          <Card tone="white" radius="md" padding="none" className="gos-panel gos-loopdetail">
             <ul className="gos-agents">
               {stage.agents.map((a) => (
                 <li key={a.name} className="gos-agent">
@@ -80,7 +96,7 @@ export default function LoopPage() {
                 </li>
               ))}
             </ul>
-          </div>
+          </Card>
         </>
       )}
     </>
