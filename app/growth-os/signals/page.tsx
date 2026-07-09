@@ -7,9 +7,9 @@
  */
 import Link from "next/link";
 import { useState } from "react";
-import { Badge, Card, PersonaTabs } from "@siena/design-system";
+import { Badge, Card, PersonaTabs, SectionHeading } from "@siena/design-system";
 import { COMPETITORS, OBJECTIONS, PERSONA_LANGUAGE } from "../_lib/data";
-import { SectionTitle, TrendGlyph } from "../_components/ui";
+import { TrendGlyph } from "../_components/ui";
 
 const PERSONAS = Object.keys(PERSONA_LANGUAGE);
 
@@ -19,18 +19,22 @@ export default function SignalsPage() {
 
   return (
     <>
-      <div>
-        <h1 className="gos-pagetitle">Signals</h1>
-        <p className="gos-pagesub">
-          The living insight repo — refreshed by the signal agents, read before anything
-          ships. Counts are this month; arrows are the trend.
-        </p>
+      <div className="gos-pagehead">
+        <SectionHeading
+          as="h1"
+          align="left"
+          eyebrow="Growth OS · The repo"
+          title="Signals"
+          subtitle="The living insight repo — refreshed by the signal agents, read before anything ships. Counts are this month; arrows are the trend."
+        />
       </div>
 
       <div className="gos-signals">
         <div>
-          <SectionTitle title="Objections, ranked" note="frequency this month" />
-          <Card tone="white" radius="md" padding="none" className="gos-panel" style={{ marginTop: 14 }}>
+          <div className="gos-sectionhead" style={{ marginBottom: 16 }}>
+            <SectionHeading as="h2" align="left" eyebrow="01 · Objections" title="Ranked by frequency" />
+          </div>
+          <Card tone="white" radius="lg" padding="none" className="gos-panel">
             {OBJECTIONS.map((o) => (
               <div key={o.text} className="gos-sig">
                 <div className="gos-sig__top">
@@ -53,10 +57,12 @@ export default function SignalsPage() {
           </Card>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
+        <div className="gos-signals__stack">
           <div>
-            <SectionTitle title="Winning language" note="per persona, from the field" />
-            <Card tone="white" radius="md" padding="none" className="gos-panel" style={{ marginTop: 14 }}>
+            <div className="gos-sectionhead" style={{ marginBottom: 16 }}>
+              <SectionHeading as="h2" align="left" eyebrow="02 · Language" title="What wins, per persona" />
+            </div>
+            <Card tone="white" radius="lg" padding="none" className="gos-panel">
               <PersonaTabs
                 className="gos-personatabs"
                 label="Persona"
@@ -81,8 +87,10 @@ export default function SignalsPage() {
           </div>
 
           <div>
-            <SectionTitle title="Competitor mentions" note="this month · up = more pressure" />
-            <Card tone="white" radius="md" padding="none" className="gos-panel" style={{ marginTop: 14 }}>
+            <div className="gos-sectionhead" style={{ marginBottom: 16 }}>
+              <SectionHeading as="h2" align="left" eyebrow="03 · Competitors" title="Named this month" />
+            </div>
+            <Card tone="white" radius="lg" padding="none" className="gos-panel">
               {COMPETITORS.map((c) => (
                 <div key={c.name} className="gos-sig">
                   <div className="gos-sig__top">

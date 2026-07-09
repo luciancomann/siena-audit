@@ -11,8 +11,8 @@ import { useEffect, useRef, useState } from "react";
 import { AUDIT_FEED, BETS, MAX_LIVE, type Bet, type BetStatus } from "../_lib/data";
 import { compositeScore, liveCount, moneyK, orderedBets } from "../_lib/compute";
 import { useGrowthState } from "../_lib/state";
-import { Badge, Button, Card } from "@siena/design-system";
-import { OwnerChip, SectionTitle, Spark } from "../_components/ui";
+import { Badge, Button, Card, SectionHeading } from "@siena/design-system";
+import { OwnerChip, Spark } from "../_components/ui";
 
 const STATUS_CYCLE: BetStatus[] = ["queued", "live", "shipped", "killed"];
 const STATUS_LABEL: Record<BetStatus, string> = {
@@ -77,12 +77,14 @@ export default function BetsPage() {
 
   return (
     <>
-      <div>
-        <h1 className="gos-pagetitle">Bets</h1>
-        <p className="gos-pagesub">
-          Ranked by composite: fit×2 + compounds(3) + cost(0–2) + speed(8−weeks). Drag to
-          overrule the math — it persists. Click a row for the full case.
-        </p>
+      <div className="gos-pagehead">
+        <SectionHeading
+          as="h1"
+          align="left"
+          eyebrow="Growth OS · The portfolio"
+          title="Bets"
+          subtitle="Ranked by composite: fit×2 + compounds(3) + cost(0–2) + speed(8−weeks). Drag to overrule the math — it persists. Click a row for the full case."
+        />
       </div>
 
       <div className="gos-betbar">
@@ -118,7 +120,7 @@ export default function BetsPage() {
             <Card
               key={bet.id}
               tone="white"
-              radius="md"
+              radius="lg"
               padding="none"
               className={`gos-bet${bet.unranked ? " gos-bet--unranked" : ""}${
                 dragId === bet.id ? " gos-bet--dragging" : ""

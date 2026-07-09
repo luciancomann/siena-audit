@@ -6,9 +6,8 @@
  * with status dots). Answers "how does growth actually run day to day."
  */
 import { useState } from "react";
-import { Badge, Card } from "@siena/design-system";
+import { Badge, Card, SectionHeading } from "@siena/design-system";
 import { LOOP } from "../_lib/data";
-import { SectionTitle } from "../_components/ui";
 
 export default function LoopPage() {
   const [open, setOpen] = useState<string | null>("signal");
@@ -16,13 +15,14 @@ export default function LoopPage() {
 
   return (
     <>
-      <div>
-        <h1 className="gos-pagetitle">The loop</h1>
-        <p className="gos-pagesub">
-          Signal → Positioning → Content → Distribution → Pipeline → Compounding. Agents
-          where judgment isn&rsquo;t needed, humans where it is. Click a stage for its
-          machinery.
-        </p>
+      <div className="gos-pagehead">
+        <SectionHeading
+          as="h1"
+          align="left"
+          eyebrow="Growth OS · The engine"
+          title="The loop"
+          subtitle="Signal → Positioning → Content → Distribution → Pipeline → Compounding. Agents where judgment isn't needed, humans where it is. Click a stage for its machinery."
+        />
       </div>
 
       <div className="gos-loop">
@@ -30,7 +30,7 @@ export default function LoopPage() {
           <Card
             key={s.id}
             tone="white"
-            radius="md"
+            radius="lg"
             padding="none"
             className={`gos-stage${open === s.id ? " gos-stage--open" : ""}`}
             onClick={() => setOpen(open === s.id ? null : s.id)}
@@ -79,11 +79,20 @@ export default function LoopPage() {
 
       {stage && (
         <>
-          <SectionTitle
-            title={`${stage.name} — machinery`}
-            note={stage.human ? "deliberately human — the agent surfaces, we decide" : "agents, one line each"}
-          />
-          <Card tone="white" radius="md" padding="none" className="gos-panel gos-loopdetail">
+          <div className="gos-sectionhead">
+            <SectionHeading
+              as="h2"
+              align="left"
+              eyebrow={`Stage · ${stage.name}`}
+              title="The machinery"
+              subtitle={
+                stage.human
+                  ? "Deliberately human — the agent surfaces, we decide."
+                  : "Agents, one line each. Amber means someone looks today."
+              }
+            />
+          </div>
+          <Card tone="white" radius="lg" padding="none" className="gos-panel gos-loopdetail">
             <ul className="gos-agents">
               {stage.agents.map((a) => (
                 <li key={a.name} className="gos-agent">

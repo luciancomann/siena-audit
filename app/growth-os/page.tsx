@@ -16,9 +16,9 @@ import {
   trendPct,
   writeDigest,
 } from "./_lib/compute";
-import { Badge, Card, Input } from "@siena/design-system";
+import { Badge, Card, Input, SectionHeading } from "@siena/design-system";
 import { useGrowthState } from "./_lib/state";
-import { EffChip, OwnerChip, SectionTitle, StatCard } from "./_components/ui";
+import { EffChip, OwnerChip, StatCard } from "./_components/ui";
 
 export default function ThisWeekPage() {
   const [state, update] = useGrowthState();
@@ -27,19 +27,21 @@ export default function ThisWeekPage() {
 
   return (
     <>
-      <div>
-        <h1 className="gos-pagetitle">This week</h1>
-        <p className="gos-pagesub">
-          Week 28 · numbers are month-to-date, trends vs last month. The digest at the
-          bottom is what #growth reads.
-        </p>
+      <div className="gos-pagehead">
+        <SectionHeading
+          as="h1"
+          align="left"
+          eyebrow="Growth OS · Week 28"
+          title="This week"
+          subtitle="Numbers are month-to-date, trends vs last month. The digest at the bottom is what #growth reads."
+        />
       </div>
 
       <div className="gos-statrow">
         <StatCard
           label="Qualified pipeline created"
-          value={`${moneyK(pipeTotal)} · ${PIPELINE.newDeals + PIPELINE.expansionDeals}`}
-          sub={`new ${moneyK(PIPELINE.newValue)} (${PIPELINE.newDeals}) · expansion ${moneyK(PIPELINE.expansionValue)} (${PIPELINE.expansionDeals})`}
+          value={moneyK(pipeTotal)}
+          sub={`${PIPELINE.newDeals + PIPELINE.expansionDeals} deals — new ${moneyK(PIPELINE.newValue)} (${PIPELINE.newDeals}) · expansion ${moneyK(PIPELINE.expansionValue)} (${PIPELINE.expansionDeals})`}
           trendPct={trendPct(pipeTotal, PIPELINE.lastMonthTotal)}
         />
         <StatCard
@@ -63,8 +65,16 @@ export default function ThisWeekPage() {
         />
       </div>
 
-      <SectionTitle title="Meetings by source" note="spend is editable — cost per meeting recomputes" />
-      <Card tone="white" radius="md" padding="none" className="gos-panel">
+      <div className="gos-sectionhead">
+        <SectionHeading
+          as="h2"
+          align="left"
+          eyebrow="01 · The channels"
+          title="Meetings by source"
+          subtitle="Spend is editable — cost per meeting recomputes as you type."
+        />
+      </div>
+      <Card tone="white" radius="lg" padding="none" className="gos-panel">
         <table className="gos-table">
           <thead>
             <tr>
@@ -129,10 +139,18 @@ export default function ThisWeekPage() {
         </table>
       </Card>
 
-      <SectionTitle title="This week" note="one line each, owners attached" />
+      <div className="gos-sectionhead">
+        <SectionHeading
+          as="h2"
+          align="left"
+          eyebrow="02 · The board"
+          title="Shipped, moving, dying"
+          subtitle="One line each, owners attached."
+        />
+      </div>
       <div className="gos-week">
-        <div className="gos-week__col">
-          <h3>Shipped</h3>
+        <Card tone="cream" radius="lg" padding="none" className="gos-week__col">
+          <h3 className="sds-mono-label">Shipped</h3>
           <ul className="gos-week__list">
             {THIS_WEEK.shipped.map((item) => (
               <li key={item.text} className="gos-week__item">
@@ -141,9 +159,9 @@ export default function ThisWeekPage() {
               </li>
             ))}
           </ul>
-        </div>
-        <div className="gos-week__col">
-          <h3>Moving</h3>
+        </Card>
+        <Card tone="cream" radius="lg" padding="none" className="gos-week__col">
+          <h3 className="sds-mono-label">Moving</h3>
           <ul className="gos-week__list">
             {THIS_WEEK.moving.map((item) => (
               <li key={item.text} className="gos-week__item">
@@ -152,9 +170,9 @@ export default function ThisWeekPage() {
               </li>
             ))}
           </ul>
-        </div>
-        <div className="gos-week__col gos-week__col--kill">
-          <h3>Kill candidates</h3>
+        </Card>
+        <Card tone="cream" radius="lg" padding="none" className="gos-week__col gos-week__col--kill">
+          <h3 className="sds-mono-label">Kill candidates</h3>
           <ul className="gos-week__list">
             {THIS_WEEK.kill.map((item) => (
               <li key={item.text} className="gos-week__item gos-week__item--kill">
@@ -163,11 +181,19 @@ export default function ThisWeekPage() {
               </li>
             ))}
           </ul>
-        </div>
+        </Card>
       </div>
 
-      <SectionTitle title="The digest" note="reporting agent output, rendered" />
-      <Card tone="sand" radius="md" padding="none" className="gos-panel gos-digest">
+      <div className="gos-sectionhead">
+        <SectionHeading
+          as="h2"
+          align="left"
+          eyebrow="03 · The digest"
+          title="What #growth reads"
+          subtitle="Reporting agent output, rendered from the numbers above."
+        />
+      </div>
+      <Card tone="sand" radius="lg" padding="none" className="gos-panel gos-digest">
         <div className="gos-digest__meta">
           <Badge variant="filled" className="gos-digest__slack">
             Posted to #growth · Monday 9:00

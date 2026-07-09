@@ -1,9 +1,12 @@
-/* Growth OS — the ops-tool variant of the Siena tokens. Dense, mono-labeled,
-   hairline rules, light theme only. Every color is an --sds-* token. */
+/* Growth OS — the Siena Design System, ops edition. Same language as the
+   CX Audit report: numbered mono eyebrows, display-serif titles, 64px stat
+   values on hairlines, generous 24px-radius surfaces on warm paper, the
+   dark ink card for the loud decision. growth-os.css only densifies and
+   arranges — every surface, chip, stat, tab, and avatar is the DS. */
 
 body {
   margin: 0;
-  background: var(--sds-sand-50);
+  background: var(--sds-sand-100);
   overflow-x: clip;
 }
 
@@ -11,21 +14,21 @@ body {
   display: flex;
   min-height: 100vh;
   font-family: var(--sds-font-sans);
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 14px;
+  line-height: 1.5;
   color: var(--sds-ink-900);
 }
 
 /* ------------------------------------------------------------- sidebar */
 .gos-side {
-  width: 208px;
+  width: 224px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 18px 12px;
+  gap: 26px;
+  padding: 22px 14px;
+  background: var(--sds-sand-150);
   border-right: 1px solid var(--sds-black-alpha-20);
-  background: var(--sds-sand-100);
   position: sticky;
   top: 0;
   height: 100vh;
@@ -35,10 +38,10 @@ body {
 .gos-side__brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 2px 8px;
+  gap: 10px;
+  padding: 2px 10px;
   font-family: var(--sds-font-display);
-  font-size: 18px;
+  font-size: 21px;
   letter-spacing: 0.01em;
 }
 
@@ -49,14 +52,14 @@ body {
 .gos-side__nav {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .gos-side__item {
   display: block;
-  padding: 7px 10px;
-  border-radius: 8px;
-  font-size: 13px;
+  padding: 9px 12px;
+  border-radius: var(--sds-radius-pill);
+  font-size: 14px;
   font-weight: 500;
   color: var(--sds-ink-600);
   text-decoration: none;
@@ -67,11 +70,7 @@ body {
   color: var(--sds-ink-900);
 }
 
-.gos-side__item--active {
-  background: var(--sds-ink-900);
-  color: var(--sds-sand-50);
-}
-
+.gos-side__item--active,
 .gos-side__item--active:hover {
   background: var(--sds-ink-900);
   color: var(--sds-sand-50);
@@ -81,20 +80,17 @@ body {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .gos-side__item--ext {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .gos-side__wip {
-  padding: 0 10px;
-  font-family: var(--sds-font-mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--sds-text-muted);
+  padding: 0 12px;
+  color: var(--sds-text-muted) !important;
+  font-size: 10px !important;
 }
 
 /* -------------------------------------------------------------- header */
@@ -110,9 +106,9 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 10px 22px;
+  padding: 12px 28px;
   border-bottom: 1px solid var(--sds-black-alpha-20);
-  background: var(--sds-sand-50);
+  background: var(--sds-sand-100);
   position: sticky;
   top: 0;
   z-index: 5;
@@ -121,130 +117,106 @@ body {
 .gos-head__left {
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 12px;
 }
 
 .gos-head__title {
-  font-weight: 600;
-  font-size: 14px;
+  font-family: var(--sds-font-display);
+  font-size: 17px;
 }
 
 .gos-head__quiet {
   font-family: var(--sds-font-mono);
   font-size: 11px;
   letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--sds-text-muted);
 }
 
 .gos-user {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 4px 10px 4px 5px;
+  gap: 8px;
+  padding: 5px 12px 5px 6px;
   border: 1px solid var(--sds-black-alpha-20);
   border-radius: var(--sds-radius-pill);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   background: var(--sds-white);
 }
 
 .gos-user__avatar,
 .gos-owner__avatar {
-  width: 20px !important;
-  height: 20px !important;
   flex-shrink: 0;
 }
 
 /* -------------------------------------------------------------- content */
 .gos-content {
-  padding: 18px 22px 48px;
-  max-width: 1160px;
+  padding: 30px 28px 72px;
+  max-width: 1200px;
   width: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 34px;
 }
 
-.gos-pagetitle {
-  margin: 0;
-  font-family: var(--sds-font-display);
-  font-size: 26px;
-  font-weight: 400;
+/* SectionHeading at ops scale: page heads big serif, section heads smaller */
+.gos-pagehead .sds-section-heading__title {
+  font-size: 42px;
+  line-height: 1.05;
+}
+
+.gos-pagehead .sds-section-heading__subtitle {
+  font-size: 15px;
+  max-width: 72ch;
+}
+
+.gos-sectionhead {
+  margin-bottom: -16px;
+}
+
+.gos-sectionhead .sds-section-heading__title {
+  font-size: 24px;
   line-height: 1.1;
 }
 
-.gos-pagesub {
-  margin: 4px 0 0;
-  font-size: 13px;
-  color: var(--sds-text-secondary);
+.gos-sectionhead .sds-section-heading__subtitle {
+  font-size: 13.5px;
 }
 
-.gos-sectiontitle {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin: 4px 0 -10px;
-}
-
-.gos-sectiontitle h2 {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.gos-sectiontitle span {
-  font-family: var(--sds-font-mono);
-  font-size: 11px;
-  color: var(--sds-text-muted);
-}
-
-/* ---------------------------------------------------------------- cards */
-/* Card provides the surface; this is just the ops density */
-.gos-panel {
-  padding: 14px 16px !important;
-  overflow: visible;
-}
-
+/* ---------------------------------------------------------------- stats */
 .gos-statrow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 26px;
 }
 
 .gos-stat {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  min-width: 0;
 }
 
-/* the report's stat treatment at ops scale */
 .gos-stat .sds-statcard__value {
-  font-size: 30px;
-  line-height: 1.05;
-}
-
-.gos-stat .sds-statcard__label {
-  font-size: 10px;
+  white-space: nowrap;
 }
 
 .gos-stat__foot {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .gos-stat__sub {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--sds-text-secondary);
 }
 
 .gos-trend {
   font-family: var(--sds-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.03em;
   white-space: nowrap;
 }
@@ -257,28 +229,34 @@ body {
   color: var(--sds-coral-600);
 }
 
+/* --------------------------------------------------------------- panels */
+.gos-panel {
+  padding: 22px 26px !important;
+  overflow: visible;
+}
+
 /* ---------------------------------------------------------------- table */
 .gos-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12.5px;
+  font-size: 14px;
 }
 
 .gos-table th {
   text-align: left;
   font-family: var(--sds-font-mono);
-  font-size: 10px;
+  font-size: 10.5px;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   font-weight: 500;
   color: var(--sds-text-muted);
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--sds-black-alpha-20);
   white-space: nowrap;
 }
 
 .gos-table td {
-  padding: 8px 10px;
+  padding: 13px 12px;
   border-bottom: 1px solid var(--sds-sand-150);
   vertical-align: middle;
 }
@@ -289,27 +267,26 @@ body {
 
 .gos-table .gos-num {
   font-family: var(--sds-font-mono);
-  font-size: 12px;
+  font-size: 13px;
   white-space: nowrap;
 }
 
 .gos-table__note {
   color: var(--sds-text-muted);
-  font-size: 11.5px;
+  font-size: 12.5px;
 }
 
 .gos-spendfield {
-  width: 96px;
+  width: 104px;
 }
 
 .gos-spendfield .sds-input__field {
-  padding: 5px 8px;
-  font-size: 12px;
+  padding: 7px 10px;
+  font-size: 13px;
   font-family: var(--sds-font-mono);
-  border-radius: 8px;
 }
 
-/* efficiency + status colors layer onto the DS badge */
+/* chips: semantic color layers on the DS badge */
 .gos-eff--efficient {
   background: var(--sds-green-100) !important;
   border-color: transparent !important;
@@ -332,20 +309,20 @@ body {
 .gos-week {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 18px;
+}
+
+.gos-week__col {
+  padding: 20px 24px !important;
+  overflow: visible;
 }
 
 .gos-week__col h3 {
-  margin: 0 0 8px;
-  font-family: var(--sds-font-mono);
-  font-size: 10px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--sds-text-muted);
+  margin: 0 0 6px;
 }
 
 .gos-week__col--kill h3 {
-  color: var(--sds-coral-600);
+  color: var(--sds-coral-600) !important;
 }
 
 .gos-week__list {
@@ -354,39 +331,43 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
 }
 
 .gos-week__item {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
-  padding: 7px 9px;
-  background: var(--sds-white);
-  border: 1px solid var(--sds-black-alpha-20);
-  border-radius: 8px;
-  font-size: 12px;
-  line-height: 1.4;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--sds-sand-150);
+  font-size: 13.5px;
+  line-height: 1.5;
 }
 
-.gos-week__item--kill {
-  border-color: var(--sds-coral-300);
+.gos-week__item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.gos-week__col--kill .gos-week__item {
+  border-bottom-color: #f6d9d4;
 }
 
 .gos-owner {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-family: var(--sds-font-mono);
-  font-size: 10px;
+  font-size: 10.5px;
   color: var(--sds-ink-600);
   white-space: nowrap;
   flex-shrink: 0;
+  padding-top: 2px;
 }
 
 /* --------------------------------------------------------------- digest */
 .gos-digest {
+  padding: 26px 30px !important;
   border-left: 3px solid var(--sds-ink-900);
   overflow: visible;
 }
@@ -394,10 +375,11 @@ body {
 .gos-digest__meta {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
   font-family: var(--sds-font-mono);
-  font-size: 10px;
+  font-size: 10.5px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--sds-text-muted);
@@ -410,9 +392,9 @@ body {
 .gos-digest p {
   margin: 0;
   font-family: var(--sds-font-serif);
-  font-size: 15px;
-  line-height: 1.6;
-  max-width: 74ch;
+  font-size: 17px;
+  line-height: 1.65;
+  max-width: 76ch;
 }
 
 /* ----------------------------------------------------------------- bets */
@@ -420,28 +402,31 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
+  margin-top: -10px;
 }
 
 .gos-wipmeter {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-family: var(--sds-font-mono);
   font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--sds-ink-600);
 }
 
 .gos-wipmeter__slots {
   display: inline-flex;
-  gap: 3px;
+  gap: 4px;
 }
 
 .gos-wipmeter__slot {
-  width: 14px;
-  height: 8px;
-  border-radius: 3px;
+  width: 16px;
+  height: 9px;
+  border-radius: var(--sds-radius-pill);
   border: 1px solid var(--sds-black-alpha-20);
   background: var(--sds-white);
 }
@@ -458,21 +443,21 @@ body {
 .gos-bets {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 14px;
 }
 
 .gos-bet {
   display: grid !important;
-  grid-template-columns: 22px minmax(210px, 1.4fr) 96px 1fr;
-  gap: 4px 14px;
+  grid-template-columns: 24px minmax(230px, 1.35fr) 110px 1fr;
+  gap: 6px 18px;
   align-items: center;
-  padding: 10px 14px !important;
+  padding: 18px 22px !important;
   cursor: pointer;
   overflow: visible;
 }
 
 .gos-bet:hover {
-  box-shadow: inset 0 0 0 1px var(--sds-sand-500);
+  box-shadow: inset 0 0 0 1px var(--sds-sand-400);
 }
 
 .gos-bet--dragging {
@@ -481,12 +466,12 @@ body {
 
 .gos-bet--dropover {
   outline: 2px dashed var(--sds-sand-500);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 .gos-bet--unranked {
   border: 1px dashed var(--sds-sand-500);
-  background-color: var(--sds-sand-100) !important;
+  background-color: var(--sds-sand-150) !important;
 }
 
 .gos-bet__grab {
@@ -500,26 +485,28 @@ body {
 .gos-bet__head {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   min-width: 0;
 }
 
 .gos-bet__name {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: 10px;
+  font-size: 16px;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .gos-bet__score {
   font-family: var(--sds-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--sds-text-muted);
+  white-space: nowrap;
 }
 
 .gos-bet__what {
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--sds-text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -529,7 +516,7 @@ body {
 .gos-bet__mid {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   align-items: flex-start;
 }
 
@@ -558,22 +545,34 @@ button.gos-status {
   color: var(--sds-coral-600) !important;
 }
 
+.gos-status--gate {
+  background: transparent !important;
+  border: 1px dashed var(--sds-sand-600) !important;
+  color: var(--sds-sand-800) !important;
+  cursor: default;
+}
+
+.gos-unranked-tag {
+  background: var(--sds-sand-800) !important;
+  color: var(--sds-sand-50) !important;
+}
+
 .gos-bet__dials {
   display: grid;
-  grid-template-columns: repeat(4, minmax(72px, 1fr)) 100px;
-  gap: 10px;
+  grid-template-columns: repeat(4, minmax(76px, 1fr)) 100px;
+  gap: 12px;
   align-items: center;
 }
 
 .gos-dial {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .gos-dial__k {
   font-family: var(--sds-font-mono);
-  font-size: 9px;
+  font-size: 9.5px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--sds-text-muted);
@@ -582,7 +581,7 @@ button.gos-status {
 
 .gos-dial__v {
   font-family: var(--sds-font-mono);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .gos-dial__v--good {
@@ -592,13 +591,13 @@ button.gos-status {
 .gos-bet__metric {
   grid-column: 2 / -1;
   font-family: var(--sds-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
+  letter-spacing: 0.03em;
   color: var(--sds-text-muted);
 }
 
-.gos-unranked-tag {
-  background: var(--sds-sand-800) !important;
-  color: var(--sds-sand-50) !important;
+.gos-bet__now {
+  color: var(--sds-green-600);
 }
 
 /* detail panel */
@@ -607,16 +606,16 @@ button.gos-status {
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(460px, 92vw);
+  width: min(480px, 92vw);
   background: var(--sds-white);
   border-left: 1px solid var(--sds-black-alpha-20);
   box-shadow: -24px 0 48px -32px var(--sds-black-alpha-50);
-  padding: 18px 20px 32px;
+  padding: 26px 28px 40px;
   overflow-y: auto;
   z-index: 20;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   box-sizing: border-box;
 }
 
@@ -624,71 +623,61 @@ button.gos-status {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
 }
 
 .gos-detail__head h2 {
   margin: 0;
   font-family: var(--sds-font-display);
-  font-size: 21px;
+  font-size: 26px;
   font-weight: 400;
-  line-height: 1.15;
-}
-
-.gos-detail__close {
-  border: 1px solid var(--sds-black-alpha-20);
-  background: var(--sds-white);
-  border-radius: 8px;
-  padding: 3px 9px;
-  font-family: var(--sds-font-mono);
-  font-size: 12px;
-  cursor: pointer;
-  flex-shrink: 0;
+  line-height: 1.12;
 }
 
 .gos-detail__row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 .gos-detail h3 {
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   font-family: var(--sds-font-mono);
-  font-size: 10px;
+  font-size: 10.5px;
   letter-spacing: 0.07em;
   text-transform: uppercase;
+  font-weight: 500;
   color: var(--sds-text-muted);
 }
 
 .gos-detail p {
   margin: 0;
-  font-size: 12.5px;
-  line-height: 1.55;
+  font-size: 13.5px;
+  line-height: 1.6;
   color: var(--sds-ink-700);
 }
 
 .gos-detail__kill {
   border-left: 2px solid var(--sds-coral-500);
-  padding-left: 10px;
+  padding-left: 12px;
 }
 
 .gos-detail__next {
   border-left: 2px solid var(--sds-green-500);
-  padding-left: 10px;
+  padding-left: 12px;
 }
 
 .gos-auditfeed {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  gap: 10px;
 }
 
 .gos-auditfeed__cell {
-  background: var(--sds-sand-100);
-  border-radius: 8px;
-  padding: 8px 10px;
+  background: var(--sds-sand-150);
+  border-radius: 16px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -696,12 +685,12 @@ button.gos-status {
 
 .gos-auditfeed__v {
   font-family: var(--sds-font-display);
-  font-size: 19px;
+  font-size: 24px;
 }
 
 .gos-auditfeed__k {
   font-family: var(--sds-font-mono);
-  font-size: 9px;
+  font-size: 9.5px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--sds-text-muted);
@@ -721,21 +710,21 @@ button.gos-status {
 .gos-loop {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
+  gap: 12px;
   align-items: stretch;
 }
 
 .gos-stage {
   position: relative;
-  gap: 8px;
-  padding: 12px !important;
+  gap: 10px;
+  padding: 18px 16px !important;
   text-align: left;
   cursor: pointer;
   overflow: visible;
 }
 
 .gos-stage:hover {
-  box-shadow: inset 0 0 0 1px var(--sds-sand-500);
+  box-shadow: inset 0 0 0 1px var(--sds-sand-400);
 }
 
 .gos-stage--open {
@@ -744,22 +733,24 @@ button.gos-status {
 
 .gos-stage__arrow {
   position: absolute;
-  right: -9px;
-  top: 24px;
+  right: -12px;
+  top: 22px;
   z-index: 2;
   font-family: var(--sds-font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--sds-sand-600);
-  background: var(--sds-sand-50);
+  background: var(--sds-sand-100);
   border-radius: 50%;
 }
 
 .gos-stage__name {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
+  gap: 7px;
+  flex-wrap: wrap;
+  font-size: 16px;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .gos-stage__human {
@@ -772,21 +763,21 @@ button.gos-status {
 .gos-stage__health {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .gos-health {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 6px;
+  gap: 8px;
   font-family: var(--sds-font-mono);
   font-size: 10px;
   color: var(--sds-ink-600);
 }
 
 .gos-health__v {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--sds-ink-900);
 }
 
@@ -797,9 +788,9 @@ button.gos-status {
 .gos-stage__io {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: 10.5px;
-  line-height: 1.45;
+  gap: 5px;
+  font-size: 11px;
+  line-height: 1.5;
   color: var(--sds-text-secondary);
 }
 
@@ -828,10 +819,10 @@ button.gos-status {
 .gos-agent {
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  padding: 7px 2px;
+  gap: 10px;
+  padding: 12px 2px;
   border-bottom: 1px solid var(--sds-sand-150);
-  font-size: 12.5px;
+  font-size: 14px;
 }
 
 .gos-agent:last-child {
@@ -839,8 +830,8 @@ button.gos-status {
 }
 
 .gos-agent__dot {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
   position: relative;
@@ -867,58 +858,60 @@ button.gos-status {
 .gos-agent__status {
   margin-left: auto;
   font-family: var(--sds-font-mono);
-  font-size: 10px;
+  font-size: 10.5px;
   color: var(--sds-text-muted);
   white-space: nowrap;
+}
+
+.gos-agent__status--warn {
+  color: var(--sds-coral-600);
 }
 
 /* -------------------------------------------------------------- metrics */
 .gos-metrics {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  align-items: start;
+  gap: 18px;
+  align-items: stretch;
 }
 
-.gos-metrics h2 {
-  margin: 0 0 10px;
-  font-size: 13px;
-  font-weight: 600;
+.gos-metrics-panel {
+  padding: 26px 30px !important;
+  overflow: visible;
 }
 
 .gos-metric {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding: 10px 0;
+  gap: 4px;
+  padding: 14px 0;
   border-bottom: 1px solid var(--sds-sand-150);
 }
 
-.gos-metric:last-child {
+.gos-metric:last-of-type {
   border-bottom: 0;
-  padding-bottom: 0;
 }
 
 .gos-metric__top {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
 }
 
 .gos-metric__name {
   font-weight: 600;
-  font-size: 12.5px;
+  font-size: 14.5px;
 }
 
 .gos-metric__value {
   font-family: var(--sds-font-mono);
-  font-size: 12px;
+  font-size: 12.5px;
   white-space: nowrap;
 }
 
 .gos-metric__why {
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--sds-text-secondary);
 }
 
@@ -930,57 +923,82 @@ button.gos-status {
   color: var(--sds-text-muted);
 }
 
+/* the deliberate exclusions — the landing's dark trust block, verbatim */
 .gos-excluded {
-  border: 1px solid var(--sds-ink-900);
+  color: var(--sds-text-on-dark);
 }
 
-.gos-excluded__tag {
-  align-self: flex-start;
-  margin-bottom: 8px;
+.gos-excluded .gos-metric {
+  border-bottom-color: var(--sds-white-alpha-20);
 }
 
 .gos-excluded .gos-metric__name {
+  color: var(--sds-text-on-dark);
   text-decoration: line-through;
   text-decoration-color: var(--sds-coral-500);
   text-decoration-thickness: 1.5px;
 }
 
+.gos-excluded .gos-metric__why {
+  color: var(--sds-sand-300);
+}
+
+.gos-excluded__tag {
+  align-self: flex-start;
+  margin-bottom: 10px;
+  color: var(--sds-sand-400) !important;
+}
+
 .gos-excluded__note {
-  margin: 10px 0 0;
+  margin: 14px 0 0;
   font-family: var(--sds-font-mono);
-  font-size: 10px;
-  color: var(--sds-text-muted);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--sds-sand-500);
+}
+
+.gos-metrics h2 {
+  margin: 0 0 10px;
 }
 
 /* -------------------------------------------------------------- signals */
 .gos-signals {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
-  gap: 10px;
+  gap: 18px;
   align-items: start;
+}
+
+.gos-signals__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .gos-sig {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 9px 0;
+  gap: 5px;
+  padding: 13px 0;
   border-bottom: 1px solid var(--sds-sand-150);
 }
 
 .gos-sig:last-child {
   border-bottom: 0;
+  padding-bottom: 0;
 }
 
 .gos-sig__top {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 10px;
 }
 
 .gos-sig__text {
-  font-size: 12.5px;
-  font-weight: 500;
+  font-family: var(--sds-font-serif);
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 400;
   flex: 1;
 }
 
@@ -1010,9 +1028,10 @@ button.gos-status {
 .gos-sig__meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-family: var(--sds-font-mono);
-  font-size: 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
   color: var(--sds-text-muted);
 }
 
@@ -1020,7 +1039,7 @@ button.gos-status {
   color: var(--sds-green-600);
   text-decoration: none;
   font-family: var(--sds-font-mono);
-  font-size: 10px;
+  font-size: 10.5px;
 }
 
 .gos-usedin:hover {
@@ -1028,20 +1047,46 @@ button.gos-status {
 }
 
 .gos-personatabs {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .gos-phrase__note {
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--sds-text-secondary);
 }
 
-/* competitor trend semantics: mentions up = pressure, red; down = green */
+/* small titles inside panels */
+.gos-sectiontitle {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 -18px;
+}
+
+.gos-sectiontitle h2 {
+  margin: 0;
+  color: var(--sds-ink-900) !important;
+}
+
+.gos-sectiontitle span {
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  color: var(--sds-text-muted);
+}
+
+/* sparkline */
+.gos-spark {
+  justify-self: end;
+}
 
 /* ------------------------------------------------------------ laptop fit */
 @media (max-width: 1180px) {
   .gos-statrow {
     grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .gos-stat .sds-statcard__value {
+    font-size: 48px;
   }
   .gos-loop {
     grid-template-columns: repeat(3, 1fr);
@@ -1058,27 +1103,124 @@ button.gos-status {
     grid-template-columns: 1fr;
   }
   .gos-bet {
-    grid-template-columns: 22px 1fr;
+    grid-template-columns: 24px 1fr;
   }
   .gos-bet__dials {
     grid-column: 2;
   }
+  .gos-pagehead .sds-section-heading__title {
+    font-size: 32px;
+  }
 }
 
-/* the priced option is gated, not queued */
-.gos-status--gate {
-  background: transparent !important;
-  border: 1px dashed var(--sds-sand-600) !important;
-  color: var(--sds-sand-800) !important;
-  cursor: default;
+/* ------------------------------------------------------------- phones */
+@media (max-width: 809px) {
+  .gos {
+    flex-direction: column;
+  }
+
+  .gos-side {
+    position: static;
+    height: auto;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-right: 0;
+    border-bottom: 1px solid var(--sds-black-alpha-20);
+    overflow-x: auto;
+  }
+
+  .gos-side__brand {
+    font-size: 17px;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .gos-side__nav {
+    flex-direction: row;
+    gap: 2px;
+  }
+
+  .gos-side__item {
+    padding: 6px 10px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .gos-side__foot {
+    display: none;
+  }
+
+  .gos-head {
+    padding: 10px 16px;
+  }
+
+  .gos-content {
+    padding: 20px 16px 56px;
+    gap: 26px;
+  }
+
+  .gos-statrow {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .gos-stat .sds-statcard__value {
+    font-size: 44px;
+  }
+
+  /* wide tables scroll inside their card, never the page */
+  .gos-panel {
+    overflow-x: auto;
+  }
+
+  .gos-table {
+    min-width: 640px;
+  }
+
+  .gos-loop {
+    grid-template-columns: 1fr;
+  }
+
+  .gos-bet {
+    grid-template-columns: 20px 1fr;
+  }
+
+  .gos-bet__dials {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gos-spark {
+    display: none;
+  }
+
+  .gos-metric__top {
+    flex-wrap: wrap;
+  }
+
+  .gos-metric__value {
+    white-space: normal;
+  }
 }
 
-.gos-bet__now {
-  color: var(--sds-green-600);
+@media (max-width: 809px) {
+  /* the persona tabs scroll inside their card on phones */
+  .gos-personatabs {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .gos-sig__top {
+    flex-wrap: wrap;
+  }
 }
 
-.gos-agent__status--warn {
-  color: var(--sds-coral-600);
+/* grid children must be allowed to shrink below content width */
+.gos-signals > div,
+.gos-signals__stack > div,
+.gos-signals .sds-card {
+  min-width: 0;
+  max-width: 100%;
 }
-
-/* ds: input aria-label passthrough (rebuild nudge) */
