@@ -1,7 +1,8 @@
 "use client";
 
 /**
- * Scaffolded OAuth connect screen for Gorgias / Zendesk.
+ * Scaffolded OAuth connect screen for the supported helpdesks (see
+ * providers.ts — Gorgias, Zendesk, Kustomer, Intercom, Gladly).
  *
  * Realistic chrome — provider mark, read-only scope list, authorize button —
  * but demo-honest: Authorize shows a brief "Connecting…" state, then routes
@@ -10,28 +11,17 @@
  */
 import { use, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Avatar, Banner, Button, Card } from "@siena/design-system";
+import { Avatar, Button, Card } from "@siena/design-system";
 import { CxaNav, CxaFooter } from "../../audit/_components/Chrome";
+import {
+  HELPDESK_PROVIDERS,
+  type HelpdeskProvider,
+} from "../../audit/_components/providers";
 import "../../audit/audit.css";
 
-interface ProviderConfig {
-  name: string;
-  initials: string;
-  workspaceHint: string;
-}
-
-const PROVIDERS: Record<string, ProviderConfig> = {
-  gorgias: {
-    name: "Gorgias",
-    initials: "G",
-    workspaceHint: "yourbrand.gorgias.com",
-  },
-  zendesk: {
-    name: "Zendesk",
-    initials: "Z",
-    workspaceHint: "yourbrand.zendesk.com",
-  },
-};
+const PROVIDERS: Record<string, HelpdeskProvider> = Object.fromEntries(
+  HELPDESK_PROVIDERS.map((p) => [p.slug, p]),
+);
 
 const SCOPES = [
   {
@@ -89,15 +79,6 @@ export default function ConnectProviderPage({
 
   return (
     <>
-      <Banner
-        className="cxa-no-print"
-        lead="Demo mode —"
-        href="/cx-audit/report/verabloom"
-        linkLabel="See a sample audit"
-      >
-        OAuth scaffolded, production flow documented in the README.
-      </Banner>
-
       <div className="cxa-container">
         <CxaNav />
 
@@ -106,7 +87,9 @@ export default function ConnectProviderPage({
             {config ? (
               <Card tone="white" radius="lg" padding="md" className="cxc-card">
                 <div className="cxc-avatars">
-                  <Avatar initials={config.initials} size="lg" />
+                  <span className="cxc-provider-mark">
+                    <img src={config.logo} alt={config.name} />
+                  </span>
                   <span className="cxc-avatars__link" aria-hidden="true">
                     ⇄
                   </span>
@@ -173,8 +156,8 @@ export default function ConnectProviderPage({
                     We can&rsquo;t connect that helpdesk yet.
                   </h1>
                   <p className="cxc-head__sub">
-                    Gorgias and Zendesk are wired up today. For anything else, a CSV
-                    export gets you the same audit.
+                    Gorgias, Zendesk, Kustomer, Intercom, and Gladly are wired up
+                    today. For anything else, a CSV export gets you the same audit.
                   </p>
                 </div>
                 <div className="cxc-actions">

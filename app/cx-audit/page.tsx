@@ -55,9 +55,8 @@ export default function CxAuditLandingPage() {
             eyebrow="Free CX audit"
             title={
               <>
-                Your tickets already{" "}
                 <span className="cxl-underline">
-                  know.
+                  Your tickets
                   <img
                     src="/assets/images/MJbk4aQblPanJHyFV9X8Yg7JDqI-q1l9u9tc.png"
                     alt=""
@@ -65,10 +64,20 @@ export default function CxAuditLandingPage() {
                     className="cxl-underline__stroke"
                   />
                 </span>{" "}
-                Get your real AI automation number.
+                already know. Get your{" "}
+                <span className="cxl-underline">
+                  real AI
+                  <img
+                    src="/assets/images/MJbk4aQblPanJHyFV9X8Yg7JDqI-q1l9u9tc.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="cxl-underline__stroke"
+                  />
+                </span>{" "}
+                automation number.
               </>
             }
-            subtitle="Most brands guess what AI could automate. Your last 500 tickets hold the proof. Free audit, 5 minutes."
+            subtitle="Most brands guess what AI could automate. Our AI Agents analyze your last 500 tickets and tell you exactly what AI would resolve, what it's worth monthly, and what's hiding in your queue. Free, five minutes, no call required."
           />
           <div className="cxl-hero__ctas">
             <Button variant="primary" size="xl" href="/cx-audit/audit">
@@ -91,29 +100,8 @@ export default function CxAuditLandingPage() {
 
           <AuditMockup />
 
-          <span className="cxl-tag cxl-tag--flag" aria-hidden="true">
-            <svg viewBox="0 0 16 16" width="15" height="15">
-              <path
-                d="M4 14.5V2.2M4 2.5h7.6l-1.8 2.8 1.8 2.8H4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-          <span className="cxl-tag cxl-tag--check" aria-hidden="true">
-            <svg viewBox="0 0 16 16" width="14" height="14">
-              <path
-                d="M3 8.4 6.6 12 13 4.6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+          <span className="cxl-tag cxl-tag--chip cxl-tag--upside" aria-hidden="true">
+            <span className="cxl-tag__dot cxl-tag__dot--green" /> Sales Agent · revenue upside
           </span>
           <span className="cxl-tag cxl-tag--chip cxl-tag--repeat" aria-hidden="true">
             <span className="cxl-tag__dot" /> 31 repeat-contact customers

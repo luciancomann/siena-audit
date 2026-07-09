@@ -521,19 +521,20 @@
   max-width: 62ch;
 }
 
-/* volume: pre-purchase revenue lane */
+/* volume: pre-purchase revenue lane — green, because it's money coming
+   in, not a cost to flag */
 .cxa-bar-check--revenue {
-  color: var(--sds-coral-500);
+  color: var(--sds-green-500);
 }
 .cxa-bar-fill--revenue {
-  background: var(--sds-coral-500) !important;
+  background: var(--sds-green-500) !important;
 }
 .cxa-legend-swatch--revenue {
-  background: var(--sds-coral-500);
+  background: var(--sds-green-500);
 }
 .cxa-badge--revenue {
-  border-color: var(--sds-coral-500) !important;
-  color: var(--sds-coral-600) !important;
+  border-color: var(--sds-green-500) !important;
+  color: var(--sds-green-600) !important;
 }
 
 /* math: deliberate pre-purchase exclusion */
@@ -543,7 +544,7 @@
   font-size: 17px;
   line-height: 1.5;
   color: var(--sds-text-secondary);
-  border-left: 2px solid var(--sds-coral-500);
+  border-left: 2px solid var(--sds-green-500);
   padding-left: var(--sds-space-4);
   max-width: 56ch;
 }

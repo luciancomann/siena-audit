@@ -204,14 +204,16 @@
 .cxl-cta-card {
   position: relative;
   z-index: 1;
-  max-width: 1040px;
+  max-width: 1120px;
   width: 100%;
+  min-height: 420px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sds-space-4);
+  justify-content: center;
+  gap: var(--sds-space-5);
   text-align: center;
-  padding: var(--sds-space-8) var(--sds-space-7) !important;
+  padding: var(--sds-space-9) var(--sds-space-7) !important;
 }
 
 .cxl-cta-card__title {
@@ -327,37 +329,6 @@
   animation: cxl-float 8s ease-in-out infinite;
 }
 
-.cxl-tag--flag {
-  top: -16px;
-  right: -14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--sds-coral-500);
-  color: var(--sds-white);
-  box-shadow: 0 12px 24px -10px var(--sds-black-alpha-50);
-  animation-duration: 9s;
-}
-
-.cxl-tag--check {
-  left: -16px;
-  top: 292px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--sds-blue-600);
-  color: var(--sds-white);
-  box-shadow: 0 12px 24px -10px var(--sds-black-alpha-50);
-  animation-duration: 7s;
-  animation-delay: 0.8s;
-}
-
 .cxl-tag--chip {
   display: inline-flex;
   align-items: center;
@@ -382,14 +353,29 @@
   flex-shrink: 0;
 }
 
+.cxl-tag__dot--green {
+  background: var(--sds-green-500);
+}
+
+/* in the seam between the score and donut panels — clear of both the
+   "Automation potential" line and the "500 tickets analyzed" title */
 .cxl-tag--repeat {
-  top: 128px;
+  top: 150px;
   left: -66px;
   animation-delay: 0.4s;
 }
 
+/* the revenue tease, on the donut panel's left edge */
+.cxl-tag--upside {
+  top: 330px;
+  left: -72px;
+  animation-duration: 9s;
+  animation-delay: 1s;
+}
+
+/* above the bars panel's first row so the 28% value stays readable */
 .cxl-tag--defect {
-  top: 420px;
+  top: 372px;
   right: -58px;
   animation-duration: 10s;
   animation-delay: 1.4s;
@@ -423,7 +409,7 @@
 }
 
 .cxl-tag__arrow {
-  color: var(--sds-coral-500);
+  color: var(--sds-green-600);
   font-weight: 700;
 }
 

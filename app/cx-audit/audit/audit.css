@@ -504,3 +504,39 @@
     animation-duration: 1.6s;
   }
 }
+
+/* ---- helpdesk provider buttons (option 02) ---- */
+.cxa-providers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cxa-provider-btn__logo {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: -4px;
+  margin-right: 8px;
+}
+
+/* ---- connect page: provider mark replaces the initials circle ---- */
+.cxc-provider-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--sds-white);
+  border: 1px solid var(--sds-black-alpha-20);
+  flex-shrink: 0;
+}
+
+.cxc-provider-mark img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
+}

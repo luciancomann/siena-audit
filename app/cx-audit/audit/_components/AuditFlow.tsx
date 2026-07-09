@@ -17,6 +17,7 @@ import {
   initialStageStatus,
   type StageStatus,
 } from "./PipelineProgress";
+import { HELPDESK_PROVIDERS } from "./providers";
 import type { QualifyAnswers } from "./QualifyWizard";
 
 const MAX_BYTES = 10 * 1024 * 1024; // 10MB
@@ -363,13 +364,24 @@ export function AuditFlow({
             Read-only access to tickets and customers — the audit never writes back to
             your queue.
           </p>
-          <div className="cxa-option__actions">
-            <Button variant="secondary" size="md" href="/cx-audit/connect/gorgias">
-              Connect Gorgias
-            </Button>
-            <Button variant="secondary" size="md" href="/cx-audit/connect/zendesk">
-              Connect Zendesk
-            </Button>
+          <div className="cxa-providers">
+            {HELPDESK_PROVIDERS.map((p) => (
+              <Button
+                key={p.slug}
+                variant="secondary"
+                size="md"
+                href={`/cx-audit/connect/${p.slug}`}
+                className="cxa-provider-btn"
+              >
+                <img
+                  src={p.logo}
+                  alt=""
+                  aria-hidden="true"
+                  className="cxa-provider-btn__logo"
+                />
+                {p.name}
+              </Button>
+            ))}
           </div>
         </Card>
 
