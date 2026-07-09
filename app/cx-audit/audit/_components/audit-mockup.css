@@ -1,0 +1,176 @@
+/* Audit dashboard mockup — dark stacked panels with a gentle perspective
+   tilt. All values from --sds-* tokens. */
+
+.cxm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-3);
+  max-width: 460px;
+  width: 100%;
+  transform: perspective(1400px) rotateY(-7deg) rotateX(3deg);
+  transform-origin: 70% 40%;
+}
+
+.cxm__panel {
+  background: var(--sds-ink-900);
+  border-radius: var(--sds-radius-lg);
+  padding: var(--sds-space-5);
+  box-shadow: 0 24px 48px -24px var(--sds-black-alpha-50);
+}
+
+.cxm__panel--score {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-1);
+  align-items: flex-start;
+}
+
+.cxm__eyebrow {
+  font-family: var(--sds-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sds-ink-400);
+}
+
+.cxm__score {
+  font-family: var(--sds-font-display);
+  font-size: 64px;
+  line-height: 1;
+  background: var(--sds-gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.cxm__panel-title {
+  display: block;
+  font-family: var(--sds-font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--sds-text-on-dark);
+  margin-bottom: var(--sds-space-4);
+}
+
+/* donut */
+.cxm__donut-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sds-space-5);
+}
+
+.cxm-donut {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+}
+
+.cxm-donut__num {
+  font-family: var(--sds-font-sans);
+  font-weight: 600;
+  font-size: 7px;
+  fill: var(--sds-text-on-dark);
+}
+
+.cxm-donut__unit {
+  font-family: var(--sds-font-mono);
+  font-size: 3.2px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--sds-ink-400);
+}
+
+.cxm__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-2);
+  flex: 1;
+}
+
+.cxm__legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--sds-space-2);
+  font-family: var(--sds-font-sans);
+  font-size: 13px;
+  color: var(--sds-ink-100);
+}
+
+.cxm__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--sds-radius-pill);
+  flex-shrink: 0;
+}
+
+.cxm__legend-label {
+  flex: 1;
+}
+
+.cxm__legend-value {
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  color: var(--sds-ink-300);
+}
+
+/* intent bars */
+.cxm__bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-3);
+}
+
+.cxm__bars li {
+  display: grid;
+  grid-template-columns: 128px 1fr 36px;
+  align-items: center;
+  gap: var(--sds-space-3);
+}
+
+.cxm__bar-label {
+  font-family: var(--sds-font-sans);
+  font-size: 12px;
+  color: var(--sds-ink-200);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cxm__bar-track {
+  display: block;
+  height: 8px;
+  border-radius: var(--sds-radius-pill);
+  background: var(--sds-ink-800);
+  overflow: hidden;
+}
+
+.cxm__bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--sds-radius-pill);
+  background: var(--sds-coral-500);
+}
+
+.cxm__bar-value {
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  color: var(--sds-ink-300);
+  text-align: right;
+}
+
+@media (max-width: 809px) {
+  .cxm {
+    transform: none;
+    max-width: 100%;
+  }
+  .cxm__score {
+    font-size: 48px;
+  }
+}

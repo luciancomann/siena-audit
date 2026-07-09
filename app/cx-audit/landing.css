@@ -174,3 +174,66 @@
   gap: var(--sds-space-6);
   text-align: center;
 }
+
+/* ------------------------------------------------- closing CTA band
+   Matches the clone's "See how fast-growing brands scale" section:
+   full-bleed abstract video with a centered cream rounded card. */
+.cxl-cta-band {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: var(--sds-space-9) var(--sds-space-5);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cxl-cta-band__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cxl-cta-card {
+  position: relative;
+  z-index: 1;
+  max-width: 880px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sds-space-4);
+  text-align: center;
+  padding: var(--sds-space-8) var(--sds-space-7) !important;
+}
+
+.cxl-cta-card__title {
+  color: var(--sds-text-primary);
+}
+
+.cxl-cta-card__sub {
+  font-family: var(--sds-font-sans);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--sds-text-secondary);
+  max-width: 560px;
+}
+
+.cxl-cta-card__buttons {
+  display: flex;
+  gap: var(--sds-space-3);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--sds-space-2);
+}
+
+@media (max-width: 809px) {
+  .cxl-cta-band {
+    padding: var(--sds-space-7) var(--sds-space-4);
+  }
+  .cxl-cta-card {
+    padding: var(--sds-space-7) var(--sds-space-5) !important;
+  }
+}

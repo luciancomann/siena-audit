@@ -88,7 +88,7 @@ export default async function CrmPreviewPage({ params }: PageProps) {
           {/* headline numbers */}
           <div className="cxa-crm-stats">
             <StatCard
-              value={String(crm.automation_potential_score)}
+              value={`${crm.automation_potential_score}%`}
               label="automation potential"
               size="md"
             />

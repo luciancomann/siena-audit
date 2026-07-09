@@ -1,10 +1,10 @@
 import {
   Button,
   Card,
-  ChatBubble,
   SectionHeading,
   TestimonialCard,
 } from "@siena/design-system";
+import { AuditMockup } from "./audit/_components/AuditMockup";
 import { CxaNav, CxaFooter } from "./audit/_components/Chrome";
 import "./landing.css";
 
@@ -66,27 +66,7 @@ export default function CxAuditLandingPage() {
           </div>
         </div>
 
-        <Card tone="white" radius="xl" padding="sm" className="cxl-chat-card">
-          <span className="sds-mono-label">Ticket #1,204 · Where is my order?</span>
-          <div className="cxl-chat-lines">
-            <ChatBubble variant="customer" avatarInitials="MR">
-              Hi! My order says &ldquo;in transit&rdquo; but it hasn&rsquo;t moved in four
-              days — it&rsquo;s a birthday gift and I&rsquo;m getting nervous.
-            </ChatBubble>
-            <ChatBubble variant="agent">
-              I see it — your package cleared the carrier&rsquo;s Memphis hub this morning
-              and lands Thursday, two days before the party. Fresh tracking link is in
-              your inbox. Sorry the quiet made you worry.
-            </ChatBubble>
-            <ChatBubble variant="customer" avatarInitials="MR">
-              Oh, that&rsquo;s such a relief. Thank you!
-            </ChatBubble>
-          </div>
-          <p className="cxl-chat-caption">
-            Answered in seconds, in your voice — that&rsquo;s the bar for every ticket the
-            audit counts as automatable.
-          </p>
-        </Card>
+        <AuditMockup />
       </section>
 
       {/* ---------------------------------------------------- how it works */}
@@ -148,14 +128,25 @@ export default function CxAuditLandingPage() {
       </section>
 
       {/* ---------------------------------------------------- closing CTA */}
-      <section className="cxa-section">
-        <div className="cxl-cta">
-          <SectionHeading
-            as="h2"
-            title="Your queue is already talking."
-            subtitle="Five minutes from export to answer. Free, and honest about what it can't see."
-          />
-          <div className="cxl-hero__ctas">
+      <section className="cxl-cta-band">
+        <video
+          className="cxl-cta-band__video"
+          src="/assets/video/Abstract%20Landscape%20Moving%20Shapes.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+        />
+        <Card tone="cream" radius="xl" padding="lg" className="cxl-cta-card">
+          <h2 className="sds-display-lg cxl-cta-card__title">
+            Your queue is already talking.
+          </h2>
+          <p className="cxl-cta-card__sub">
+            Five minutes from export to answer. Free, and honest about what it
+            can&rsquo;t see.
+          </p>
+          <div className="cxl-cta-card__buttons">
             <Button variant="primary" size="xl" href="/cx-audit/audit">
               Run your audit
             </Button>
@@ -163,7 +154,7 @@ export default function CxAuditLandingPage() {
               See a sample audit
             </Button>
           </div>
-        </div>
+        </Card>
       </section>
 
       <CxaFooter />

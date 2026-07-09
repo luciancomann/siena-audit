@@ -66,8 +66,8 @@ export default async function ReportPage({ params }: PageProps) {
         </p>
         <div className="cxa-hero-score">
           <StatCard
-            value={copy.headlineStat}
-            label="automation potential, out of 100"
+            value={`${copy.headlineStat}%`}
+            label="automation potential"
             size="xl"
             gradient
           />
@@ -193,7 +193,7 @@ export default async function ReportPage({ params }: PageProps) {
             <p className="cxa-bench-col-label">{report.brand}</p>
             <div className="cxa-bench-stats">
               <StatCard
-                value={String(metrics.automationPotentialScore)}
+                value={`${metrics.automationPotentialScore}%`}
                 label="automation potential"
                 size="md"
               />
@@ -210,7 +210,7 @@ export default async function ReportPage({ params }: PageProps) {
             </p>
             <div className="cxa-bench-stats">
               <StatCard
-                value={String(benchmark.peerScore)}
+                value={`${benchmark.peerScore}%`}
                 label="automation potential"
                 size="md"
               />
@@ -223,7 +223,7 @@ export default async function ReportPage({ params }: PageProps) {
           </Card>
         </div>
         <p className="cxa-bench-ceiling">
-          The strongest brands in this band reach {benchmark.automationCeiling} — a
+          The strongest brands in this band reach {benchmark.automationCeiling}% — a
           ceiling worth aiming at, not the average.
         </p>
         <p className="cxa-bench-caveat">{benchmark.caveatLine}</p>
