@@ -58,9 +58,14 @@ export function CxaNav() {
       >
         <CxaLogo />
       </Link>
-      <Button variant="secondary" size="sm" href="/cx-audit/report/verabloom">
-        See a sample audit
-      </Button>
+      <span style={{ display: "flex", alignItems: "center", gap: "var(--sds-space-3)" }}>
+        <Link href="/growth-os" className="cxa-nav-growthos">
+          Growth OS
+        </Link>
+        <Button variant="secondary" size="sm" href="/cx-audit/report/verabloom">
+          See a sample audit
+        </Button>
+      </span>
     </header>
   );
 }

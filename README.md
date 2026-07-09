@@ -79,6 +79,21 @@ A free-audit lead magnet built on `@siena/design-system`: upload a helpdesk expo
 - **Synthetic dataset**: `scripts/generate-verabloom.ts` — 500 seeded, byte-reproducible tickets with three planted, discoverable stories (23 untagged pump-defect reports, 14% pre-purchase volume, 31 repeat-contact subscription customers), plus a long-tail split inside the "other" bucket (7 influencer collab requests, 5 wholesale inquiries, 3 donation requests, 7 one-offs) that the metrics stage reads into the report's chip row and the ladder section.
 - **"Prepared for" name**: authored as "Tom" on the sample; on uploads it's best-effort derived from the qualify-step email's local part. It rides into the report header and the CRM payload.
 
+## Growth OS (`/growth-os`)
+
+Internal growth-operations app on the same Siena tokens in a denser,
+utilitarian variant. Five modules behind a left sidebar: **This Week**
+(stat cards, meetings-by-source with editable spend that recomputes cost
+per meeting, ship lists, and the reporting agent's auto-written digest),
+**Bets** (the ranked pipeline with composite scoring, drag reorder, a
+max-3-live WIP rule, and detail panels — bet 1's numbers flow in from the
+CX Audit tool), **The Loop** (the six-stage engine with per-stage agent
+machinery and health), **Metrics** (tracked vs deliberately-not-tracked,
+equal weight), and **Signals** (the insight repo: objections ranked,
+winning language per persona, competitor mentions). Everything runs on a
+seeded synthetic dataset consistent with the audit tool; all state changes
+persist to `localStorage` (`growth-os-v1`). No auth, no backend.
+
 ## Pipeline
 
 `pipeline/` contains everything used to produce and verify the clone — capture

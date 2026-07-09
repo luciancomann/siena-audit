@@ -14,3 +14,18 @@ body {
   padding: 7px 16px !important;
   letter-spacing: 0.06em !important;
 }
+
+/* main-nav pointer to the internal ops app */
+.cxa-nav-growthos {
+  font-family: var(--sds-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sds-text-secondary);
+  text-decoration: none;
+}
+
+.cxa-nav-growthos:hover {
+  color: var(--sds-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

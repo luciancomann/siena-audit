@@ -1,0 +1,70 @@
+"use client";
+
+/**
+ * Growth OS chrome: fixed left sidebar (five modules + a pointer back to
+ * the audit tool), top header with the quiet "runs inside Siena OS" label
+ * and the user chip. Dense, no marketing.
+ */
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const NAV = [
+  { href: "/growth-os", label: "This Week", key: "week" },
+  { href: "/growth-os/bets", label: "Bets", key: "bets" },
+  { href: "/growth-os/loop", label: "The Loop", key: "loop" },
+  { href: "/growth-os/metrics", label: "Metrics", key: "metrics" },
+  { href: "/growth-os/signals", label: "Signals", key: "signals" },
+];
+
+export function Shell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  return (
+    <div className="gos">
+      <aside className="gos-side">
+        <div className="gos-side__brand">
+          <span className="gos-side__mark" aria-hidden="true" />
+          Growth OS
+        </div>
+        <nav className="gos-side__nav" aria-label="Growth OS modules">
+          {NAV.map((item) => {
+            const active =
+              item.href === "/growth-os"
+                ? pathname === "/growth-os"
+                : pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.key}
+                href={item.href}
+                className={`gos-side__item${active ? " gos-side__item--active" : ""}`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+        <div className="gos-side__foot">
+          <Link href="/cx-audit" className="gos-side__item gos-side__item--ext">
+            CX Audit tool ↗
+          </Link>
+          <span className="gos-side__wip">WIP rule: max 3 bets live</span>
+        </div>
+      </aside>
+
+      <div className="gos-main">
+        <header className="gos-head">
+          <div className="gos-head__left">
+            <span className="gos-head__title">Growth OS</span>
+            <span className="gos-head__quiet">runs inside Siena OS</span>
+          </div>
+          <span className="gos-user">
+            <span className="gos-user__dot" aria-hidden="true">
+              L
+            </span>
+            Lucian · Growth
+          </span>
+        </header>
+        <main className="gos-content">{children}</main>
+      </div>
+    </div>
+  );
+}
