@@ -31,6 +31,7 @@ import "../report.css";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ internal?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -46,8 +47,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 /** Warm initials for the customer side of the chat mockups. */
 const CUSTOMER_INITIALS = ["AL", "MJ", "SR", "KT", "DP"];
 
-export default async function ReportPage({ params }: PageProps) {
+export default async function ReportPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const { internal } = await searchParams;
   const report = await loadReport(slug);
   if (!report) notFound();
 
@@ -55,7 +57,7 @@ export default async function ReportPage({ params }: PageProps) {
 
   return (
     <main className="cxa-report">
-      <TopBar report={report} />
+      <TopBar report={report} showInternal={internal === "1"} />
 
       {/* 1 — Headline */}
       <header className="cxa-container cxa-section cxa-hero">
@@ -73,6 +75,11 @@ export default async function ReportPage({ params }: PageProps) {
           />
         </div>
         <h1 className="sds-display-lg cxa-hero-human">{copy.headlineHuman}</h1>
+        <p className="cxa-hero-reconcile">
+          {Math.round(metrics.automatableShare * 1000) / 10}% of your volume maps to
+          actions Siena resolves end to end. Confidence-weighting what we could read
+          brings the score to {metrics.automationPotentialScore}.
+        </p>
       </header>
 
       {/* 2 — Volume by intent */}
@@ -148,7 +155,12 @@ export default async function ReportPage({ params }: PageProps) {
             >
               <div className="cxa-insight-head">
                 <h3 className="sds-display-md cxa-insight-title">{insight.title}</h3>
-                <Badge variant="outline">{insight.evidence_count} tickets</Badge>
+                <Badge variant="outline">
+                  {insight.evidence_count} in this sample
+                  {insight.title.includes("a month")
+                    ? ` · ~${formatNumber(math.prePurchaseTicketsPerMonth)}/mo`
+                    : ""}
+                </Badge>
               </div>
               <p className="cxa-insight-pattern">{insight.pattern}</p>
               <div className="cxa-insight-memory">
@@ -177,6 +189,11 @@ export default async function ReportPage({ params }: PageProps) {
           defaults={report.assumptions}
           revenueNote={math.prePurchaseRevenueNote}
         />
+        <p className="cxa-math-exclusion">
+          We left your {formatNumber(math.prePurchaseTicketsPerMonth)}{" "}
+          pre-purchase tickets out of the savings math on purpose. Selling
+          isn&rsquo;t a cost to cut.
+        </p>
       </section>
 
       {/* 6 — Benchmark (new page in print) */}
@@ -222,6 +239,12 @@ export default async function ReportPage({ params }: PageProps) {
             </div>
           </Card>
         </div>
+        {metrics.medianFirstResponseMins > benchmark.peerFirstResponseMins * 1.5 && (
+          <p className="cxa-bench-takeaway">
+            Your customers wait almost twice as long as brands your size.
+            That&rsquo;s the gap Siena closes first.
+          </p>
+        )}
         <p className="cxa-bench-ceiling">
           The strongest brands in this band reach {benchmark.automationCeiling}% — a
           ceiling worth aiming at, not the average.
@@ -261,7 +284,7 @@ export default async function ReportPage({ params }: PageProps) {
               target="_blank"
               rel="noopener"
             >
-              Walk through your audit with us
+              Book 30 minutes
             </Button>
             <CopyLinkButton />
           </div>
@@ -276,7 +299,13 @@ export default async function ReportPage({ params }: PageProps) {
   );
 }
 
-function TopBar({ report }: { report: AuditReport }) {
+function TopBar({
+  report,
+  showInternal,
+}: {
+  report: AuditReport;
+  showInternal: boolean;
+}) {
   return (
     <div className="cxa-no-print cxa-topbar">
       <div className="cxa-container cxa-topbar-inner">
@@ -285,12 +314,17 @@ function TopBar({ report }: { report: AuditReport }) {
           <span className="cxa-wordmark-sub">CX Audit</span>
         </Link>
         <div className="cxa-topbar-actions">
-          <Link
-            className="cxa-topbar-link"
-            href={`/cx-audit/crm-preview/${report.slug}`}
-          >
-            View the sales handoff
-          </Link>
+          {/* Reviewer-only: the prospect never sees the sales handoff.
+              Append ?internal=1 to the report URL to reveal it. */}
+          {showInternal && (
+            <Link
+              className="cxa-topbar-link cxa-topbar-link--internal"
+              href={`/cx-audit/crm-preview/${report.slug}`}
+            >
+              <span className="cxa-internal-tag">Internal</span>
+              View the sales handoff
+            </Link>
+          )}
           <PrintButton />
         </div>
       </div>

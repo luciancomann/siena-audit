@@ -13,44 +13,71 @@ export function IntentBars({ intents }: { intents: IntentMetrics[] }) {
 
   return (
     <div className="cxa-bars">
-      {sorted.map((row) => (
-        <div className="cxa-bar-row" key={row.intent}>
-          <div className="cxa-bar-label">
-            <span className="cxa-bar-name">
-              {row.automatable && (
-                <span className="cxa-bar-check" aria-hidden="true">
-                  ✓
-                </span>
+      {sorted.map((row) => {
+        // Pre-purchase gets its own lane: not a cost to automate away, a
+        // revenue conversation the Shopping Agent turns into orders.
+        const isRevenue = row.intent === "pre_purchase";
+        return (
+          <div className="cxa-bar-row" key={row.intent}>
+            <div className="cxa-bar-label">
+              <span className="cxa-bar-name">
+                {row.automatable && (
+                  <span className="cxa-bar-check" aria-hidden="true">
+                    ✓
+                  </span>
+                )}
+                {isRevenue && (
+                  <span className="cxa-bar-check cxa-bar-check--revenue" aria-hidden="true">
+                    ↗
+                  </span>
+                )}
+                {INTENT_LABELS[row.intent]}
+              </span>
+              {isRevenue ? (
+                <Badge variant="outline" className="cxa-badge--revenue">
+                  Shopping Agent · Revenue
+                </Badge>
+              ) : (
+                row.automatable &&
+                row.sienaAction && <Badge variant="outline">{row.sienaAction}</Badge>
               )}
-              {INTENT_LABELS[row.intent]}
-            </span>
-            {row.automatable && row.sienaAction && (
-              <Badge variant="outline">{row.sienaAction}</Badge>
-            )}
-          </div>
-          <div
-            className="cxa-bar-track"
-            role="img"
-            aria-label={`${INTENT_LABELS[row.intent]}: ${formatNumber(row.count)} tickets, ${formatShare(row.share)} of the sample`}
-          >
+            </div>
             <div
-              className={
-                row.automatable ? "cxa-bar-fill cxa-bar-fill--auto" : "cxa-bar-fill"
-              }
-              style={{ width: `${(row.count / max) * 100}%` }}
-            />
+              className="cxa-bar-track"
+              role="img"
+              aria-label={`${INTENT_LABELS[row.intent]}: ${formatNumber(row.count)} tickets, ${formatShare(row.share)} of the sample`}
+            >
+              <div
+                className={
+                  isRevenue
+                    ? "cxa-bar-fill cxa-bar-fill--revenue"
+                    : row.automatable
+                      ? "cxa-bar-fill cxa-bar-fill--auto"
+                      : "cxa-bar-fill"
+                }
+                style={{ width: `${(row.count / max) * 100}%` }}
+              />
+            </div>
+            <div className="cxa-bar-value">
+              {formatNumber(row.count)} · {formatShare(row.share)}
+            </div>
           </div>
-          <div className="cxa-bar-value">
-            {formatNumber(row.count)} · {formatShare(row.share)}
-          </div>
-        </div>
-      ))}
+        );
+      })}
       <p className="cxa-bars-legend">
         <span
           className="cxa-legend-swatch cxa-legend-swatch--auto"
           aria-hidden="true"
         />{" "}
         Siena resolves end to end
+        <span className="cxa-legend-sep" aria-hidden="true">
+          ·
+        </span>
+        <span
+          className="cxa-legend-swatch cxa-legend-swatch--revenue"
+          aria-hidden="true"
+        />{" "}
+        turns into revenue
         <span className="cxa-legend-sep" aria-hidden="true">
           ·
         </span>

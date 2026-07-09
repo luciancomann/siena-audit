@@ -53,7 +53,20 @@ export default function CxAuditLandingPage() {
             as="h1"
             align="left"
             eyebrow="Free CX audit"
-            title="Your tickets already know."
+            title={
+              <>
+                Your tickets already{" "}
+                <span className="cxl-underline">
+                  know.
+                  <img
+                    src="/assets/images/MJbk4aQblPanJHyFV9X8Yg7JDqI-q1l9u9tc.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="cxl-underline__stroke"
+                  />
+                </span>
+              </>
+            }
             subtitle="Most brands guess what AI could automate. Your last 500 tickets hold the real answer. Free audit, 5 minutes."
           />
           <div className="cxl-hero__ctas">

@@ -519,3 +519,69 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* ---- design-review pass additions ---- */
+
+/* hero: score reconciliation line (78.6% volume vs 74 confidence-weighted) */
+.cxa-hero-reconcile {
+  margin: var(--sds-space-4) 0 0;
+  font-family: var(--sds-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--sds-text-muted);
+  max-width: 62ch;
+}
+
+/* volume: pre-purchase revenue lane */
+.cxa-bar-check--revenue {
+  color: var(--sds-coral-500);
+}
+.cxa-bar-fill--revenue {
+  background: var(--sds-coral-500) !important;
+}
+.cxa-legend-swatch--revenue {
+  background: var(--sds-coral-500);
+}
+.cxa-badge--revenue {
+  border-color: var(--sds-coral-500) !important;
+  color: var(--sds-coral-600) !important;
+}
+
+/* math: deliberate pre-purchase exclusion */
+.cxa-math-exclusion {
+  margin: var(--sds-space-5) 0 0;
+  font-family: var(--sds-font-serif);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--sds-text-secondary);
+  border-left: 2px solid var(--sds-coral-500);
+  padding-left: var(--sds-space-4);
+  max-width: 56ch;
+}
+
+/* benchmark: the takeaway sentence */
+.cxa-bench-takeaway {
+  margin: var(--sds-space-5) 0 0;
+  font-family: var(--sds-font-display);
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--sds-text-primary);
+  max-width: 34ch;
+}
+
+/* topbar: reviewer-only internal link */
+.cxa-topbar-link--internal {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sds-space-2);
+}
+.cxa-internal-tag {
+  font-family: var(--sds-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--sds-radius-pill);
+  background: var(--sds-ink-900);
+  color: var(--sds-text-on-dark);
+}

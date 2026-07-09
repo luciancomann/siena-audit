@@ -199,7 +199,7 @@
 .cxl-cta-card {
   position: relative;
   z-index: 1;
-  max-width: 880px;
+  max-width: 1040px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -236,4 +236,26 @@
   .cxl-cta-card {
     padding: var(--sds-space-7) var(--sds-space-5) !important;
   }
+}
+
+/* nav: bigger CX Audit pill next to the wordmark */
+.cxa-nav-pill {
+  font-size: 12px !important;
+  padding: 7px 16px !important;
+  letter-spacing: 0.06em !important;
+}
+
+/* hero: multicolor scribble underline from the clone (241x18 asset) */
+.cxl-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.cxl-underline__stroke {
+  position: absolute;
+  left: 0;
+  bottom: -0.08em;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
 }

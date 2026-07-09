@@ -28,17 +28,18 @@ export function CxaNav() {
           color: "var(--sds-text-primary)",
         }}
       >
-        <span
-          style={{
-            fontFamily: "var(--sds-font-display)",
-            fontSize: 26,
-            lineHeight: 1,
-            letterSpacing: "-0.02em",
-          }}
+        {/* Siena wordmark from the clone's harvested sprite (inherits fill) */}
+        <svg
+          viewBox="0 0 120.976 31.324"
+          style={{ width: 108, height: 28, display: "block", color: "var(--sds-ink-900)", fill: "currentColor" }}
+          role="img"
+          aria-label="Siena"
         >
-          siena
-        </span>
-        <Badge variant="filled">CX Audit</Badge>
+          <use href="#svg1470285565_4871" />
+        </svg>
+        <Badge variant="filled" className="cxa-nav-pill">
+          CX Audit
+        </Badge>
       </Link>
       <Button variant="secondary" size="sm" href="/cx-audit/report/verabloom">
         See a sample audit
