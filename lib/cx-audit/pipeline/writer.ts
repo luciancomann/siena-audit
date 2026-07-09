@@ -109,7 +109,7 @@ You produce:
    - volumeIntro: introduces the intent breakdown; mention that checked intents map to actions Siena resolves end to end.
    - chatIntro: introduces the conversation mockups.
    - insightsIntro: introduces the insights — the support queue as honest customer research.
-   - mathIntro: introduces the savings math; note the assumptions are in the open and adjustable.
+   - mathIntro: introduces the savings math AND the separately-labeled revenue scenario beside it; note the assumptions are in the open and adjustable, and that the two are never summed.
    - benchmarkIntro: one or two sentences placing the brand against peers its size, using the peer numbers provided.
    - couldntSee: 2-3 honest, plain statements about what this export could not show (use the coverage facts provided — macros/saved replies, channels not in the export, CSAT coverage).
    - ctaLine: one warm invitation to walk through the audit on a 30-minute call. No pressure language.

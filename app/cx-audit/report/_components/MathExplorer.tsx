@@ -21,7 +21,8 @@ interface MathExplorerProps {
   monthlyVolumeEstimate: number;
   automatableShare: number;
   defaults: Assumptions;
-  revenueDefaults: RevenueScenario;
+  /** Absent when the export shows no pre-purchase volume — no scenario then. */
+  revenueDefaults?: RevenueScenario;
 }
 
 interface Field {
@@ -29,11 +30,15 @@ interface Field {
   error?: string;
 }
 
-function parseField(raw: string, fallback: number): Field {
+function parseField(raw: string, fallback: number, max: number): Field {
   if (raw.trim() === "") return { value: fallback, error: `Blank — using ${fallback}` };
   const n = Number(raw);
   if (!Number.isFinite(n) || n < 0) {
     return { value: fallback, error: `Numbers only — using ${fallback}` };
+  }
+  // per-field ceilings keep the products inside safe-integer land — no "$∞"
+  if (n > max) {
+    return { value: fallback, error: `Too large — using ${fallback}` };
   }
   return { value: n };
 }
@@ -47,16 +52,16 @@ export function MathExplorer({
   const [handleRaw, setHandleRaw] = useState(String(defaults.handleTimeMins));
   const [loadedRaw, setLoadedRaw] = useState(String(defaults.loadedCostPerTicket));
   const [autoRaw, setAutoRaw] = useState(String(defaults.automatedCostPerTicket));
-  const [preRaw, setPreRaw] = useState(String(revenueDefaults.prePurchasePerMonth));
-  const [convRaw, setConvRaw] = useState(String(revenueDefaults.incrementalConversionPct));
-  const [aovRaw, setAovRaw] = useState(String(revenueDefaults.averageOrderValue));
+  const [preRaw, setPreRaw] = useState(String(revenueDefaults?.prePurchasePerMonth ?? 0));
+  const [convRaw, setConvRaw] = useState(String(revenueDefaults?.incrementalConversionPct ?? 12));
+  const [aovRaw, setAovRaw] = useState(String(revenueDefaults?.averageOrderValue ?? 65));
 
-  const handleTime = parseField(handleRaw, defaults.handleTimeMins);
-  const loadedCost = parseField(loadedRaw, defaults.loadedCostPerTicket);
-  const autoCost = parseField(autoRaw, defaults.automatedCostPerTicket);
-  const prePurchase = parseField(preRaw, revenueDefaults.prePurchasePerMonth);
-  const conversion = parseField(convRaw, revenueDefaults.incrementalConversionPct);
-  const aov = parseField(aovRaw, revenueDefaults.averageOrderValue);
+  const handleTime = parseField(handleRaw, defaults.handleTimeMins, 1440);
+  const loadedCost = parseField(loadedRaw, defaults.loadedCostPerTicket, 100_000);
+  const autoCost = parseField(autoRaw, defaults.automatedCostPerTicket, 100_000);
+  const prePurchase = parseField(preRaw, revenueDefaults?.prePurchasePerMonth ?? 0, 10_000_000);
+  const conversion = parseField(convRaw, revenueDefaults?.incrementalConversionPct ?? 12, 100);
+  const aov = parseField(aovRaw, revenueDefaults?.averageOrderValue ?? 65, 1_000_000);
 
   // Mirrors MathSection: pure arithmetic, no model math.
   const autoTickets = Math.round(automatableShare * monthlyVolumeEstimate);
@@ -95,17 +100,19 @@ export function MathExplorer({
           </p>
         </div>
         {/* the revenue side — a labeled scenario, never summed with savings */}
-        <div className="cxa-revenue-card">
-          <span className="cxa-revenue-card__tag">Revenue scenario</span>
-          <StatCard
-            value={formatMoney(revenueMonthly)}
-            label="recovered revenue per month, modeled"
-            size="md"
-          />
-          <p className="cxa-math-annual">
-            {formatMoney(revenueAnnual)} a year, at your volume
-          </p>
-        </div>
+        {revenueDefaults && (
+          <div className="cxa-revenue-card">
+            <span className="cxa-revenue-card__tag">Revenue scenario</span>
+            <StatCard
+              value={formatMoney(revenueMonthly)}
+              label="recovered revenue per month, modeled"
+              size="md"
+            />
+            <p className="cxa-math-annual">
+              {formatMoney(revenueAnnual)} a year, at your volume
+            </p>
+          </div>
+        )}
       </div>
       <p className="cxa-math-basis">
         Basis: {formatNumber(autoTickets)} of your {formatNumber(monthlyVolumeEstimate)}{" "}
@@ -134,34 +141,38 @@ export function MathExplorer({
           error={autoCost.error}
         />
       </div>
-      <div className="cxa-math-inputs cxa-math-inputs--revenue">
-        <Input
-          label="Pre-purchase conversations / month"
-          type="number"
-          value={preRaw}
-          onChange={(e) => setPreRaw(e.target.value)}
-          error={prePurchase.error}
-        />
-        <Input
-          label="Incremental conversion rate (%)"
-          type="number"
-          value={convRaw}
-          onChange={(e) => setConvRaw(e.target.value)}
-          error={conversion.error}
-        />
-        <Input
-          label="Average order value ($)"
-          type="number"
-          value={aovRaw}
-          onChange={(e) => setAovRaw(e.target.value)}
-          error={aov.error}
-        />
-      </div>
-      <p className="cxa-math-note">
-        The scenario: shoppers who get an answer in seconds instead of five hours,
-        and a portion buys who otherwise moved on. Change the assumptions —
-        it&rsquo;s your math now.
-      </p>
+      {revenueDefaults && (
+        <>
+          <div className="cxa-math-inputs cxa-math-inputs--revenue">
+            <Input
+              label="Pre-purchase conversations / month"
+              type="number"
+              value={preRaw}
+              onChange={(e) => setPreRaw(e.target.value)}
+              error={prePurchase.error}
+            />
+            <Input
+              label="Incremental conversion rate (%)"
+              type="number"
+              value={convRaw}
+              onChange={(e) => setConvRaw(e.target.value)}
+              error={conversion.error}
+            />
+            <Input
+              label="Average order value ($)"
+              type="number"
+              value={aovRaw}
+              onChange={(e) => setAovRaw(e.target.value)}
+              error={aov.error}
+            />
+          </div>
+          <p className="cxa-math-note">
+            The scenario: shoppers get an answer in seconds instead of five hours,
+            and a portion of them buy instead of moving on. Change the
+            assumptions — it&rsquo;s your math now.
+          </p>
+        </>
+      )}
     </Card>
   );
 }
