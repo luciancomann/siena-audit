@@ -382,3 +382,9 @@
     break-inside: avoid;
   }
 }
+
+/* captured emails keep their case in the mono source line */
+.cxa-crm-email {
+  text-transform: none;
+  letter-spacing: normal;
+}

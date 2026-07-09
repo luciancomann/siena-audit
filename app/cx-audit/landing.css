@@ -193,11 +193,6 @@
   overflow: hidden;
 }
 
-/* the full-bleed band means the page must never scroll sideways */
-body {
-  overflow-x: clip;
-}
-
 .cxl-cta-band__video {
   position: absolute;
   inset: 0;

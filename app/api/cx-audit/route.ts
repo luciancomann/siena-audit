@@ -100,7 +100,7 @@ function contactFromForm(form: FormData): CrmContact | undefined {
   const email = field("contact_email");
   const teamSize = field("team_size");
   const ticketsPerMonth = field("tickets_per_month");
-  if (!email || !email.includes("@")) return undefined;
+  if (!email || !email.includes("@") || !teamSize || !ticketsPerMonth) return undefined;
   return { email, team_size: teamSize, tickets_per_month: ticketsPerMonth };
 }
 

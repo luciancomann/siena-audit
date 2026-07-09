@@ -78,9 +78,15 @@ export default async function CrmPreviewPage({ params }: PageProps) {
               <h2 className="sds-display-md cxa-crm-company">{crm.company}</h2>
               <p className="cxa-crm-source">
                 source: {crm.source}
-                {crm.contact
-                  ? ` · ${crm.contact.email} · team ${crm.contact.team_size} · ${crm.contact.tickets_per_month} tickets/mo (self-reported)`
-                  : " · no contact captured — audit ran without the qualify step"}
+                {crm.contact ? (
+                  <>
+                    {" · "}
+                    <span className="cxa-crm-email">{crm.contact.email}</span>
+                    {` · team ${crm.contact.team_size} · ${crm.contact.tickets_per_month} tickets/mo (self-reported)`}
+                  </>
+                ) : (
+                  " · no contact captured — audit ran without the qualify step"
+                )}
               </p>
             </div>
             {crm.fast_track && (

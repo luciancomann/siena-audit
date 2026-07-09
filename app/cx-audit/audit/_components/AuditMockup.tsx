@@ -1,10 +1,9 @@
 /**
  * Hero mockup: a glimpse of the audit itself — three stacked panels
  * (score, sample breakdown, volume by intent) with a slight perspective
- * tilt. Built from the design system's Card surfaces in the light palette
- * so the teaser previews exactly what the report looks like. Numbers
- * mirror the Verabloom sample report so the teaser and the real artifact
- * agree.
+ * tilt, built from the design system's dark Card surfaces (tone="dark").
+ * Numbers mirror the Verabloom sample report so the teaser and the real
+ * artifact agree.
  */
 import { Card } from "@siena/design-system";
 import "./audit-mockup.css";

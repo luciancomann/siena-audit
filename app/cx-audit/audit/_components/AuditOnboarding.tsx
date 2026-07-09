@@ -12,7 +12,7 @@
 import { useEffect, useState } from "react";
 import { Badge, SectionHeading } from "@siena/design-system";
 import { AuditFlow } from "./AuditFlow";
-import { QualifyWizard, type QualifyAnswers } from "./QualifyWizard";
+import { EMAIL_RE, QualifyWizard, type QualifyAnswers } from "./QualifyWizard";
 
 const STORAGE_KEY = "cxa-qualify-v1";
 
@@ -21,11 +21,14 @@ function readStored(): QualifyAnswers | null {
     const raw = window.sessionStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Partial<QualifyAnswers>;
+    // stored answers must be at least as strong as wizard-entered ones
     if (
       typeof parsed.teamSize === "string" &&
+      parsed.teamSize !== "" &&
       typeof parsed.ticketsPerMonth === "string" &&
+      parsed.ticketsPerMonth !== "" &&
       typeof parsed.email === "string" &&
-      parsed.email.includes("@")
+      EMAIL_RE.test(parsed.email)
     ) {
       return parsed as QualifyAnswers;
     }
@@ -41,6 +44,8 @@ export function AuditOnboarding() {
   const [answers, setAnswers] = useState<QualifyAnswers | null>(null);
   const [editing, setEditing] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  // true while AuditFlow streams a run — editing then would unmount it
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     setAnswers(readStored());
@@ -67,7 +72,7 @@ export function AuditOnboarding() {
             as="h1"
             eyebrow="Free CX audit"
             title="First, a little about your queue."
-            subtitle="Three quick answers so the audit is sized to your team. Your tickets stay put until you choose how to share them."
+            subtitle="Three quick answers so the follow-up is sized to your team. Your tickets stay put until you choose how to share them."
           />
           {hydrated && (
             <QualifyWizard initial={answers} onComplete={complete} />
@@ -81,19 +86,23 @@ export function AuditOnboarding() {
             title="Start with your last 500 tickets."
             subtitle="Three ways in — a CSV export, a helpdesk connection, or the sample. The same nine agents read them either way."
           />
-          <div className="cxq-summary">
-            <Badge variant="outline">Team · {answers.teamSize}</Badge>
-            <Badge variant="outline">{answers.ticketsPerMonth} tickets / mo</Badge>
-            <Badge variant="outline">{answers.email}</Badge>
-            <button
-              type="button"
-              className="cxq-summary__edit"
-              onClick={() => setEditing(true)}
-            >
-              Edit your details
-            </button>
-          </div>
-          <AuditFlow contact={answers} />
+          {!busy && (
+            <div className="cxq-summary">
+              <Badge variant="outline">Team · {answers.teamSize}</Badge>
+              <Badge variant="outline">{answers.ticketsPerMonth} tickets / mo</Badge>
+              <Badge variant="outline" className="cxq-summary__email">
+                <span className="cxq-summary__email-text">{answers.email}</span>
+              </Badge>
+              <button
+                type="button"
+                className="cxq-summary__edit"
+                onClick={() => setEditing(true)}
+              >
+                Edit your details
+              </button>
+            </div>
+          )}
+          <AuditFlow contact={answers} onBusyChange={setBusy} />
         </>
       )}
     </section>

@@ -1,5 +1,11 @@
 /* Shared CX Audit chrome — loaded wherever CxaNav/CxaLogo render. */
 
+/* every CX Audit surface: the page never scrolls sideways, whatever a
+   full-bleed band, blob, or long badge tries */
+body {
+  overflow-x: clip;
+}
+
 .cxa-nav-pill {
   font-size: 12px !important;
   padding: 7px 16px !important;

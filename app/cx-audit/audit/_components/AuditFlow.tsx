@@ -8,7 +8,7 @@
  * sample. While a run is live the chooser gives way to the progress board;
  * errors land on a warm, honest card that always offers the sample.
  */
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Card } from "@siena/design-system";
 import type { PipelineStageKey, ProgressEvent } from "@/lib/cx-audit/types";
@@ -47,7 +47,15 @@ function validateFile(file: File): string | null {
   return null;
 }
 
-export function AuditFlow({ contact }: { contact?: QualifyAnswers | null }) {
+export function AuditFlow({
+  contact,
+  onBusyChange,
+}: {
+  contact?: QualifyAnswers | null;
+  /** True while a run is streaming — the parent hides anything (like the
+      qualify edit link) that would unmount a live run. */
+  onBusyChange?: (busy: boolean) => void;
+}) {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>({ kind: "choose" });
   const [file, setFile] = useState<File | null>(null);
@@ -58,6 +66,23 @@ export function AuditFlow({ contact }: { contact?: QualifyAnswers | null }) {
   );
   const [stageNotes, setStageNotes] = useState<Partial<Record<PipelineStageKey, string>>>({});
   const inputRef = useRef<HTMLInputElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  const redirectTimerRef = useRef<number | undefined>(undefined);
+
+  useEffect(() => {
+    onBusyChange?.(phase.kind === "running");
+  }, [phase.kind, onBusyChange]);
+
+  // if this component ever unmounts mid-run, cancel the stream and the
+  // pending redirect so nothing fires into a dead tree (or worse, yanks
+  // the user to a report they navigated away from)
+  useEffect(
+    () => () => {
+      abortRef.current?.abort();
+      window.clearTimeout(redirectTimerRef.current);
+    },
+    [],
+  );
 
   const acceptFile = useCallback((candidate: File | undefined) => {
     if (!candidate) return;
@@ -118,7 +143,7 @@ export function AuditFlow({ contact }: { contact?: QualifyAnswers | null }) {
             return all;
           });
           setPhase({ kind: "running", fileName: upload.name, finished: true });
-          window.setTimeout(() => {
+          redirectTimerRef.current = window.setTimeout(() => {
             router.push(`/cx-audit/report/${slug}`);
           }, 700);
           return;
@@ -132,6 +157,9 @@ export function AuditFlow({ contact }: { contact?: QualifyAnswers | null }) {
         }
       };
 
+      const controller = new AbortController();
+      abortRef.current = controller;
+
       try {
         const form = new FormData();
         form.append("file", upload);
@@ -140,7 +168,11 @@ export function AuditFlow({ contact }: { contact?: QualifyAnswers | null }) {
           form.append("team_size", contact.teamSize);
           form.append("tickets_per_month", contact.ticketsPerMonth);
         }
-        const res = await fetch("/api/cx-audit", { method: "POST", body: form });
+        const res = await fetch("/api/cx-audit", {
+          method: "POST",
+          body: form,
+          signal: controller.signal,
+        });
 
         if (!res.ok || !res.body) {
           let message = "The audit service didn't answer. Your file stayed in memory and is already gone.";
@@ -193,6 +225,8 @@ export function AuditFlow({ contact }: { contact?: QualifyAnswers | null }) {
           fail("The audit stream ended early. Nothing was stored — try again, or open the sample.");
         }
       } catch {
+        // an unmount-triggered abort is not an error to surface
+        if (controller.signal.aborted) return;
         fail("We couldn't reach the audit service. Check your connection and try again — or open the sample.");
       }
     },
@@ -316,7 +350,7 @@ export function AuditFlow({ contact }: { contact?: QualifyAnswers | null }) {
                 if (file) void runAudit(file);
               }}
             >
-              Run the audit
+              Audit this CSV
             </Button>
           </div>
         </Card>

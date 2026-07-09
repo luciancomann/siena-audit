@@ -89,6 +89,12 @@
   }
 }
 
+.cxq-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sds-space-5);
+}
+
 .cxq-question {
   margin: 0;
   font-family: var(--sds-font-display);
@@ -96,6 +102,11 @@
   line-height: 1.15;
   font-weight: 400;
   color: var(--sds-text-primary);
+}
+
+/* focus target after step changes — keyboard users land here, no ring */
+.cxq-question:focus {
+  outline: none;
 }
 
 /* --------------------------------------------------------------- options */
@@ -145,6 +156,25 @@
   justify-content: center;
   gap: var(--sds-space-3);
   flex-wrap: wrap;
+}
+
+.cxq-summary .sds-badge {
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* emails keep their case and never push the page sideways */
+.cxq-summary__email {
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+.cxq-summary__email-text {
+  display: block;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cxq-summary__edit {
