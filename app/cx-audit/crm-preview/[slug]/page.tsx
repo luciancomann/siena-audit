@@ -9,6 +9,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Avatar, Badge, Card, StatCard } from "@siena/design-system";
 import { INTENT_LABELS } from "@/lib/cx-audit/types";
+import { CxaLogo } from "../../audit/_components/Chrome";
 import { loadReport } from "../../report/_components/load-report";
 import {
   formatDateTime,
@@ -47,8 +48,7 @@ export default async function CrmPreviewPage({ params }: PageProps) {
       <div className="cxa-no-print cxa-topbar">
         <div className="cxa-container cxa-topbar-inner">
           <Link className="cxa-wordmark" href="/cx-audit">
-            <span className="cxa-wordmark-siena">Siena</span>
-            <span className="cxa-wordmark-sub">CX Audit</span>
+            <CxaLogo />
           </Link>
           <Link className="cxa-topbar-link" href={crm.report_url}>
             Back to the report

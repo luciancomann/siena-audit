@@ -19,24 +19,10 @@
 
 .cxa-wordmark {
   display: inline-flex;
-  align-items: baseline;
-  gap: var(--sds-space-2);
+  align-items: center;
+  gap: var(--sds-space-3);
   text-decoration: none;
   color: var(--sds-text-primary);
-}
-
-.cxa-wordmark-siena {
-  font-family: var(--sds-font-display);
-  font-size: 24px;
-  line-height: 1;
-}
-
-.cxa-wordmark-sub {
-  font-family: var(--sds-font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--sds-text-secondary);
 }
 
 .cxa-topbar-link {

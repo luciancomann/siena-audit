@@ -17,6 +17,7 @@ import {
   StatCard,
 } from "@siena/design-system";
 import type { AuditReport } from "@/lib/cx-audit/types";
+import { CxaLogo } from "../../audit/_components/Chrome";
 import { loadReport } from "../_components/load-report";
 import { IntentBars } from "../_components/IntentBars";
 import { MathExplorer } from "../_components/MathExplorer";
@@ -310,8 +311,7 @@ function TopBar({
     <div className="cxa-no-print cxa-topbar">
       <div className="cxa-container cxa-topbar-inner">
         <Link className="cxa-wordmark" href="/cx-audit">
-          <span className="cxa-wordmark-siena">Siena</span>
-          <span className="cxa-wordmark-sub">CX Audit</span>
+          <CxaLogo />
         </Link>
         <div className="cxa-topbar-actions">
           {/* Reviewer-only: the prospect never sees the sales handoff.

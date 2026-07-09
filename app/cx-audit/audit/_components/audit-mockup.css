@@ -1,5 +1,6 @@
-/* Audit dashboard mockup — dark stacked panels with a gentle perspective
-   tilt. All values from --sds-* tokens. */
+/* Audit dashboard mockup — light DS Card surfaces (sand score panel over
+   white data panels) with a gentle perspective tilt. Same proportions as
+   the report it previews; all values from --sds-* tokens. */
 
 .cxm {
   display: flex;
@@ -12,15 +13,11 @@
 }
 
 .cxm__panel {
-  background: var(--sds-ink-900);
-  border-radius: var(--sds-radius-lg);
   padding: var(--sds-space-5);
-  box-shadow: 0 24px 48px -24px var(--sds-black-alpha-50);
+  box-shadow: 0 24px 48px -28px var(--sds-black-alpha-20);
 }
 
 .cxm__panel--score {
-  display: flex;
-  flex-direction: column;
   gap: var(--sds-space-1);
   align-items: flex-start;
 }
@@ -30,7 +27,7 @@
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--sds-ink-400);
+  color: var(--sds-sand-600);
 }
 
 .cxm__score {
@@ -49,7 +46,7 @@
   font-family: var(--sds-font-sans);
   font-size: 15px;
   font-weight: 600;
-  color: var(--sds-text-on-dark);
+  color: var(--sds-text-primary);
   margin-bottom: var(--sds-space-4);
 }
 
@@ -70,7 +67,7 @@
   font-family: var(--sds-font-sans);
   font-weight: 600;
   font-size: 7px;
-  fill: var(--sds-text-on-dark);
+  fill: var(--sds-text-primary);
 }
 
 .cxm-donut__unit {
@@ -78,7 +75,7 @@
   font-size: 3.2px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  fill: var(--sds-ink-400);
+  fill: var(--sds-text-muted);
 }
 
 .cxm__legend {
@@ -97,7 +94,7 @@
   gap: var(--sds-space-2);
   font-family: var(--sds-font-sans);
   font-size: 13px;
-  color: var(--sds-ink-100);
+  color: var(--sds-ink-700);
 }
 
 .cxm__dot {
@@ -114,7 +111,7 @@
 .cxm__legend-value {
   font-family: var(--sds-font-mono);
   font-size: 12px;
-  color: var(--sds-ink-300);
+  color: var(--sds-ink-500);
 }
 
 /* intent bars */
@@ -137,7 +134,7 @@
 .cxm__bar-label {
   font-family: var(--sds-font-sans);
   font-size: 12px;
-  color: var(--sds-ink-200);
+  color: var(--sds-ink-600);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -147,7 +144,7 @@
   display: block;
   height: 8px;
   border-radius: var(--sds-radius-pill);
-  background: var(--sds-ink-800);
+  background: var(--sds-sand-200);
   overflow: hidden;
 }
 
@@ -161,7 +158,7 @@
 .cxm__bar-value {
   font-family: var(--sds-font-mono);
   font-size: 11px;
-  color: var(--sds-ink-300);
+  color: var(--sds-ink-500);
   text-align: right;
 }
 

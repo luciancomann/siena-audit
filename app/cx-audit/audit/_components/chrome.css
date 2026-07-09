@@ -1,0 +1,7 @@
+/* Shared CX Audit chrome — loaded wherever CxaNav/CxaLogo render. */
+
+.cxa-nav-pill {
+  font-size: 12px !important;
+  padding: 7px 16px !important;
+  letter-spacing: 0.06em !important;
+}

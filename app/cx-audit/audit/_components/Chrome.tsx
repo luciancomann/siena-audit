@@ -5,6 +5,33 @@
  */
 import Link from "next/link";
 import { Badge, Button } from "@siena/design-system";
+import "./chrome.css";
+
+/** The Siena wordmark (from the clone's harvested sprite) + CX Audit pill —
+    the one logo cluster every CX Audit surface shares. */
+export function CxaLogo() {
+  return (
+    <>
+      <svg
+        viewBox="0 0 120.976 31.324"
+        style={{
+          width: 108,
+          height: 28,
+          display: "block",
+          color: "var(--sds-ink-900)",
+          fill: "currentColor",
+        }}
+        role="img"
+        aria-label="Siena"
+      >
+        <use href="#svg1470285565_4871" />
+      </svg>
+      <Badge variant="filled" className="cxa-nav-pill">
+        CX Audit
+      </Badge>
+    </>
+  );
+}
 
 export function CxaNav() {
   return (
@@ -28,18 +55,7 @@ export function CxaNav() {
           color: "var(--sds-text-primary)",
         }}
       >
-        {/* Siena wordmark from the clone's harvested sprite (inherits fill) */}
-        <svg
-          viewBox="0 0 120.976 31.324"
-          style={{ width: 108, height: 28, display: "block", color: "var(--sds-ink-900)", fill: "currentColor" }}
-          role="img"
-          aria-label="Siena"
-        >
-          <use href="#svg1470285565_4871" />
-        </svg>
-        <Badge variant="filled" className="cxa-nav-pill">
-          CX Audit
-        </Badge>
+        <CxaLogo />
       </Link>
       <Button variant="secondary" size="sm" href="/cx-audit/report/verabloom">
         See a sample audit

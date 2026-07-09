@@ -1,9 +1,12 @@
 /**
- * Hero mockup: a glimpse of the audit itself — three stacked dark panels
- * (score, sample breakdown, volume by intent) with a slight perspective tilt.
- * Numbers mirror the Verabloom sample report so the teaser and the real
- * artifact agree. Pure DS tokens throughout.
+ * Hero mockup: a glimpse of the audit itself — three stacked panels
+ * (score, sample breakdown, volume by intent) with a slight perspective
+ * tilt. Built from the design system's Card surfaces in the light palette
+ * so the teaser previews exactly what the report looks like. Numbers
+ * mirror the Verabloom sample report so the teaser and the real artifact
+ * agree.
  */
+import { Card } from "@siena/design-system";
 import "./audit-mockup.css";
 
 const DONUT = [
@@ -55,13 +58,13 @@ function Donut() {
 export function AuditMockup() {
   return (
     <div className="cxm" aria-label="Preview of an audit report">
-      <div className="cxm__panel cxm__panel--score">
+      <Card tone="sand" radius="lg" padding="none" className="cxm__panel cxm__panel--score">
         <span className="cxm__eyebrow">Verabloom · June 2026</span>
         <span className="cxm__score">74%</span>
         <span className="cxm__eyebrow">Automation potential</span>
-      </div>
+      </Card>
 
-      <div className="cxm__panel cxm__panel--donut">
+      <Card tone="white" radius="lg" padding="none" className="cxm__panel cxm__panel--donut">
         <span className="cxm__panel-title">500 tickets analyzed</span>
         <div className="cxm__donut-row">
           <Donut />
@@ -75,9 +78,9 @@ export function AuditMockup() {
             ))}
           </ul>
         </div>
-      </div>
+      </Card>
 
-      <div className="cxm__panel cxm__panel--bars">
+      <Card tone="white" radius="lg" padding="none" className="cxm__panel cxm__panel--bars">
         <span className="cxm__panel-title">Volume by intent</span>
         <ul className="cxm__bars">
           {INTENT_BARS.map((bar) => (
@@ -90,7 +93,7 @@ export function AuditMockup() {
             </li>
           ))}
         </ul>
-      </div>
+      </Card>
     </div>
   );
 }

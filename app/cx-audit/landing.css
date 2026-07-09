@@ -238,13 +238,6 @@
   }
 }
 
-/* nav: bigger CX Audit pill next to the wordmark */
-.cxa-nav-pill {
-  font-size: 12px !important;
-  padding: 7px 16px !important;
-  letter-spacing: 0.06em !important;
-}
-
 /* hero: multicolor scribble underline from the clone (241x18 asset) */
 .cxl-underline {
   position: relative;

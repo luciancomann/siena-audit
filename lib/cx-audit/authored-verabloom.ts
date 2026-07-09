@@ -155,7 +155,7 @@ export const AUTHORED_COPY: ReportCopy = {
   mathIntro:
     "The math, with our assumptions in the open — change them and the numbers update.",
   benchmarkIntro:
-    "Brands your size typically sit here. You have more headroom than most.",
+    "Brands your size typically sit here — same volume band, same channel mix.",
   couldntSee: [
     "Your export didn't include macros or saved replies, so we can't see what your team already automates by hand.",
     "Social DMs weren't in this export — for most consumer brands they add 10–20% more volume with the same intent mix.",
