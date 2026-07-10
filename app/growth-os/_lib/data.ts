@@ -419,7 +419,7 @@ export const LOOP: LoopStage[] = [
     health: [
       { label: "sends this week", value: "1,840", ok: true },
       { label: "replies", value: "43 (2.3%)", ok: true },
-      { label: "story-led / generic reply", value: "3.4% / 1.7%", ok: true },
+      { label: "story-led / generic reply", value: "3.4% (640 sends) / 1.7% (1,200)", ok: true },
       { label: "promoted to paid", value: "2", ok: true },
     ],
     agents: [

@@ -3,19 +3,48 @@
 /**
  * Signals — the insight repository. Objections ranked by frequency,
  * winning language per persona (tabs), competitor mentions. "→ used in"
- * links show the loop actually connecting to bets and content.
+ * links show the loop actually connecting to bets and content, and every
+ * objection can be drafted straight onto the Bets board.
  */
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Badge, Card, PersonaTabs, SectionHeading } from "@siena/design-system";
 import { COMPETITORS, OBJECTIONS, PERSONA_LANGUAGE } from "../_lib/data";
+import { draftFromSignal } from "../_lib/compute";
+import { useGrowthState } from "../_lib/state";
 import { TrendGlyph } from "../_components/ui";
 
 const PERSONAS = Object.keys(PERSONA_LANGUAGE);
 
 export default function SignalsPage() {
+  const [state, update] = useGrowthState();
+  const router = useRouter();
   const [personaIndex, setPersonaIndex] = useState(0);
   const persona = PERSONAS[personaIndex];
+
+  const draftBet = (objection: string) => {
+    const existingId = state.signalDrafts[objection];
+    if (existingId) {
+      router.push(`/growth-os/bets?open=${existingId}`);
+      return;
+    }
+    const draft = draftFromSignal(objection);
+    update((prev) => ({
+      draftBets: prev.draftBets.some((d) => d.id === draft.id)
+        ? prev.draftBets
+        : [...prev.draftBets, draft],
+      signalDrafts: { ...prev.signalDrafts, [objection]: draft.id },
+      actions: [
+        ...prev.actions,
+        {
+          text: `Drafted a bet from the "${draft.sourceSignal}" signal — "${draft.name}", queued.`,
+          at: new Date().toISOString(),
+        },
+      ],
+    }));
+    router.push(`/growth-os/bets?open=${draft.id}`);
+  };
 
   return (
     <>
@@ -35,25 +64,42 @@ export default function SignalsPage() {
             <SectionHeading as="h2" align="left" eyebrow="01 · Objections" title="Ranked by frequency" />
           </div>
           <Card tone="white" radius="lg" padding="none" className="gos-panel">
-            {OBJECTIONS.map((o) => (
-              <div key={o.text} className="gos-sig">
-                <div className="gos-sig__top">
-                  <span className="gos-sig__text">{o.text}</span>
-                  <Badge variant="outline" className="gos-count">{o.count}</Badge>
-                  <TrendGlyph trend={o.trend} />
+            {OBJECTIONS.map((o) => {
+              const draftId = state.signalDrafts[o.text];
+              const draft = draftId ? state.draftBets.find((d) => d.id === draftId) : null;
+              return (
+                <div key={o.text} className="gos-sig">
+                  <div className="gos-sig__top">
+                    <span className="gos-sig__text">{o.text}</span>
+                    <Badge variant="outline" className="gos-count">{o.count}</Badge>
+                    <TrendGlyph trend={o.trend} />
+                  </div>
+                  <div className="gos-sig__meta">
+                    <span>
+                      {o.source} · {o.date}
+                    </span>
+                    {o.usedIn && (
+                      <Link href={o.usedIn.href} className="gos-usedin">
+                        → used in {o.usedIn.label}
+                      </Link>
+                    )}
+                    {draft ? (
+                      <Link href={`/growth-os/bets?open=${draft.id}`} className="gos-usedin">
+                        → drafted: {draft.name}
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        className="gos-usedin gos-draftbtn"
+                        onClick={() => draftBet(o.text)}
+                      >
+                        → draft a bet
+                      </button>
+                    )}
+                  </div>
                 </div>
-                <div className="gos-sig__meta">
-                  <span>
-                    {o.source} · {o.date}
-                  </span>
-                  {o.usedIn && (
-                    <Link href={o.usedIn.href} className="gos-usedin">
-                      → used in {o.usedIn.label}
-                    </Link>
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </Card>
         </div>
 

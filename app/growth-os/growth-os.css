@@ -1224,3 +1224,378 @@ button.gos-status {
   min-width: 0;
   max-width: 100%;
 }
+
+/* ------------------------------------------------------- ask growth (⌘K) */
+.gos-head__right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.gos-ask-affordance {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--sds-black-alpha-20);
+  background: var(--sds-white);
+  border-radius: var(--sds-radius-pill);
+  padding: 6px 12px;
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--sds-ink-700);
+  cursor: pointer;
+}
+
+.gos-ask-affordance:hover {
+  border-color: var(--sds-ink-900);
+}
+
+.gos-ask-kbd {
+  border: 1px solid var(--sds-black-alpha-20);
+  border-radius: 6px;
+  padding: 1px 5px;
+  font-size: 9.5px;
+  color: var(--sds-text-muted);
+  background: var(--sds-sand-150);
+}
+
+.gos-ask {
+  position: fixed;
+  top: 14vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(640px, 92vw);
+  background: var(--sds-white);
+  border: 1px solid var(--sds-black-alpha-20);
+  border-radius: 20px;
+  box-shadow: 0 32px 64px -24px var(--sds-black-alpha-50);
+  padding: 18px 20px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-sizing: border-box;
+}
+
+.gos-ask__form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gos-ask__input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-family: var(--sds-font-sans);
+  font-size: 16px;
+  color: var(--sds-ink-900);
+}
+
+.gos-ask__input::placeholder {
+  color: var(--sds-text-muted);
+}
+
+.gos-ask-hint {
+  flex: none;
+}
+
+.gos-ask__busy {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--sds-text-muted);
+}
+
+.gos-ask__answer {
+  border-top: 1px solid var(--sds-black-alpha-20);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gos-ask__answer p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--sds-ink-700);
+}
+
+.gos-ask__suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid var(--sds-black-alpha-20);
+  padding-top: 14px;
+}
+
+.gos-ask__suggestion {
+  border: 1px solid var(--sds-black-alpha-20);
+  background: var(--sds-sand-150);
+  border-radius: var(--sds-radius-pill);
+  padding: 5px 12px;
+  font-family: var(--sds-font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--sds-ink-700);
+  cursor: pointer;
+}
+
+.gos-ask__suggestion:hover {
+  border-color: var(--sds-ink-900);
+}
+
+/* ------------------------------------------------------------ kill ritual */
+.gos-killbtn {
+  border: 1px solid var(--sds-black-alpha-20);
+  background: transparent;
+  border-radius: var(--sds-radius-pill);
+  padding: 3px 10px;
+  font-family: var(--sds-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--sds-coral-600, #c4472f);
+  cursor: pointer;
+}
+
+.gos-killbtn:hover {
+  border-color: var(--sds-coral-500);
+  background: var(--sds-coral-100, #fbeae5);
+}
+
+.gos-week__item--kill {
+  border-left: 2px solid var(--sds-coral-500);
+  padding-left: 12px;
+}
+
+.gos-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(560px, 92vw);
+  max-height: 84vh;
+  overflow-y: auto;
+  background: var(--sds-white);
+  border: 1px solid var(--sds-black-alpha-20);
+  border-radius: 20px;
+  box-shadow: 0 32px 64px -24px var(--sds-black-alpha-50);
+  padding: 26px 28px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.gos-modal__title {
+  margin: 0;
+  font-family: var(--sds-font-display);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.gos-modal__sub {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--sds-text-secondary);
+}
+
+.gos-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.gos-realloc {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gos-realloc__row {
+  display: grid;
+  grid-template-columns: 110px 1fr 190px;
+  align-items: center;
+  gap: 12px;
+}
+
+.gos-realloc__row input[type="range"] {
+  width: 100%;
+  accent-color: var(--sds-green-600);
+}
+
+.gos-realloc__name {
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--sds-ink-700);
+}
+
+.gos-realloc__nums {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--sds-font-mono);
+  font-size: 11.5px;
+  color: var(--sds-ink-900);
+  text-align: right;
+}
+
+.gos-realloc__nums em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--sds-text-muted);
+}
+
+.gos-realloc__total {
+  margin: 0;
+  border-top: 1px solid var(--sds-black-alpha-20);
+  padding-top: 12px;
+  font-family: var(--sds-font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--sds-ink-900);
+}
+
+.gos-digest__run {
+  margin-left: auto;
+}
+
+/* --------------------------------------------------------- draft-a-bet */
+.gos-draftbtn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.gos-draft-tag {
+  font-size: 9px !important;
+}
+
+.gos-draftdials {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.gos-draftdials label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: var(--sds-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--sds-text-muted);
+}
+
+.gos-draftdials select,
+.gos-draftdials input {
+  border: 1px solid var(--sds-black-alpha-20);
+  border-radius: 10px;
+  background: var(--sds-white);
+  padding: 7px 10px;
+  font-family: var(--sds-font-sans);
+  font-size: 13px;
+  color: var(--sds-ink-900);
+}
+
+/* ------------------------------------------------------------- graveyard */
+.gos-grave {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 760px;
+}
+
+.gos-grave__item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gos-grave__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.gos-grave__name {
+  font-family: var(--sds-font-display);
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.gos-grave__type {
+  text-transform: uppercase;
+  font-size: 9px !important;
+}
+
+.gos-grave__date {
+  margin-left: auto;
+  font-family: var(--sds-font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--sds-text-muted);
+}
+
+.gos-grave__reason {
+  margin: 0;
+  border-left: 2px solid var(--sds-coral-500);
+  padding-left: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--sds-ink-700);
+}
+
+.gos-grave__numbers {
+  margin: 0;
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  color: var(--sds-text-secondary);
+}
+
+.gos-grave__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.gos-grave-empty {
+  max-width: 640px;
+}
+
+.gos-grave-empty__line {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--sds-ink-700);
+}
+
+.gos-grave__note {
+  margin: 16px 0 0;
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  color: var(--sds-text-muted);
+}
+
+@media (max-width: 900px) {
+  .gos-realloc__row {
+    grid-template-columns: 90px 1fr;
+  }
+
+  .gos-realloc__nums {
+    grid-column: 2;
+    text-align: left;
+  }
+}
