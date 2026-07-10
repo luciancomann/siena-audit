@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Badge, Card, PersonaTabs, SectionHeading } from "@siena/design-system";
 import { COMPETITORS, OBJECTIONS, PERSONA_LANGUAGE } from "../_lib/data";
-import { draftFromSignal } from "../_lib/compute";
+import { activeDealsForCompetitor, competitorLossBumps, draftFromSignal } from "../_lib/compute";
 import { useGrowthState } from "../_lib/state";
 import { TrendGlyph } from "../_components/ui";
 
@@ -22,6 +22,7 @@ export default function SignalsPage() {
   const router = useRouter();
   const [personaIndex, setPersonaIndex] = useState(0);
   const persona = PERSONAS[personaIndex];
+  const lossBumps = competitorLossBumps(state.deals);
 
   const draftBet = (objection: string) => {
     const existingId = state.signalDrafts[objection];
@@ -137,21 +138,55 @@ export default function SignalsPage() {
               <SectionHeading as="h2" align="left" eyebrow="03 · Competitors" title="Named this month" />
             </div>
             <Card tone="white" radius="lg" padding="none" className="gos-panel">
-              {COMPETITORS.map((c) => (
-                <div key={c.name} className="gos-sig">
-                  <div className="gos-sig__top">
-                    <span className="gos-sig__text">{c.name}</span>
-                    <Badge variant="outline" className="gos-count">{c.mentions}</Badge>
-                    <TrendGlyph trend={c.trend} />
+              {COMPETITORS.map((c) => {
+                const activeDeals = activeDealsForCompetitor(state.deals, c.name);
+                return (
+                  <div key={c.name} className="gos-sig">
+                    <div className="gos-sig__top">
+                      <span className="gos-sig__text">{c.name}</span>
+                      <Badge variant="outline" className="gos-count">
+                        {c.mentions + (lossBumps[c.name] ?? 0)}
+                      </Badge>
+                      <TrendGlyph trend={c.trend} />
+                    </div>
+                    <span className="gos-phrase__note">{c.note}</span>
+                    <div className="gos-sig__meta">
+                      <span>
+                        {c.source} · {c.date}
+                      </span>
+                      {activeDeals.length > 0 && (
+                        <Link
+                          href={`/growth-os/deals?competitor=${encodeURIComponent(c.name)}`}
+                          className="gos-usedin"
+                        >
+                          → {activeDeals.length} active deal{activeDeals.length === 1 ? "" : "s"}
+                        </Link>
+                      )}
+                    </div>
                   </div>
-                  <span className="gos-phrase__note">{c.note}</span>
-                  <div className="gos-sig__meta">
-                    <span>
-                      {c.source} · {c.date}
-                    </span>
-                  </div>
+                );
+              })}
+              {state.lostSignals.length > 0 && (
+                <div className="gos-losslog">
+                  <span className="sds-mono-label gos-losslog__tag">From the board</span>
+                  {state.lostSignals.map((entry) => (
+                    <div key={entry.at} className="gos-sig">
+                      <div className="gos-sig__top">
+                        <span className="gos-sig__text">{entry.text}</span>
+                      </div>
+                      <div className="gos-sig__meta">
+                        <span>
+                          Deals Board ·{" "}
+                          {new Date(entry.at).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
             </Card>
           </div>
         </div>

@@ -10,14 +10,14 @@
  * change bumps KEY (v2, v3, …) so every visitor — new or returning — is
  * re-seeded on next load. Old keys are ignored and cleaned up.
  */
-import { useCallback, useEffect, useState } from "react";
-import type { BetStatus, ChannelId, CostToRun } from "./data";
-import { BETS, CHANNELS } from "./data";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import type { BetStatus, ChannelId, CostToRun, Deal } from "./data";
+import { BETS, CHANNELS, DEALS } from "./data";
 
 /** Bump on ANY seed/dataset change. */
-export const SEED_VERSION = 2;
+export const SEED_VERSION = 3;
 const KEY = `growth-os-v${SEED_VERSION}`;
-const OLD_KEYS = ["growth-os-v1"];
+const OLD_KEYS = ["growth-os-v1", "growth-os-v2"];
 
 // ---------------------------------------------------------------- shapes
 
@@ -60,6 +60,12 @@ export interface ActionLog {
   at: string; // ISO
 }
 
+/** A signal appended by the board when a deal is lost to a named competitor. */
+export interface LostSignal {
+  text: string;
+  at: string; // ISO
+}
+
 export interface GrowthState {
   seedVersion: number;
   betStatus: Record<string, BetStatus>;
@@ -72,8 +78,12 @@ export interface GrowthState {
   /** objection text -> draft bet id */
   signalDrafts: Record<string, string>;
   digestGeneratedAt: string | null;
-  /** session decisions the digest narrates (kills, reallocations) */
+  /** session decisions the digest narrates (kills, reallocations, deal moves) */
   actions: ActionLog[];
+  /** the deals board — full objects; "synced from HubSpot" in production */
+  deals: Deal[];
+  /** signal entries appended by lost-to-competitor events */
+  lostSignals: LostSignal[];
 }
 
 export function defaultState(): GrowthState {
@@ -90,6 +100,8 @@ export function defaultState(): GrowthState {
     signalDrafts: {},
     digestGeneratedAt: null,
     actions: [],
+    deals: DEALS,
+    lostSignals: [],
   };
 }
 
@@ -112,6 +124,8 @@ function read(): GrowthState {
       signalDrafts: saved.signalDrafts ?? {},
       digestGeneratedAt: saved.digestGeneratedAt ?? null,
       actions: Array.isArray(saved.actions) ? saved.actions : [],
+      deals: Array.isArray(saved.deals) && saved.deals.length > 0 ? saved.deals : base.deals,
+      lostSignals: Array.isArray(saved.lostSignals) ? saved.lostSignals : [],
     };
   } catch {
     return base;
@@ -126,30 +140,58 @@ function write(state: GrowthState): void {
   }
 }
 
+// One shared store for every useGrowthState() instance — pages, the command
+// bar, and the shell all read the same document, so an edit made anywhere is
+// live everywhere immediately (no per-hook snapshots to go stale, no two
+// instances clobbering each other's writes).
+const SERVER_SNAPSHOT = defaultState();
+let current: GrowthState = SERVER_SNAPSHOT;
+let storeHydrated = false;
+const listeners = new Set<() => void>();
+
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+function emit(): void {
+  for (const l of listeners) l();
+}
+
+function hydrateStore(): void {
+  if (storeHydrated) return;
+  storeHydrated = true;
+  current = read();
+  emit();
+}
+
+function applyPatch(
+  patch: Partial<GrowthState> | ((prev: GrowthState) => Partial<GrowthState>),
+): void {
+  current = { ...current, ...(typeof patch === "function" ? patch(current) : patch) };
+  write(current);
+  emit();
+}
+
 /** Load-after-mount localStorage state, write-through on every update. */
 export function useGrowthState(): [
   GrowthState,
   (patch: Partial<GrowthState> | ((prev: GrowthState) => Partial<GrowthState>)) => void,
   boolean,
 ] {
-  const [state, setState] = useState<GrowthState>(defaultState);
+  const state = useSyncExternalStore(
+    subscribe,
+    () => current,
+    () => SERVER_SNAPSHOT,
+  );
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setState(read());
+    hydrateStore();
     setHydrated(true);
   }, []);
 
-  const update = useCallback(
-    (patch: Partial<GrowthState> | ((prev: GrowthState) => Partial<GrowthState>)) => {
-      setState((prev) => {
-        const next = { ...prev, ...(typeof patch === "function" ? patch(prev) : patch) };
-        write(next);
-        return next;
-      });
-    },
-    [],
-  );
+  const update = useCallback(applyPatch, []);
 
   return [state, update, hydrated];
 }

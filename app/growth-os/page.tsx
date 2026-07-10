@@ -6,16 +6,20 @@
  * budget reallocation, the three ship lists, and the reporting agent's
  * digest — regenerable, and it narrates this session's decisions.
  */
+import Link from "next/link";
 import { useState } from "react";
 import { Badge, Button, Card, Input, SectionHeading } from "@siena/design-system";
 import { AUDIT_FEED, CHANNELS, PIPELINE, THIS_WEEK, type Channel, type ChannelId } from "./_lib/data";
 import {
+  SEED_NOW,
   costPerMeeting,
+  dealsBySource,
   efficiency,
   fmt,
   livingChannels,
   money,
   moneyK,
+  pipelineFromDeals,
   totals,
   trendPct,
   writeDigest,
@@ -38,7 +42,9 @@ export default function ThisWeekPage() {
   const killed = state.killedChannels;
   const alive = livingChannels(killed);
   const t = totals(state.spend, killed);
-  const pipeTotal = PIPELINE.newValue + PIPELINE.expansionValue;
+  const pipe = pipelineFromDeals(state.deals);
+  const pipeTotal = pipe.total;
+  const dealCounts = dealsBySource(state.deals);
 
   const startKill = (channel: Channel) => {
     setReason("");
@@ -157,7 +163,7 @@ export default function ThisWeekPage() {
         <StatCard
           label="Qualified pipeline created"
           value={moneyK(pipeTotal)}
-          sub={`${PIPELINE.newDeals + PIPELINE.expansionDeals} deals — new ${moneyK(PIPELINE.newValue)} (${PIPELINE.newDeals}) · expansion ${moneyK(PIPELINE.expansionValue)} (${PIPELINE.expansionDeals})`}
+          sub={`${pipe.count} deals — new ${moneyK(pipe.newValue)} (${pipe.newCount}) · expansion ${moneyK(pipe.expValue)} (${pipe.expCount}) · from the Deals Board`}
           trendPct={trendPct(pipeTotal, PIPELINE.lastMonthTotal)}
         />
         <StatCard
@@ -175,9 +181,9 @@ export default function ThisWeekPage() {
         />
         <StatCard
           label="Expansion pipeline"
-          value={moneyK(PIPELINE.expansionValue)}
-          sub={`${PIPELINE.expansionDeals} plays, lifecycle-triggered`}
-          trendPct={trendPct(PIPELINE.expansionValue, PIPELINE.expansionLastMonth)}
+          value={moneyK(pipe.expValue)}
+          sub={`${pipe.expCount} plays, lifecycle-triggered — from the Deals Board`}
+          trendPct={trendPct(pipe.expValue, PIPELINE.expansionLastMonth)}
         />
       </div>
 
@@ -196,6 +202,7 @@ export default function ThisWeekPage() {
             <tr>
               <th>Channel</th>
               <th>Meetings</th>
+              <th>Deals</th>
               <th>Spend / mo</th>
               <th>Cost / meeting</th>
               <th>Read</th>
@@ -218,6 +225,15 @@ export default function ThisWeekPage() {
                       {" "}
                       / {c.meetingsLastMonth} last mo
                     </span>
+                  </td>
+                  <td className="gos-num">
+                    {(dealCounts[c.id] ?? 0) > 0 ? (
+                      <Link href={`/growth-os/deals?source=${c.id}`} className="gos-usedin">
+                        {dealCounts[c.id]} open
+                      </Link>
+                    ) : (
+                      <span style={{ color: "var(--sds-text-muted)" }}>—</span>
+                    )}
                   </td>
                   <td>
                     <Input
@@ -256,6 +272,11 @@ export default function ThisWeekPage() {
                 <strong>Total</strong>
               </td>
               <td className="gos-num">{t.meetings}</td>
+              <td className="gos-num">
+                <Link href="/growth-os/deals" className="gos-usedin">
+                  {Object.values(dealCounts).reduce((n, v) => n + (v ?? 0), 0)} open
+                </Link>
+              </td>
               <td className="gos-num">{money(t.totalSpend)}</td>
               <td className="gos-num">{money(t.blended)} blended</td>
               <td colSpan={3} className="gos-table__note">
@@ -336,7 +357,7 @@ export default function ThisWeekPage() {
           </span>
         </div>
         <p style={digestBusy ? { opacity: 0.35 } : undefined}>
-          {writeDigest(state.spend, killed, state.actions)}
+          {writeDigest(state.spend, killed, state.actions, state.deals, hydrated ? Date.now() : SEED_NOW)}
         </p>
       </Card>
 
