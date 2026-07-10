@@ -83,7 +83,8 @@ function DealsBoard() {
   const clearFilter = (key: string) => {
     const next = new URLSearchParams(searchParams.toString());
     next.delete(key);
-    router.replace(`/growth-os/deals${next.size ? `?${next}` : ""}`);
+    const qs = next.toString();
+    router.replace(`/growth-os/deals${qs ? `?${qs}` : ""}`);
   };
 
   const patchDeal = (id: string, patch: Partial<Deal>) => {
@@ -207,7 +208,8 @@ function DealsBoard() {
                 setDropStage(stage.id);
               }}
               onDragLeave={() => setDropStage((s) => (s === stage.id ? null : s))}
-              onDrop={() => {
+              onDrop={(e) => {
+                e.preventDefault();
                 if (dragId) moveDeal(dragId, stage.id);
                 setDragId(null);
                 setDropStage(null);
@@ -229,6 +231,8 @@ function DealsBoard() {
                   draggable
                   onDragStart={(e) => {
                     setDragId(deal.id);
+                    // Firefox cancels drags whose data store is empty
+                    e.dataTransfer.setData("text/plain", deal.id);
                     e.dataTransfer.effectAllowed = "move";
                   }}
                   onDragEnd={() => {

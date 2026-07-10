@@ -190,6 +190,8 @@ function BetsBoard() {
               draggable={!bet.unranked}
               onDragStart={(e) => {
                 setDragId(bet.id);
+                // Firefox cancels drags whose data store is empty
+                e.dataTransfer.setData("text/plain", bet.id);
                 e.dataTransfer.effectAllowed = "move";
               }}
               onDragEnd={() => {
@@ -201,7 +203,10 @@ function BetsBoard() {
                 e.preventDefault();
                 setDropId(bet.id);
               }}
-              onDrop={() => onDrop(bet.id)}
+              onDrop={(e) => {
+                e.preventDefault();
+                onDrop(bet.id);
+              }}
               onClick={() => setOpenId(bet.id)}
               role="button"
               tabIndex={0}
