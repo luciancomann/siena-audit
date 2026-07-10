@@ -2,10 +2,10 @@
  * Growth OS derived numbers — pure functions over the seed + state, so the
  * dashboard, the digest, the command bar, and the bets board never disagree.
  */
-import type { Bet, BetStatus, ChannelId } from "./data";
+import type { Bet, BetStatus, ChannelId, Deal, DealStage } from "./data";
 import type { Efficiency } from "./data-types";
 import type { ActionLog, DraftBet, GrowthState, KilledChannel } from "./state";
-import { AUDIT_FEED, BETS, CHANNELS, MAX_LIVE, PIPELINE } from "./data";
+import { AUDIT_FEED, BETS, CHANNELS, DEALS, DEAL_STAGES, MAX_LIVE, PIPELINE, SEED_TODAY } from "./data";
 
 export type { Efficiency };
 
@@ -134,6 +134,142 @@ export function draftFromSignal(objection: string): DraftBet {
   };
 }
 
+// ---------------------------------------------------------------- deals
+
+export const SEED_NOW = Date.parse(SEED_TODAY);
+const DAY = 86_400_000;
+
+/** The demo dataset is anchored to July 2026 — "this month" and "this quarter" mean that window. */
+const MONTH_START = Date.parse("2026-07-01T00:00:00.000Z");
+const QUARTER_START = MONTH_START; // Q3 opened July 1
+
+export const openDeals = (deals: Deal[]): Deal[] =>
+  deals.filter((x) => !x.lost && x.stage !== "signed");
+export const signedDeals = (deals: Deal[]): Deal[] =>
+  deals.filter((x) => !x.lost && x.stage === "signed");
+export const lostDeals = (deals: Deal[]): Deal[] => deals.filter((x) => Boolean(x.lost));
+
+const sumSize = (xs: Deal[]) => xs.reduce((n, x) => n + x.size, 0);
+
+/** When the deal entered its current stage. */
+export const stageEnteredAt = (deal: Deal): string =>
+  deal.stageHistory[deal.stageHistory.length - 1]?.at ?? deal.createdAt;
+
+export const daysInStage = (deal: Deal, now: number): number =>
+  Math.max(0, Math.floor((now - Date.parse(stageEnteredAt(deal))) / DAY));
+
+/** The audit tool's routing rule, verbatim: score > 70 and volume > 3,000. */
+export const isFastTracked = (deal: Deal): boolean =>
+  deal.source === "audit" && (deal.auditScore ?? 0) > 70 && deal.tickets > 3_000;
+
+/** Qualified pipeline from deals created this month — the This Week cards, to the dollar. */
+export function pipelineFromDeals(deals: Deal[]) {
+  const mtd = deals.filter((x) => Date.parse(x.createdAt) >= MONTH_START);
+  const news = mtd.filter((x) => x.type === "new");
+  const exps = mtd.filter((x) => x.type === "expansion");
+  return {
+    count: mtd.length,
+    total: sumSize(mtd),
+    newCount: news.length,
+    newValue: sumSize(news),
+    expCount: exps.length,
+    expValue: sumSize(exps),
+  };
+}
+
+/** Per-column {count, sum} plus the lost tray, over an already-filtered set. */
+export function columnTotals(deals: Deal[]) {
+  const open = deals.filter((x) => !x.lost);
+  const byStage = Object.fromEntries(
+    DEAL_STAGES.map((s) => {
+      const xs = open.filter((x) => x.stage === s.id);
+      return [s.id, { count: xs.length, sum: sumSize(xs) }];
+    }),
+  ) as Record<DealStage, { count: number; sum: number }>;
+  const lost = lostDeals(deals);
+  return { byStage, lost: { count: lost.length, sum: sumSize(lost) } };
+}
+
+/** Win rate = signed / (signed + lost), quarter to date. */
+export function winRate(deals: Deal[]) {
+  const signed = signedDeals(deals).filter((x) => {
+    const at = x.stageHistory.find((h) => h.stage === "signed")?.at;
+    return at && Date.parse(at) >= QUARTER_START;
+  }).length;
+  const lost = lostDeals(deals).filter((x) => Date.parse(x.lost!.at) >= QUARTER_START).length;
+  const closed = signed + lost;
+  return { signed, lost, closed, pct: closed === 0 ? 0 : Math.round((signed / closed) * 100) };
+}
+
+/** Average days created → signed, over this quarter's signed deals. */
+export function salesCycle(deals: Deal[]) {
+  const cycles = signedDeals(deals)
+    .map((x) => {
+      const at = x.stageHistory.find((h) => h.stage === "signed")?.at;
+      return at && Date.parse(at) >= QUARTER_START
+        ? (Date.parse(at) - Date.parse(x.createdAt)) / DAY
+        : null;
+    })
+    .filter((n): n is number => n !== null);
+  const avg = cycles.length ? cycles.reduce((a, b) => a + b, 0) / cycles.length : 0;
+  return { days: Math.round(avg), n: cycles.length };
+}
+
+/** Open deals sitting 14+ days in their current stage. */
+export const stuckDeals = (deals: Deal[], now: number): Deal[] =>
+  openDeals(deals).filter((x) => daysInStage(x, now) >= 14);
+
+/** Active deal count per source channel — the This Week table's deals column. */
+export function dealsBySource(deals: Deal[]): Partial<Record<ChannelId, number>> {
+  const out: Partial<Record<ChannelId, number>> = {};
+  for (const x of openDeals(deals)) out[x.source] = (out[x.source] ?? 0) + 1;
+  return out;
+}
+
+/** Active deals where a named competitor is in the room. */
+export const activeDealsForCompetitor = (deals: Deal[], name: string): Deal[] =>
+  openDeals(deals).filter((x) => x.competitor?.name === name);
+
+/** Mentions added by UI lost-to-competitor events (seeded losses are already in the baseline). */
+export function competitorLossBumps(deals: Deal[]): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const x of lostDeals(deals)) {
+    if (x.lost?.competitor && !x.lost.seeded) out[x.lost.competitor] = (out[x.lost.competitor] ?? 0) + 1;
+  }
+  return out;
+}
+
+/** The digest's deal sentence: moves this week, biggest in Proposal, signs, stuck. */
+export function dealDigestLine(deals: Deal[], now: number): string {
+  const weekAgo = now - 7 * DAY;
+  const moves = deals.reduce(
+    (n, x) => n + x.stageHistory.filter((h, i) => i > 0 && Date.parse(h.at) >= weekAgo).length,
+    0,
+  );
+  const proposal = openDeals(deals).filter((x) => x.stage === "proposal");
+  const biggest = proposal.length
+    ? proposal.reduce((a, b) => (a.size >= b.size ? a : b))
+    : null;
+  const signedThisWeek = signedDeals(deals).filter((x) => {
+    const at = x.stageHistory.find((h) => h.stage === "signed")?.at;
+    return at && Date.parse(at) >= weekAgo;
+  });
+  const stuck = stuckDeals(deals, now);
+  const parts: string[] = [];
+  parts.push(`${moves} stage move${moves === 1 ? "" : "s"} on the board this week`);
+  if (signedThisWeek.length)
+    parts.push(
+      `${signedThisWeek.length} signed (${signedThisWeek.map((x) => x.company).join(", ")} — ${moneyK(sumSize(signedThisWeek))})`,
+    );
+  if (biggest) parts.push(`biggest in Proposal is ${biggest.company} at ${moneyK(biggest.size)}`);
+  parts.push(
+    stuck.length
+      ? `stuck 14+ days: ${stuck.map((x) => `${x.company} (${daysInStage(x, now)}d in ${x.stage})`).join(", ")}`
+      : "nothing has sat 14+ days in a stage",
+  );
+  return ` Deals: ${parts.join("; ")}.`;
+}
+
 // ---------------------------------------------------------------- the digest
 
 function narrateActions(actions: ActionLog[]): string {
@@ -147,6 +283,8 @@ export function writeDigest(
   spend: Record<ChannelId, number>,
   killed: KilledMap = {},
   actions: ActionLog[] = [],
+  deals: Deal[] = DEALS,
+  now: number = SEED_NOW,
 ): string {
   const t = totals(spend, killed);
   const alive = livingChannels(killed);
@@ -157,17 +295,19 @@ export function writeDigest(
   }));
   const paid = withCpm.filter((x) => x.cpm !== null && x.cpm !== Infinity && x.spend > 0);
   const meetingsTrend = trendPct(t.meetings, t.meetingsLastMonth);
-  const pipeTotal = PIPELINE.newValue + PIPELINE.expansionValue;
+  const pipe = pipelineFromDeals(deals);
+  const pipeTotal = pipe.total;
   const pipeTrend = trendPct(pipeTotal, PIPELINE.lastMonthTotal);
   const sign = (n: number) => `${n >= 0 ? "+" : ""}${n}%`;
 
   if (paid.length === 0) {
     return (
       `MTD: ${t.meetings} meetings booked (${sign(meetingsTrend)} vs last month), pipeline ${moneyK(pipeTotal)} ` +
-      `across ${PIPELINE.newDeals + PIPELINE.expansionDeals} deals (${sign(pipeTrend)}). Spend is zeroed across ` +
+      `across ${pipe.count} deals (${sign(pipeTrend)}). Spend is zeroed across ` +
       `the board, so cost per meeting is a free lunch until the inputs come back. This week: the audit ran ` +
       `${AUDIT_FEED.runsThisWeek} times → ${AUDIT_FEED.leadsCreated} leads → ${AUDIT_FEED.fastTracked} fast-tracked ` +
       `→ ${AUDIT_FEED.meetingsThisMonth} meetings.` +
+      dealDigestLine(deals, now) +
       narrateActions(actions)
     );
   }
@@ -189,11 +329,12 @@ export function writeDigest(
 
   return (
     `MTD: ${t.meetings} meetings booked (${sign(meetingsTrend)} vs last month), qualified pipeline ` +
-    `${moneyK(pipeTotal)} across ${PIPELINE.newDeals + PIPELINE.expansionDeals} deals (${sign(pipeTrend)}), ` +
-    `expansion ${moneyK(PIPELINE.expansionValue)} of it. This week: the audit ran ${AUDIT_FEED.runsThisWeek} times → ` +
+    `${moneyK(pipeTotal)} across ${pipe.count} deals (${sign(pipeTrend)}), ` +
+    `expansion ${moneyK(pipe.expValue)} of it. This week: the audit ran ${AUDIT_FEED.runsThisWeek} times → ` +
     `${AUDIT_FEED.leadsCreated} leads → ${AUDIT_FEED.fastTracked} fast-tracked → ${AUDIT_FEED.meetingsThisMonth} meetings, ` +
-    `${moneyK(AUDIT_FEED.pipelineAttributed)} attributed MTD — ${auditClause}. ${priciestClause}. ` +
-    `Nothing else changed that the numbers don't already say.` +
+    `${moneyK(AUDIT_FEED.pipelineAttributed)} attributed MTD — ${auditClause}. ${priciestClause}.` +
+    dealDigestLine(deals, now) +
+    ` Nothing else changed that the numbers don't already say.` +
     narrateActions(actions)
   );
 }
@@ -243,6 +384,84 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
     };
   }
 
+  // ---- deals board intents (live from state.deals) ----
+  const deals = state.deals;
+  const now = Date.now();
+
+  if (/(what|who|much).*(in proposal)|proposal stage|^proposal/.test(s)) {
+    const xs = openDeals(deals).filter((x) => x.stage === "proposal");
+    if (xs.length === 0)
+      return { text: "Proposal is empty right now.", link: { label: "open Deals Board", href: "/growth-os/deals" } };
+    const sum = xs.reduce((n, x) => n + x.size, 0);
+    return {
+      text: `${xs.length} in Proposal worth ${moneyK(sum)}: ${xs.map((x) => `${x.company} (${moneyK(x.size)})`).join(", ")}. ${xs.reduce((a, b) => (a.size >= b.size ? a : b)).company} is the one to walk the hall for.`,
+      link: { label: "open Deals Board — Proposal", href: "/growth-os/deals?stage=proposal" },
+    };
+  }
+
+  if (/biggest|largest/.test(s) && /deal/.test(s)) {
+    const open = openDeals(deals);
+    if (open.length === 0)
+      return { text: "No open deals on the board.", link: { label: "open Deals Board", href: "/growth-os/deals" } };
+    const big = open.reduce((a, b) => (a.size >= b.size ? a : b));
+    return {
+      text: `${big.company} — ${moneyK(big.size)}, ${big.stage} stage, ${big.buyer.name} (${big.buyer.title}), sourced from ${CHANNELS.find((c) => c.id === big.source)?.label ?? big.source}.${big.competitor ? ` They're ${big.competitor.relation} ${big.competitor.name}.` : ""}`,
+      link: { label: "open Deals Board", href: "/growth-os/deals" },
+    };
+  }
+
+  if (/stuck|stalled|aging|sitting/.test(s) && /deal|board|stage/.test(s)) {
+    const xs = stuckDeals(deals, now);
+    if (xs.length === 0)
+      return {
+        text: "Nothing is stuck — no open deal has sat 14+ days in its current stage.",
+        link: { label: "open Deals Board", href: "/growth-os/deals" },
+      };
+    return {
+      text: `${xs.length} stuck (14+ days in stage): ${xs.map((x) => `${x.company} — ${daysInStage(x, now)} days in ${x.stage}, ${moneyK(x.size)}`).join("; ")}. Stuck deals don't age into wins; they age into losses.`,
+      link: { label: "open Deals Board — stuck", href: "/growth-os/deals?stuck=1" },
+    };
+  }
+
+  if (/lost.*(competitor|to who)|competitor.*(won|lost|beat)|who beat us/.test(s)) {
+    const xs = lostDeals(deals).filter((x) => x.lost?.competitor);
+    if (xs.length === 0)
+      return { text: "No losses to a named competitor this quarter.", link: { label: "open Deals Board", href: "/growth-os/deals" } };
+    const byComp = new Map<string, Deal[]>();
+    for (const x of xs) {
+      const k = x.lost!.competitor!;
+      byComp.set(k, [...(byComp.get(k) ?? []), x]);
+    }
+    const parts = [...byComp.entries()].map(
+      ([k, v]) => `${k} took ${v.length} (${v.map((x) => x.company).join(", ")} — ${moneyK(v.reduce((n, x) => n + x.size, 0))})`,
+    );
+    return {
+      text: `${xs.length} lost to competitors this quarter, ${moneyK(xs.reduce((n, x) => n + x.size, 0))} total: ${parts.join("; ")}. Every one is logged in Signals.`,
+      link: { label: "open Deals Board", href: "/growth-os/deals" },
+    };
+  }
+
+  if (/(how much|what).*trial|in trial|trial worth/.test(s)) {
+    const xs = openDeals(deals).filter((x) => x.stage === "trial");
+    if (xs.length === 0)
+      return { text: "Trial is empty right now.", link: { label: "open Deals Board", href: "/growth-os/deals" } };
+    return {
+      text: `${moneyK(xs.reduce((n, x) => n + x.size, 0))} across ${xs.length} trials: ${xs.map((x) => `${x.company} (${moneyK(x.size)})`).join(", ")}. Trials are where the audit's fast-tracks land.`,
+      link: { label: "open Deals Board — Trial", href: "/growth-os/deals?stage=trial" },
+    };
+  }
+
+  if (/audit.?sourced|deals? from the audit|audit deals/.test(s)) {
+    const xs = openDeals(deals).filter((x) => x.source === "audit");
+    const ft = xs.filter(isFastTracked);
+    const signedAudit = signedDeals(deals).filter((x) => x.source === "audit").length;
+    const signedClause = signedAudit > 0 ? ` ${signedAudit} more already signed this month.` : "";
+    return {
+      text: `${xs.length} active audit-sourced deals worth ${moneyK(xs.reduce((n, x) => n + x.size, 0))}, ${ft.length} of them fast-tracked (score > 70, volume > 3,000): ${xs.map((x) => x.company).join(", ")}.${signedClause}`,
+      link: { label: "open Deals Board — audit-sourced", href: "/growth-os/deals?source=audit" },
+    };
+  }
+
   if (/kill|cut|stop|drop/.test(s) && /what|which|should|candidate/.test(s)) {
     if (paid.length === 0)
       return { text: "Nothing is spending right now, so there's nothing to kill on cost grounds.", link: { label: "open This Week", href: "/growth-os" } };
@@ -284,8 +503,9 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
   }
 
   if (/pipeline/.test(s) && /(month|mtd|new|expansion|much)/.test(s)) {
+    const pipe = pipelineFromDeals(deals);
     return {
-      text: `${moneyK(PIPELINE.newValue + PIPELINE.expansionValue)} qualified pipeline MTD across ${PIPELINE.newDeals + PIPELINE.expansionDeals} deals — new ${moneyK(PIPELINE.newValue)} (${PIPELINE.newDeals} deals), expansion ${moneyK(PIPELINE.expansionValue)} (${PIPELINE.expansionDeals} plays). Expansion is the cheapest pipeline in the company.`,
+      text: `${moneyK(pipe.total)} qualified pipeline MTD across ${pipe.count} deals — new ${moneyK(pipe.newValue)} (${pipe.newCount} deals), expansion ${moneyK(pipe.expValue)} (${pipe.expCount} plays). Computed from the Deals Board; expansion is the cheapest pipeline in the company.`,
       link: { label: "open Metrics", href: "/growth-os/metrics" },
     };
   }
@@ -347,6 +567,12 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
 
 export const ASK_INTENTS = [
   "what should we kill?",
+  "which deals are stuck?",
+  "what's in proposal?",
+  "biggest open deal",
+  "what have we lost to competitors this quarter?",
+  "how much is in trial?",
+  "show me audit-sourced deals",
   "why did cost per meeting change?",
   "cheapest and most expensive lane",
   "how is [bet] doing?",

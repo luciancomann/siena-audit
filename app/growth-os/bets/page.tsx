@@ -7,6 +7,7 @@
  * a one-line reason and archives it to the Graveyard. Signal-drafted bets
  * merge into the ranking with editable score dials.
  */
+import Link from "next/link";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Badge, Button, Card, Input, SectionHeading } from "@siena/design-system";
@@ -21,6 +22,12 @@ import {
 } from "../_lib/compute";
 import { useGrowthState } from "../_lib/state";
 import { OwnerChip, Spark } from "../_components/ui";
+
+/** Live values deep-link into the Deals Board, pre-filtered. */
+const BET_BOARD_LINK: Record<string, string> = {
+  audit: "/growth-os/deals?source=audit",
+  expansion: "/growth-os/deals?type=expansion",
+};
 
 const STATUS_CYCLE: BetStatus[] = ["queued", "live", "shipped", "killed"];
 const STATUS_LABEL: Record<BetStatus, string> = {
@@ -183,6 +190,8 @@ function BetsBoard() {
               draggable={!bet.unranked}
               onDragStart={(e) => {
                 setDragId(bet.id);
+                // Firefox cancels drags whose data store is empty
+                e.dataTransfer.setData("text/plain", bet.id);
                 e.dataTransfer.effectAllowed = "move";
               }}
               onDragEnd={() => {
@@ -194,7 +203,10 @@ function BetsBoard() {
                 e.preventDefault();
                 setDropId(bet.id);
               }}
-              onDrop={() => onDrop(bet.id)}
+              onDrop={(e) => {
+                e.preventDefault();
+                onDrop(bet.id);
+              }}
               onClick={() => setOpenId(bet.id)}
               role="button"
               tabIndex={0}
@@ -266,7 +278,22 @@ function BetsBoard() {
               <span className="gos-bet__metric">
                 moves: {bet.metric}
                 {bet.currentValue && status === "live" && (
-                  <span className="gos-bet__now"> · now {bet.currentValue}</span>
+                  <span className="gos-bet__now">
+                    {" "}
+                    · now{" "}
+                    {BET_BOARD_LINK[bet.id] ? (
+                      <Link
+                        href={BET_BOARD_LINK[bet.id]}
+                        className="gos-usedin"
+                        onClick={(e) => e.stopPropagation()}
+                        title="Open on the Deals Board, filtered"
+                      >
+                        {bet.currentValue} → board
+                      </Link>
+                    ) : (
+                      bet.currentValue
+                    )}
+                  </span>
                 )}
               </span>
             </Card>

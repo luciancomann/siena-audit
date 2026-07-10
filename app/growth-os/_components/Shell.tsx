@@ -13,6 +13,7 @@ import { AskGrowth } from "./AskGrowth";
 
 const NAV = [
   { href: "/growth-os", label: "This Week", key: "week" },
+  { href: "/growth-os/deals", label: "Deals Board", key: "deals" },
   { href: "/growth-os/bets", label: "Bets", key: "bets" },
   { href: "/growth-os/loop", label: "The Loop", key: "loop" },
   { href: "/growth-os/metrics", label: "Metrics", key: "metrics" },
