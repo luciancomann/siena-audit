@@ -3,15 +3,23 @@
 /**
  * Bets — the ranked pipeline as an interactive board. Composite score
  * orders by default, rows drag-reorder, the WIP rule (max 3 live) is
- * enforced with a visible "Kill something first." Clicking a bet opens
- * the detail panel with the full what/why, kill criteria, next action,
- * and a synthetic sparkline. The audit bet's numbers come from the tool.
+ * enforced with a visible "Kill something first." Killing a bet asks for
+ * a one-line reason and archives it to the Graveyard. Signal-drafted bets
+ * merge into the ranking with editable score dials.
  */
-import { useEffect, useRef, useState } from "react";
-import { AUDIT_FEED, BETS, MAX_LIVE, type Bet, type BetStatus } from "../_lib/data";
-import { compositeScore, liveCount, moneyK, orderedBets } from "../_lib/compute";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Badge, Button, Card, Input, SectionHeading } from "@siena/design-system";
+import { AUDIT_FEED, MAX_LIVE, type BetStatus, type CostToRun } from "../_lib/data";
+import {
+  allBets,
+  compositeScore,
+  liveCount,
+  moneyK,
+  orderedBets,
+  type BoardBet,
+} from "../_lib/compute";
 import { useGrowthState } from "../_lib/state";
-import { Badge, Button, Card, SectionHeading } from "@siena/design-system";
 import { OwnerChip, Spark } from "../_components/ui";
 
 const STATUS_CYCLE: BetStatus[] = ["queued", "live", "shipped", "killed"];
@@ -22,19 +30,28 @@ const STATUS_LABEL: Record<BetStatus, string> = {
   killed: "Killed",
 };
 
-export default function BetsPage() {
+function BetsBoard() {
   const [state, update] = useGrowthState();
+  const searchParams = useSearchParams();
   const [openId, setOpenId] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [dragId, setDragId] = useState<string | null>(null);
   const [dropId, setDropId] = useState<string | null>(null);
+  const [killTarget, setKillTarget] = useState<BoardBet | null>(null);
+  const [killReason, setKillReason] = useState("");
   const toastTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => () => window.clearTimeout(toastTimer.current), []);
 
-  const bets = orderedBets(state.betOrder);
-  const statusOf = (b: Bet): BetStatus => state.betStatus[b.id] ?? b.defaultStatus;
-  const live = liveCount(state.betStatus);
+  // deep link from Signals: /growth-os/bets?open=<id>
+  useEffect(() => {
+    const target = searchParams.get("open");
+    if (target) setOpenId(target);
+  }, [searchParams]);
+
+  const bets = orderedBets(state.betOrder, state.draftBets);
+  const statusOf = (b: BoardBet): BetStatus => state.betStatus[b.id] ?? b.defaultStatus;
+  const live = liveCount(state.betStatus, state.draftBets);
 
   const showToast = (msg: string) => {
     setToast(msg);
@@ -42,7 +59,7 @@ export default function BetsPage() {
     toastTimer.current = window.setTimeout(() => setToast(null), 2600);
   };
 
-  const cycleStatus = (bet: Bet) => {
+  const cycleStatus = (bet: BoardBet) => {
     const current = statusOf(bet);
     const next = STATUS_CYCLE[(STATUS_CYCLE.indexOf(current) + 1) % STATUS_CYCLE.length];
     if (next === "live" && live >= MAX_LIVE) {
@@ -50,7 +67,39 @@ export default function BetsPage() {
       showToast("Kill something first.");
       return;
     }
+    if (next === "killed") {
+      // the kill ritual: one line for the graveyard first
+      setKillReason("");
+      setKillTarget(bet);
+      return;
+    }
     update((prev) => ({ betStatus: { ...prev.betStatus, [bet.id]: next } }));
+  };
+
+  const confirmBetKill = () => {
+    if (!killTarget || !killReason.trim()) return;
+    const bet = killTarget;
+    const score = compositeScore(bet);
+    const status = statusOf(bet);
+    update((prev) => ({
+      betStatus: { ...prev.betStatus, [bet.id]: "killed" },
+      betKills: {
+        ...prev.betKills,
+        [bet.id]: {
+          reason: killReason.trim(),
+          date: new Date().toISOString(),
+          numbersAtDeath: `composite ${score} · was ${STATUS_LABEL[status]} · ${bet.timeToSignalWeeks}w to signal · ${bet.metric}`,
+        },
+      },
+      actions: [
+        ...prev.actions,
+        {
+          text: `Killed the "${bet.name}" bet — "${killReason.trim()}".`,
+          at: new Date().toISOString(),
+        },
+      ],
+    }));
+    setKillTarget(null);
   };
 
   const onDrop = (targetId: string) => {
@@ -73,7 +122,13 @@ export default function BetsPage() {
     setDropId(null);
   };
 
-  const openBet = openId ? BETS.find((b) => b.id === openId) : null;
+  const updateDraft = (id: string, patch: Partial<(typeof state.draftBets)[number]>) => {
+    update((prev) => ({
+      draftBets: prev.draftBets.map((d) => (d.id === id ? { ...d, ...patch } : d)),
+    }));
+  };
+
+  const openBet = openId ? allBets(state.draftBets).find((b) => b.id === openId) : null;
 
   return (
     <>
@@ -159,6 +214,11 @@ export default function BetsPage() {
                     </Badge>
                   ) : (
                     <span className="gos-bet__score">score {score}</span>
+                  )}
+                  {bet.draft && (
+                    <Badge variant="outline" className="gos-draft-tag">
+                      drafted from signal
+                    </Badge>
                   )}
                 </span>
                 <span className="gos-bet__what">{bet.what}</span>
@@ -247,6 +307,74 @@ export default function BetsPage() {
               )}
             </div>
 
+            {state.betKills[openBet.id] && (
+              <p className="gos-detail__kill">
+                Killed {new Date(state.betKills[openBet.id].date).toLocaleDateString("en-US", { month: "short", day: "numeric" })} —
+                &ldquo;{state.betKills[openBet.id].reason}&rdquo;. Restore it from the
+                Graveyard.
+              </p>
+            )}
+
+            {openBet.draft && openBet.sourceSignal && (
+              <>
+                <h3>Source signal</h3>
+                <p className="gos-detail__next">{openBet.sourceSignal}</p>
+                <h3>Score dials — draft, tune them</h3>
+                <div className="gos-draftdials">
+                  <label>
+                    compounds
+                    <select
+                      value={openBet.compounds ? "yes" : "no"}
+                      onChange={(e) => updateDraft(openBet.id, { compounds: e.target.value === "yes" })}
+                    >
+                      <option value="no">no</option>
+                      <option value="yes">yes</option>
+                    </select>
+                  </label>
+                  <label>
+                    signal in (weeks)
+                    <input
+                      type="number"
+                      min={1}
+                      max={16}
+                      value={openBet.timeToSignalWeeks}
+                      onChange={(e) =>
+                        updateDraft(openBet.id, {
+                          timeToSignalWeeks: Math.max(1, Math.min(16, Number(e.target.value) || 4)),
+                        })
+                      }
+                    />
+                  </label>
+                  <label>
+                    cost to run
+                    <select
+                      value={openBet.costToRun}
+                      onChange={(e) => updateDraft(openBet.id, { costToRun: e.target.value as CostToRun })}
+                    >
+                      <option value="low">low</option>
+                      <option value="med">med</option>
+                      <option value="high">high</option>
+                    </select>
+                  </label>
+                  <label>
+                    category fit
+                    <select
+                      value={openBet.categoryFit}
+                      onChange={(e) =>
+                        updateDraft(openBet.id, { categoryFit: Number(e.target.value) as 1 | 2 | 3 | 4 | 5 })
+                      }
+                    >
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <option key={n} value={n}>
+                          {n}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+              </>
+            )}
+
             {openBet.id === "audit" && (
               <>
                 <h3>Live from the audit tool</h3>
@@ -284,6 +412,46 @@ export default function BetsPage() {
           </aside>
         </>
       )}
+
+      {killTarget && (
+        <>
+          <button className="gos-scrim" aria-label="Cancel" onClick={() => setKillTarget(null)} />
+          <div className="gos-modal" role="dialog" aria-label={`Kill ${killTarget.name}`}>
+            <h2 className="gos-modal__title">Kill &ldquo;{killTarget.name}&rdquo;</h2>
+            <p className="gos-modal__sub">
+              One line for the graveyard — the numbers at death are recorded
+              automatically. Restorable later.
+            </p>
+            <Input
+              aria-label="Kill reason"
+              placeholder="why it dies, one line"
+              value={killReason}
+              onChange={(e) => setKillReason(e.target.value)}
+            />
+            <div className="gos-modal__actions">
+              <Button variant="secondary" size="sm" onClick={() => setKillTarget(null)}>
+                Keep it
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={confirmBetKill}
+                disabled={!killReason.trim()}
+              >
+                Kill it
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
     </>
+  );
+}
+
+export default function BetsPage() {
+  return (
+    <Suspense>
+      <BetsBoard />
+    </Suspense>
   );
 }

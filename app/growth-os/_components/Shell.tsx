@@ -1,13 +1,15 @@
 "use client";
 
 /**
- * Growth OS chrome: fixed left sidebar (five modules + a pointer back to
- * the audit tool), top header with the quiet "runs inside Siena OS" label
- * and the user chip. Built on the DS Avatar marks; dense, no marketing.
+ * Growth OS chrome: fixed left sidebar (six modules + a pointer back to
+ * the audit tool), top header with the quiet "runs inside Siena OS" label,
+ * the Ask Growth command bar (cmd-K), and the user chip. Built on the DS
+ * Avatar marks; dense, no marketing.
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Avatar } from "@siena/design-system";
+import { AskGrowth } from "./AskGrowth";
 
 const NAV = [
   { href: "/growth-os", label: "This Week", key: "week" },
@@ -15,6 +17,7 @@ const NAV = [
   { href: "/growth-os/loop", label: "The Loop", key: "loop" },
   { href: "/growth-os/metrics", label: "Metrics", key: "metrics" },
   { href: "/growth-os/signals", label: "Signals", key: "signals" },
+  { href: "/growth-os/graveyard", label: "Graveyard", key: "graveyard" },
 ];
 
 export function Shell({ children }: { children: React.ReactNode }) {
@@ -57,10 +60,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <span className="gos-head__title">Growth OS</span>
             <span className="gos-head__quiet">runs inside Siena OS</span>
           </div>
-          <span className="gos-user">
-            <Avatar initials="L" size="sm" className="gos-user__avatar" />
-            Lucian · Growth
-          </span>
+          <div className="gos-head__right">
+            <AskGrowth />
+            <span className="gos-user">
+              <Avatar initials="L" size="sm" className="gos-user__avatar" />
+              Lucian · Growth
+            </span>
+          </div>
         </header>
         <main className="gos-content">{children}</main>
       </div>
