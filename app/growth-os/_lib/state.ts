@@ -15,9 +15,9 @@ import type { BetStatus, ChannelId, CostToRun, Deal, Objection } from "./data";
 import { BATTLECARDS, BETS, BRAIN_DOC, BRAIN_FILES, CHANNELS, DEALS } from "./data";
 
 /** Bump on ANY seed/dataset change. */
-export const SEED_VERSION = 4;
+export const SEED_VERSION = 5;
 const KEY = `growth-os-v${SEED_VERSION}`;
-const OLD_KEYS = ["growth-os-v1", "growth-os-v2", "growth-os-v3"];
+const OLD_KEYS = ["growth-os-v1", "growth-os-v2", "growth-os-v3", "growth-os-v4"];
 
 // ---------------------------------------------------------------- shapes
 
@@ -213,6 +213,21 @@ function applyPatch(
 ): void {
   current = { ...current, ...(typeof patch === "function" ? patch(current) : patch) };
   write(current);
+  emit();
+}
+
+/**
+ * Demo reset (?reset=1): wipe every stored key and put the pristine seed back
+ * in the shared store — proposals pending, graveyard empty, seed spends.
+ */
+export function resetGrowthState(): void {
+  try {
+    for (const k of [KEY, ...OLD_KEYS]) window.localStorage.removeItem(k);
+  } catch {
+    /* storage blocked — in-memory reset still applies */
+  }
+  current = defaultState();
+  storeHydrated = true;
   emit();
 }
 

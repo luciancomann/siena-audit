@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
   // The CX Audit report pages read data/reports/*.json from disk at request
   // time; serverless bundling only traces static imports, so include the
   // reports explicitly or the deployed sample 404s.
+  async redirects() {
+    // Signals became the GTM Brain — keep old links working forever.
+    return [
+      {
+        source: "/growth-os/signals",
+        destination: "/growth-os/brain",
+        permanent: true,
+      },
+    ];
+  },
   outputFileTracingIncludes: {
     "/cx-audit/report/[slug]": ["./data/reports/**"],
     "/cx-audit/crm-preview/[slug]": ["./data/reports/**"],
