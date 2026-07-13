@@ -1558,7 +1558,7 @@ export const OUTPUTS_LEDGER: OutputEntry[] = [
     asset: "Audit ROI section — the COO answer",
     kind: "audit",
     producedBy: ["messaging/matrix.md"],
-    perf: "$168K pipeline attributed MTD",
+    perf: "$168K attributed at ship — computed live on the board since",
   },
   {
     date: "Jul 2",
