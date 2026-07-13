@@ -5,6 +5,7 @@
  * health, inputs/outputs; clicking a stage expands its machinery (agents
  * with status dots). Answers "how does growth actually run day to day."
  */
+import Link from "next/link";
 import { useState } from "react";
 import { Badge, Card, SectionHeading } from "@siena/design-system";
 import { LOOP } from "../_lib/data";
@@ -72,6 +73,15 @@ export default function LoopPage() {
               <span>
                 <b>out</b> {s.outputs}
               </span>
+              {s.id === "signal" && (
+                <Link
+                  href="/growth-os/signals"
+                  className="gos-usedin"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  → writes to GTM Brain
+                </Link>
+              )}
             </span>
           </Card>
         ))}

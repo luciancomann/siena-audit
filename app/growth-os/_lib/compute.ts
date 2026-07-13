@@ -5,7 +5,20 @@
 import type { Bet, BetStatus, ChannelId, Deal, DealStage } from "./data";
 import type { Efficiency } from "./data-types";
 import type { ActionLog, DraftBet, GrowthState, KilledChannel } from "./state";
-import { AUDIT_FEED, BETS, CHANNELS, DEALS, DEAL_STAGES, MAX_LIVE, PIPELINE, SEED_TODAY } from "./data";
+import {
+  AUDIT_FEED,
+  BATTLECARDS,
+  BETS,
+  BRAIN_FILES,
+  BRAIN_PROPOSALS,
+  CHANNELS,
+  DEALS,
+  DEAL_STAGES,
+  MAX_LIVE,
+  MESSAGING_MATRIX,
+  PIPELINE,
+  SEED_TODAY,
+} from "./data";
 
 export type { Efficiency };
 
@@ -270,6 +283,32 @@ export function dealDigestLine(deals: Deal[], now: number): string {
   return ` Deals: ${parts.join("; ")}.`;
 }
 
+// ---------------------------------------------------------------- gtm brain
+
+const STALE_DAYS = 30;
+
+/** Files untouched 30+ days — the amber-chip rule. */
+export function staleBrainFiles(
+  brainFiles: GrowthState["brainFiles"],
+  now: number,
+): { id: string; path: string; days: number }[] {
+  return BRAIN_FILES.filter((f) => brainFiles[f.id])
+    .map((f) => ({
+      id: f.id,
+      path: f.path,
+      days: Math.floor((now - Date.parse(brainFiles[f.id].updatedAt)) / 86_400_000),
+    }))
+    .filter((f) => f.days >= STALE_DAYS);
+}
+
+export const isStaleFile = (updatedAt: string, now: number): boolean =>
+  now - Date.parse(updatedAt) >= STALE_DAYS * 86_400_000;
+
+/** Proposals with no decision yet. */
+export function pendingProposals(proposals: GrowthState["proposals"]) {
+  return BRAIN_PROPOSALS.filter((p) => !proposals[p.id]);
+}
+
 // ---------------------------------------------------------------- the digest
 
 function narrateActions(actions: ActionLog[]): string {
@@ -362,6 +401,92 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
   }));
   const paid = withCpm.filter((x) => x.cpm !== null && x.cpm !== Infinity && x.spend > 0);
   const t = totals(state.spend, killed);
+
+  // ---- gtm brain intents (checked first: "kill line" must not hit the channel-kill intent) ----
+  if (/kill.?line|kill line against/.test(s)) {
+    const card = BATTLECARDS.find((b) => s.includes(b.competitor.toLowerCase().split(" ")[0]));
+    if (card) {
+      const line = state.killLines[card.id] ?? card.killLine;
+      const v = state.brainFiles[card.id]?.version;
+      return {
+        text: `${card.competitor} kill line (battlecards/${card.id}.md v${v}): "${line}" Where we win: ${card.weWin}`,
+        link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      };
+    }
+    return {
+      text: `Kill lines live in the battlecards: ${BATTLECARDS.map((b) => b.competitor).join(", ")}. Name one.`,
+      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+    };
+  }
+
+  if (/what is the (gtm )?brain|gtm brain/.test(s)) {
+    const pending = pendingProposals(state.proposals).length;
+    return {
+      text: `Seven files agents read before they act and write what they learn into — brain.md, the signal library, four battlecards, the messaging matrix — every output archived with the context that produced it. ${pending} proposal${pending === 1 ? "" : "s"} pending review. The files are the memory. The query layer is what makes it a brain — a brain no one can query is just a folder.`,
+      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+    };
+  }
+
+  if (/pending (review|proposal|approval)|what needs (review|approval)/.test(s)) {
+    const pending = pendingProposals(state.proposals);
+    if (pending.length === 0)
+      return {
+        text: "Nothing pending — every proposal has been approved or rejected. The brain is current.",
+        link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      };
+    return {
+      text: `${pending.length} pending: ${pending.map((p) => p.title).join(" · ")}. The brain proposes; a human approves.`,
+      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+    };
+  }
+
+  if (/who owns/.test(s)) {
+    const file = BRAIN_FILES.find((f) =>
+      f.path.toLowerCase().split(/[/.]/).some((part) => part.length > 3 && s.includes(part.replace(/-/g, " "))) ||
+      s.includes(f.id.replace(/-/g, " ")) ||
+      (f.id !== "brain" && s.includes(f.id.split("-")[0])),
+    );
+    if (file) {
+      const v = state.brainFiles[file.id]?.version;
+      return {
+        text: `${file.path} is owned by ${file.owner} (v${v}). Every file has a named owner — Ops owns the taxonomy.`,
+        link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      };
+    }
+    return {
+      text: `Owners: brain.md and signals/library.md — Lucian; battlecards/ — Alex; messaging/matrix.md — Dana. Ops owns the taxonomy.`,
+      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+    };
+  }
+
+  if (/stale/.test(s) && /brain|file|battlecard/.test(s)) {
+    const stale = staleBrainFiles(state.brainFiles, Date.now());
+    if (stale.length === 0)
+      return {
+        text: "Nothing is stale — every file has been touched inside 30 days.",
+        link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      };
+    return {
+      text: `${stale.length} stale (30+ days untouched): ${stale.map((f) => `${f.path} — ${f.days} days`).join("; ")}. Stale battlecards lose deals quietly.`,
+      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+    };
+  }
+
+  if (/messaging matrix|matrix for/.test(s)) {
+    const persona = /coo/.test(s) ? "COO" : /founder/.test(s) ? "Founder" : /cx/.test(s) ? "CX lead" : null;
+    if (persona) {
+      const row = MESSAGING_MATRIX.find((r) => r.persona === persona);
+      if (row)
+        return {
+          text: `${persona} × ${row.objection} → approved line: ${row.line} Used in ${row.usedIn.label}. Owner: Dana (messaging/matrix.md v${state.brainFiles.matrix?.version}).`,
+          link: { label: "open GTM Brain", href: "/growth-os/signals" },
+        };
+    }
+    return {
+      text: `messaging/matrix.md (Dana) maps persona × top objection → the approved line: ${MESSAGING_MATRIX.map((r) => r.persona).join(", ")}. Name a persona for the row.`,
+      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+    };
+  }
 
   // how is [bet] doing — check before generic intents so names win
   const pool = allBets(state.draftBets);
@@ -462,7 +587,7 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
     };
   }
 
-  if (/kill|cut|stop|drop/.test(s) && /what|which|should|candidate/.test(s)) {
+  if (/kill|cut|stop|drop/.test(s) && /what|which|should|candidate/.test(s) && !/kill.?line/.test(s)) {
     if (paid.length === 0)
       return { text: "Nothing is spending right now, so there's nothing to kill on cost grounds.", link: { label: "open This Week", href: "/growth-os" } };
     const worst = paid.reduce((a, b) => ((a.cpm ?? 0) >= (b.cpm ?? 0) ? a : b));
@@ -520,14 +645,14 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
   if (/biggest objection|top objection|objection right now/.test(s)) {
     return {
       text: `"AI will make us sound robotic — our voice is the brand." — 14 mentions this month and rising. The gen-3 outbound templates are aimed straight at it.`,
-      link: { label: "open Signals", href: "/growth-os/signals" },
+      link: { label: "open GTM Brain", href: "/growth-os/signals" },
     };
   }
 
   if (/objection.*(grow|rising|up|trend)/.test(s) || /(grow|rising).*objection/.test(s)) {
     return {
       text: `Two are climbing: "sounds robotic" (14, up) and "my team is scared this replaces them" (9, up). The second one is the MentorsCX thesis in the wild — career-ladder framing wins those rooms.`,
-      link: { label: "open Signals", href: "/growth-os/signals" },
+      link: { label: "open GTM Brain", href: "/growth-os/signals" },
     };
   }
 
@@ -567,6 +692,12 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
 
 export const ASK_INTENTS = [
   "what should we kill?",
+  "what's our kill line against Decagon?",
+  "what is the GTM brain?",
+  "what's pending review?",
+  "what's stale in the brain?",
+  "who owns the Gorgias battlecard?",
+  "show the messaging matrix for COO",
   "which deals are stuck?",
   "what's in proposal?",
   "biggest open deal",

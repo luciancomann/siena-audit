@@ -17,7 +17,7 @@ const NAV = [
   { href: "/growth-os/bets", label: "Bets", key: "bets" },
   { href: "/growth-os/loop", label: "The Loop", key: "loop" },
   { href: "/growth-os/metrics", label: "Metrics", key: "metrics" },
-  { href: "/growth-os/signals", label: "Signals", key: "signals" },
+  { href: "/growth-os/signals", label: "GTM Brain", key: "signals" },
   { href: "/growth-os/graveyard", label: "Graveyard", key: "graveyard" },
 ];
 

@@ -532,6 +532,8 @@ export interface Objection {
   source: SignalSource;
   date: string;
   usedIn?: { label: string; href: string };
+  /** e.g. "open — no asset yet" for objections nothing answers yet */
+  tag?: string;
 }
 
 export const OBJECTIONS: Objection[] = [
@@ -573,6 +575,7 @@ export const OBJECTIONS: Objection[] = [
     trend: "down",
     source: "Sales call",
     date: "Jun 27",
+    tag: "open — no asset yet",
   },
   {
     text: "“How do I sell this spend to my COO?”",
@@ -1338,5 +1341,236 @@ export const DEALS: Deal[] = [
     stageHistory: [{ stage: "discovery", at: d(1) }],
     notes: "",
     lost: { reason: "committed to Fin a week before our expansion pitch", competitor: "Intercom Fin", at: d(2), seeded: true },
+  },
+];
+
+// ---------------------------------------------------------------- gtm brain
+
+/**
+ * The GTM Brain — Signals restructured as a file-based memory. GitHub is
+ * the write layer; this is the read layer. Versions and edit history live
+ * in state (seeded from BRAIN_FILES); the static contents live here.
+ */
+
+export interface BrainFileSeed {
+  id: string;
+  path: string; // rendered filename
+  owner: string;
+  version: number;
+  updatedAt: string; // ISO
+}
+
+export const BRAIN_FILES: BrainFileSeed[] = [
+  { id: "brain", path: "brain.md", owner: "Lucian", version: 4, updatedAt: "2026-07-08T09:00:00.000Z" },
+  { id: "library", path: "signals/library.md", owner: "Lucian", version: 7, updatedAt: "2026-07-07T09:00:00.000Z" },
+  { id: "gorgias-ai", path: "battlecards/gorgias-ai.md", owner: "Alex", version: 3, updatedAt: "2026-07-05T09:00:00.000Z" },
+  { id: "zendesk-ai", path: "battlecards/zendesk-ai.md", owner: "Alex", version: 2, updatedAt: "2026-06-28T09:00:00.000Z" },
+  { id: "decagon", path: "battlecards/decagon.md", owner: "Alex", version: 1, updatedAt: "2026-06-30T09:00:00.000Z" },
+  { id: "intercom-fin", path: "battlecards/intercom-fin.md", owner: "Alex", version: 2, updatedAt: "2026-06-06T09:00:00.000Z" }, // 34 days stale on purpose
+  { id: "matrix", path: "messaging/matrix.md", owner: "Dana", version: 5, updatedAt: "2026-07-03T09:00:00.000Z" },
+];
+
+/** brain.md defaults — the editable core file. Priorities are computed from Live bets. */
+export const BRAIN_DOC = {
+  icp: "Shopify-centric consumer brands, 2,000–8,000 tickets/mo, running Gorgias or Zendesk, brand-conscious.\nBuyer: Head/Director of CX or COO; founder-led under $20M.",
+  positioning:
+    "Siena resolves support end to end in your brand's voice — an AI teammate that does the work, not a bot that deflects it.",
+  voice: [
+    "Numbers first, adjectives never — banned: revolutionary, seamless, game-changing.",
+    "Career-ladder language, not headcount language — teams get better jobs, not fewer.",
+    "Show the failure mode — always say what happens when it doesn't know.",
+  ],
+};
+
+export const BRAIN_READERS = ["signal agent", "story agent", "drafting agent", "Ask Growth"];
+
+export interface Battlecard {
+  id: string; // matches BRAIN_FILES id
+  competitor: string; // matches COMPETITORS name
+  theyWin: string;
+  weWin: string;
+  killLine: string; // v1 — current line lives in state so approvals can move it
+}
+
+export const BATTLECARDS: Battlecard[] = [
+  {
+    id: "gorgias-ai",
+    competitor: "Gorgias AI",
+    theyWin: "Bundling with the helpdesk, renewal pricing, Shopify-stack familiarity.",
+    weWin: "Depth — multi-step flows resolved end to end, in the brand's voice, with memory.",
+    killLine:
+      "Ask them to show a subscription skip handled in your brand voice — bundled AI reads scripts, it doesn't do work.",
+  },
+  {
+    id: "zendesk-ai",
+    competitor: "Zendesk AI",
+    theyWin: "Enterprise gravity, procurement comfort, the contract that's already signed.",
+    weWin: "Seat pricing is the wedge — we price on resolution, not seats, and go live in days.",
+    killLine:
+      "Price their AI at your seat count, then price ours at your ticket count — bring both numbers to the CFO.",
+  },
+  {
+    id: "decagon",
+    competitor: "Decagon",
+    theyWin: "Strong demo, fast-moving brand, wins the first impression.",
+    weWin: "Commerce actions — returns, refunds, subscription changes processed end to end.",
+    killLine: "Strong demo — ask what happens after the demo script ends.",
+  },
+  {
+    id: "intercom-fin",
+    competitor: "Intercom Fin",
+    theyWin: "Install base and brand recognition — Fin is the default consideration.",
+    weWin: "Pricing anxiety is real: per-resolution pricing spikes at volume; ours is predictable.",
+    killLine: "Ask for the Fin bill at your ticket volume in Q4 — then ask for ours.",
+  },
+];
+
+export interface BrainProposal {
+  id: string;
+  fileId: string;
+  filePath: string;
+  title: string;
+  current: string;
+  proposed: string;
+  evidence: string[];
+  /** for library additions — the objection the approval appends */
+  objection?: Objection;
+}
+
+export const BRAIN_PROPOSALS: BrainProposal[] = [
+  {
+    id: "prop-decagon-kill-v2",
+    fileId: "decagon",
+    filePath: "battlecards/decagon.md",
+    title: "Decagon named 3 weeks running, trend up → battlecard update: kill line v2",
+    current: "Strong demo — ask what happens after the demo script ends.",
+    proposed:
+      "Strong demo, thin on commerce actions — ask to see a return processed end to end.",
+    evidence: [
+      "Named on calls Jun 24, Jul 1, Jul 8 — 5 mentions this month, trend up",
+      "2 deals lost to Decagon this quarter ($53K at death)",
+      "Jul 8 win-back call: rep had no counter once the demo landed",
+    ],
+  },
+  {
+    id: "prop-library-policies",
+    fileId: "library",
+    filePath: "signals/library.md",
+    title: "New objection cluster from Jul 8 calls → addition to signal library",
+    current: "— not in the library",
+    proposed: "“Who trains it on our policies?” — new objection entry, 4 mentions, trend up",
+    evidence: [
+      "4 separate calls on Jul 8 asked policy-training questions",
+      "2 came from COO personas — security-review adjacent",
+      "No existing objection covers onboarding or training",
+    ],
+    objection: {
+      text: "“Who trains it on our policies?”",
+      count: 4,
+      trend: "up",
+      source: "Sales call",
+      date: "Jul 8",
+    },
+  },
+];
+
+export const CONVERSION_SIGNALS: { label: string; count: number }[] = [
+  { label: "Audit completed", count: 96 },
+  { label: "Pricing page, 3+ visits in a week", count: 41 },
+  { label: "Competitor named on a call", count: 27 },
+  { label: "Fast-track threshold hit (score > 70, volume > 3,000)", count: 12 },
+];
+
+export const NOISE_IGNORED: string[] = [
+  "Post likes",
+  "Newsletter opens",
+  "Single blog visits",
+];
+
+export interface MatrixRow {
+  persona: string;
+  objection: string;
+  line: string;
+  usedIn: { label: string; href: string };
+  alsoWins: string[]; // the persona's remaining winning phrases, preserved
+}
+
+export const MESSAGING_MATRIX: MatrixRow[] = [
+  {
+    persona: "CX lead",
+    objection: "“AI will make us sound robotic — our voice is the brand.”",
+    line: "“It answers like someone who's read the whole thread.”",
+    usedIn: { label: "outbound gen-3", href: "/growth-os/bets" },
+    alsoWins: [
+      "“I want my team off the copy-paste tickets, not out of a job.”",
+      "“Show me what it does when it doesn't know.”",
+    ],
+  },
+  {
+    persona: "COO",
+    objection: "“How do I sell this spend to my COO?”",
+    line: "“What's the payback window, and who owns the number?”",
+    usedIn: { label: "audit ROI section", href: "/cx-audit/report/verabloom" },
+    alsoWins: ["“Headcount flexibility, not headcount cuts.”"],
+  },
+  {
+    persona: "Founder",
+    objection: "“We tried a bot in 2023 and it made things worse.”",
+    line: "“The support queue is the only honest focus group we have.”",
+    usedIn: { label: "story #14", href: "/growth-os/bets" },
+    alsoWins: ["“Every pre-purchase question we miss is a lost order.”"],
+  },
+];
+
+export interface OutputEntry {
+  date: string; // display, e.g. "Jul 9"
+  asset: string;
+  kind: "outbound" | "story" | "audit" | "ad" | "expansion";
+  producedBy: string[]; // file paths
+  perf: string | null;
+}
+
+export const OUTPUTS_LEDGER: OutputEntry[] = [
+  {
+    date: "Jul 9",
+    asset: "Outbound gen-3 templates",
+    kind: "outbound",
+    producedBy: ["signals/library.md", "messaging/matrix.md", "brain.md"],
+    perf: "story-led reply 3.4% vs 1.7% generic",
+  },
+  {
+    date: "Jul 8",
+    asset: "Audit report — complexity ladder section",
+    kind: "audit",
+    producedBy: ["signals/library.md"],
+    perf: "27 runs this week · 8 fast-tracked",
+  },
+  {
+    date: "Jul 7",
+    asset: "Story #14 — the pump defect nobody tagged",
+    kind: "story",
+    producedBy: ["signals/library.md", "brain.md"],
+    perf: "640 story-led sends · 3.4% reply",
+  },
+  {
+    date: "Jul 5",
+    asset: "Audit ROI section — the COO answer",
+    kind: "audit",
+    producedBy: ["messaging/matrix.md"],
+    perf: "$168K pipeline attributed MTD",
+  },
+  {
+    date: "Jul 2",
+    asset: "Ad variants — “voice is the brand” set",
+    kind: "ad",
+    producedBy: ["signals/library.md", "battlecards/gorgias-ai.md"],
+    perf: "2 promoted to paid",
+  },
+  {
+    date: "Jun 27",
+    asset: "Expansion cohort 2 — Shopping pitch",
+    kind: "expansion",
+    producedBy: ["brain.md", "messaging/matrix.md"],
+    perf: "22 accounts · $96K expansion MTD",
   },
 ];
