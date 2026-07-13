@@ -124,7 +124,9 @@ export function defaultState(): GrowthState {
     signalDrafts: {},
     digestGeneratedAt: null,
     actions: [],
-    deals: DEALS,
+    // deep-enough copy: a future in-place mutation must never poison the
+    // pristine seed that ?reset=1 and the server snapshot depend on
+    deals: DEALS.map((d) => ({ ...d, stageHistory: [...d.stageHistory] })),
     lostSignals: [],
     brainFiles: Object.fromEntries(
       BRAIN_FILES.map((f) => [
