@@ -166,7 +166,7 @@ function DealsBoard() {
           align="left"
           eyebrow="Growth OS · The pipeline"
           title="Deals Board"
-          subtitle="Every open dollar, staged. Drag a card to move it — the digest narrates the move. Losing asks for a reason; a named competitor lands in Signals."
+          subtitle="Every open dollar, staged. Drag a card to move it — the digest narrates the move. Losing asks for a reason; a named competitor lands in the GTM Brain."
         />
         <span className="gos-hubspot sds-mono-label">
           Synced from HubSpot in production, seeded locally in this demo
@@ -610,7 +610,7 @@ function DealsBoard() {
             <h2 className="gos-modal__title">Mark {losing.company} lost</h2>
             <p className="gos-modal__sub">
               One line on why — and if a competitor won it, name them. Named losses
-              write themselves into Signals.
+              write themselves into the GTM Brain.
             </p>
             <Input
               aria-label="Loss reason"

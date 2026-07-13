@@ -11,13 +11,13 @@
  * re-seeded on next load. Old keys are ignored and cleaned up.
  */
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
-import type { BetStatus, ChannelId, CostToRun, Deal } from "./data";
-import { BETS, CHANNELS, DEALS } from "./data";
+import type { BetStatus, ChannelId, CostToRun, Deal, Objection } from "./data";
+import { BATTLECARDS, BETS, BRAIN_DOC, BRAIN_FILES, CHANNELS, DEALS } from "./data";
 
 /** Bump on ANY seed/dataset change. */
-export const SEED_VERSION = 3;
+export const SEED_VERSION = 4;
 const KEY = `growth-os-v${SEED_VERSION}`;
-const OLD_KEYS = ["growth-os-v1", "growth-os-v2"];
+const OLD_KEYS = ["growth-os-v1", "growth-os-v2", "growth-os-v3"];
 
 // ---------------------------------------------------------------- shapes
 
@@ -66,6 +66,20 @@ export interface LostSignal {
   at: string; // ISO
 }
 
+/** A GTM Brain file's living metadata — versions only move via edits or approvals. */
+export interface BrainFileState {
+  version: number;
+  updatedAt: string; // ISO
+  history: { version: number; at: string; note: string }[];
+}
+
+/** A decision on a brain proposal. Pending = no entry. */
+export interface ProposalDecision {
+  status: "approved" | "rejected";
+  at: string; // ISO
+  reason?: string; // rejections carry the one-liner
+}
+
 export interface GrowthState {
   seedVersion: number;
   betStatus: Record<string, BetStatus>;
@@ -84,6 +98,16 @@ export interface GrowthState {
   deals: Deal[];
   /** signal entries appended by lost-to-competitor events */
   lostSignals: LostSignal[];
+  /** GTM Brain: per-file version + history */
+  brainFiles: Record<string, BrainFileState>;
+  /** GTM Brain: the editable core file's contents */
+  brainDoc: { icp: string; positioning: string; voice: string[] };
+  /** GTM Brain: the CURRENT kill line per battlecard (approvals move these) */
+  killLines: Record<string, string>;
+  /** GTM Brain: objections added via approved proposals */
+  extraObjections: Objection[];
+  /** GTM Brain: proposal decisions (pending = absent) */
+  proposals: Record<string, ProposalDecision>;
 }
 
 export function defaultState(): GrowthState {
@@ -102,6 +126,20 @@ export function defaultState(): GrowthState {
     actions: [],
     deals: DEALS,
     lostSignals: [],
+    brainFiles: Object.fromEntries(
+      BRAIN_FILES.map((f) => [
+        f.id,
+        {
+          version: f.version,
+          updatedAt: f.updatedAt,
+          history: [{ version: f.version, at: f.updatedAt, note: "seeded" }],
+        },
+      ]),
+    ),
+    brainDoc: { ...BRAIN_DOC, voice: [...BRAIN_DOC.voice] },
+    killLines: Object.fromEntries(BATTLECARDS.map((b) => [b.id, b.killLine])),
+    extraObjections: [],
+    proposals: {},
   };
 }
 
@@ -126,6 +164,11 @@ function read(): GrowthState {
       actions: Array.isArray(saved.actions) ? saved.actions : [],
       deals: Array.isArray(saved.deals) && saved.deals.length > 0 ? saved.deals : base.deals,
       lostSignals: Array.isArray(saved.lostSignals) ? saved.lostSignals : [],
+      brainFiles: { ...base.brainFiles, ...(saved.brainFiles ?? {}) },
+      brainDoc: saved.brainDoc ?? base.brainDoc,
+      killLines: { ...base.killLines, ...(saved.killLines ?? {}) },
+      extraObjections: Array.isArray(saved.extraObjections) ? saved.extraObjections : [],
+      proposals: saved.proposals ?? {},
     };
   } catch {
     return base;
