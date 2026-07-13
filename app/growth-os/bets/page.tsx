@@ -14,6 +14,7 @@ import { Badge, Button, Card, Input, SectionHeading } from "@siena/design-system
 import { AUDIT_FEED, MAX_LIVE, type BetStatus, type CostToRun } from "../_lib/data";
 import {
   allBets,
+  auditAttributedMTD,
   compositeScore,
   liveCount,
   moneyK,
@@ -419,7 +420,7 @@ function BetsBoard() {
                     <span className="gos-auditfeed__k">fast-tracked</span>
                   </span>
                   <span className="gos-auditfeed__cell">
-                    <span className="gos-auditfeed__v">{moneyK(AUDIT_FEED.pipelineAttributed)}</span>
+                    <span className="gos-auditfeed__v">{moneyK(auditAttributedMTD(state.deals))}</span>
                     <span className="gos-auditfeed__k">pipeline attributed MTD</span>
                   </span>
                 </div>

@@ -97,7 +97,8 @@ export const AUDIT_FEED = {
   runsThisWeek: 27,
   leadsCreated: 19,
   fastTracked: 8, // score > 70 && volume > 3,000 routing rule
-  pipelineAttributed: 168_000,
+  // attributed pipeline is COMPUTED from the Deals Board (auditAttributedMTD) — never asserted here
+  meetingsThisWeek: 3,
   meetingsThisMonth: 7, // mirrors CHANNELS.audit
 };
 
@@ -449,7 +450,7 @@ export const LOOP: LoopStage[] = [
     outputs: "Memory data, QA scores, case-study material — all feeding Signal",
     health: [
       { label: "customer stories captured", value: "2", ok: true },
-      { label: "audit reruns", value: "4", ok: false },
+      { label: "audit reruns", value: "4", ok: true },
     ],
     agents: [
       { name: "Memory intake", line: "every new brand starts generating voice-of-customer on day one", status: "running" },
@@ -1361,7 +1362,7 @@ export interface BrainFileSeed {
 }
 
 export const BRAIN_FILES: BrainFileSeed[] = [
-  { id: "brain", path: "brain.md", owner: "Lucian", version: 4, updatedAt: "2026-07-08T09:00:00.000Z" },
+  { id: "brain", path: "brain.md", owner: "Lucian", version: 5, updatedAt: "2026-07-10T09:00:00.000Z" },
   { id: "library", path: "signals/library.md", owner: "Lucian", version: 7, updatedAt: "2026-07-07T09:00:00.000Z" },
   { id: "gorgias-ai", path: "battlecards/gorgias-ai.md", owner: "Alex", version: 3, updatedAt: "2026-07-05T09:00:00.000Z" },
   { id: "zendesk-ai", path: "battlecards/zendesk-ai.md", owner: "Alex", version: 2, updatedAt: "2026-06-28T09:00:00.000Z" },
@@ -1376,7 +1377,7 @@ export const BRAIN_DOC = {
   positioning:
     "Siena resolves support end to end in your brand's voice — an AI teammate that does the work, not a bot that deflects it.",
   voice: [
-    "Numbers first, adjectives never — banned: revolutionary, seamless, game-changing.",
+    "Specifics over adjectives — banned: revolutionary, seamless, game-changing. Human line first, number second.",
     "Career-ladder language, not headcount language — teams get better jobs, not fewer.",
     "Show the failure mode — always say what happens when it doesn't know.",
   ],
@@ -1536,7 +1537,7 @@ export const OUTPUTS_LEDGER: OutputEntry[] = [
     asset: "Outbound gen-3 templates",
     kind: "outbound",
     producedBy: ["signals/library.md", "messaging/matrix.md", "brain.md"],
-    perf: "story-led reply 3.4% vs 1.7% generic",
+    perf: "story-led reply 3.4% vs 1.7% generic — up from gen-2's 1.9%",
   },
   {
     date: "Jul 8",
@@ -1572,5 +1573,33 @@ export const OUTPUTS_LEDGER: OutputEntry[] = [
     kind: "expansion",
     producedBy: ["brain.md", "messaging/matrix.md"],
     perf: "22 accounts · $96K expansion MTD",
+  },
+  {
+    date: "Jun 18",
+    asset: "Ad variant — “bot that deflects” contrast set",
+    kind: "ad",
+    producedBy: ["battlecards/gorgias-ai.md", "messaging/matrix.md"],
+    perf: "$890/meeting at the time — refreshed after the paid audit",
+  },
+  {
+    date: "Jun 4",
+    asset: "Audit report v2 — benchmark section added",
+    kind: "audit",
+    producedBy: ["signals/library.md", "brain.md"],
+    perf: "reruns 2 → 4 after ship",
+  },
+  {
+    date: "May 28",
+    asset: "Outbound gen-2 templates",
+    kind: "outbound",
+    producedBy: ["signals/library.md", "messaging/matrix.md"],
+    perf: "1.9% reply — retired by gen-3 (3.4%)",
+  },
+  {
+    date: "May 14",
+    asset: "Story #9 — the sizing-chart returns spiral",
+    kind: "story",
+    producedBy: ["signals/library.md", "brain.md"],
+    perf: "2.1% reply on 480 sends",
   },
 ];

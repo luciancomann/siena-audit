@@ -75,7 +75,7 @@ export default function LoopPage() {
               </span>
               {s.id === "signal" && (
                 <Link
-                  href="/growth-os/signals"
+                  href="/growth-os/brain"
                   className="gos-usedin"
                   onClick={(e) => e.stopPropagation()}
                 >

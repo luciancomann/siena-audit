@@ -182,7 +182,7 @@ export default function ThisWeekPage() {
         <StatCard
           label="Expansion pipeline"
           value={moneyK(pipe.expValue)}
-          sub={`${pipe.expCount} plays, lifecycle-triggered — from the Deals Board`}
+          sub={`${pipe.expCount} deals, lifecycle-triggered — from the Deals Board`}
           trendPct={trendPct(pipe.expValue, PIPELINE.expansionLastMonth)}
         />
       </div>
@@ -348,7 +348,7 @@ export default function ThisWeekPage() {
           </Badge>
           <span>
             audit feed: {AUDIT_FEED.runsThisWeek} runs · {AUDIT_FEED.leadsCreated} leads ·{" "}
-            {AUDIT_FEED.fastTracked} fast-tracked · {fmt(AUDIT_FEED.meetingsThisMonth)} meetings
+            {AUDIT_FEED.fastTracked} fast-tracked · {AUDIT_FEED.meetingsThisWeek} meetings this week ({AUDIT_FEED.meetingsThisMonth} MTD)
           </span>
           <span className="gos-digest__run">
             <Button variant="secondary" size="sm" onClick={runDigest} disabled={digestBusy}>

@@ -8,7 +8,9 @@
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import { Avatar } from "@siena/design-system";
+import { resetGrowthState } from "../_lib/state";
 import { AskGrowth } from "./AskGrowth";
 
 const NAV = [
@@ -17,12 +19,24 @@ const NAV = [
   { href: "/growth-os/bets", label: "Bets", key: "bets" },
   { href: "/growth-os/loop", label: "The Loop", key: "loop" },
   { href: "/growth-os/metrics", label: "Metrics", key: "metrics" },
-  { href: "/growth-os/signals", label: "GTM Brain", key: "signals" },
+  { href: "/growth-os/brain", label: "GTM Brain", key: "brain" },
   { href: "/growth-os/graveyard", label: "Graveyard", key: "graveyard" },
 ];
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
+  // Hidden demo reset: any Growth OS page with ?reset=1 restores the pristine
+  // seed and strips the param. No UI — it exists so the live-demo choreography
+  // can be rehearsed and reset.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("reset") !== "1") return;
+    resetGrowthState();
+    url.searchParams.delete("reset");
+    const qs = url.searchParams.toString();
+    window.history.replaceState(null, "", url.pathname + (qs ? `?${qs}` : "") + url.hash);
+  }, [pathname]);
   return (
     <div className="gos">
       <aside className="gos-side">

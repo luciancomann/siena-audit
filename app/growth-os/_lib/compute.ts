@@ -228,6 +228,20 @@ export function salesCycle(deals: Deal[]) {
   return { days: Math.round(avg), n: cycles.length };
 }
 
+/**
+ * The audit tool's attributed pipeline, computed — never asserted: deals
+ * with source = audit, created this month, open plus signed (lost excluded).
+ * Summing the audit-sourced cards on the board lands on this same number.
+ */
+export function auditAttributedMTD(deals: Deal[]): number {
+  return deals
+    .filter(
+      (x) =>
+        x.source === "audit" && !x.lost && Date.parse(x.createdAt) >= MONTH_START,
+    )
+    .reduce((n, x) => n + x.size, 0);
+}
+
 /** Open deals sitting 14+ days in their current stage. */
 export const stuckDeals = (deals: Deal[], now: number): Deal[] =>
   openDeals(deals).filter((x) => daysInStage(x, now) >= 14);
@@ -345,7 +359,7 @@ export function writeDigest(
       `across ${pipe.count} deals (${sign(pipeTrend)}). Spend is zeroed across ` +
       `the board, so cost per meeting is a free lunch until the inputs come back. This week: the audit ran ` +
       `${AUDIT_FEED.runsThisWeek} times → ${AUDIT_FEED.leadsCreated} leads → ${AUDIT_FEED.fastTracked} fast-tracked ` +
-      `→ ${AUDIT_FEED.meetingsThisMonth} meetings.` +
+      `→ ${AUDIT_FEED.meetingsThisWeek} meetings this week (${AUDIT_FEED.meetingsThisMonth} MTD).` +
       dealDigestLine(deals, now) +
       narrateActions(actions)
     );
@@ -370,8 +384,9 @@ export function writeDigest(
     `MTD: ${t.meetings} meetings booked (${sign(meetingsTrend)} vs last month), qualified pipeline ` +
     `${moneyK(pipeTotal)} across ${pipe.count} deals (${sign(pipeTrend)}), ` +
     `expansion ${moneyK(pipe.expValue)} of it. This week: the audit ran ${AUDIT_FEED.runsThisWeek} times → ` +
-    `${AUDIT_FEED.leadsCreated} leads → ${AUDIT_FEED.fastTracked} fast-tracked → ${AUDIT_FEED.meetingsThisMonth} meetings, ` +
-    `${moneyK(AUDIT_FEED.pipelineAttributed)} attributed MTD — ${auditClause}. ${priciestClause}.` +
+    `${AUDIT_FEED.leadsCreated} leads → ${AUDIT_FEED.fastTracked} fast-tracked → ${AUDIT_FEED.meetingsThisWeek} meetings ` +
+    `this week (${AUDIT_FEED.meetingsThisMonth} MTD), ${moneyK(auditAttributedMTD(deals))} attributed MTD — the sum of the ` +
+    `audit-sourced cards on the board — ${auditClause}. ${priciestClause}.` +
     dealDigestLine(deals, now) +
     ` Nothing else changed that the numbers don't already say.` +
     narrateActions(actions)
@@ -410,12 +425,12 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
       const v = state.brainFiles[card.id]?.version;
       return {
         text: `${card.competitor} kill line (battlecards/${card.id}.md v${v}): "${line}" Where we win: ${card.weWin}`,
-        link: { label: "open GTM Brain", href: "/growth-os/signals" },
+        link: { label: "open GTM Brain", href: "/growth-os/brain" },
       };
     }
     return {
       text: `Kill lines live in the battlecards: ${BATTLECARDS.map((b) => b.competitor).join(", ")}. Name one.`,
-      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      link: { label: "open GTM Brain", href: "/growth-os/brain" },
     };
   }
 
@@ -423,7 +438,7 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
     const pending = pendingProposals(state.proposals).length;
     return {
       text: `Seven files agents read before they act and write what they learn into — brain.md, the signal library, four battlecards, the messaging matrix — every output archived with the context that produced it. ${pending} proposal${pending === 1 ? "" : "s"} pending review. The files are the memory. The query layer is what makes it a brain — a brain no one can query is just a folder.`,
-      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      link: { label: "open GTM Brain", href: "/growth-os/brain" },
     };
   }
 
@@ -432,11 +447,11 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
     if (pending.length === 0)
       return {
         text: "Nothing pending — every proposal has been approved or rejected. The brain is current.",
-        link: { label: "open GTM Brain", href: "/growth-os/signals" },
+        link: { label: "open GTM Brain", href: "/growth-os/brain" },
       };
     return {
       text: `${pending.length} pending: ${pending.map((p) => p.title).join(" · ")}. The brain proposes; a human approves.`,
-      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      link: { label: "open GTM Brain", href: "/growth-os/brain" },
     };
   }
 
@@ -450,12 +465,12 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
       const v = state.brainFiles[file.id]?.version;
       return {
         text: `${file.path} is owned by ${file.owner} (v${v}). Every file has a named owner — Ops owns the taxonomy.`,
-        link: { label: "open GTM Brain", href: "/growth-os/signals" },
+        link: { label: "open GTM Brain", href: "/growth-os/brain" },
       };
     }
     return {
       text: `Owners: brain.md and signals/library.md — Lucian; battlecards/ — Alex; messaging/matrix.md — Dana. Ops owns the taxonomy.`,
-      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      link: { label: "open GTM Brain", href: "/growth-os/brain" },
     };
   }
 
@@ -464,11 +479,11 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
     if (stale.length === 0)
       return {
         text: "Nothing is stale — every file has been touched inside 30 days.",
-        link: { label: "open GTM Brain", href: "/growth-os/signals" },
+        link: { label: "open GTM Brain", href: "/growth-os/brain" },
       };
     return {
       text: `${stale.length} stale (30+ days untouched): ${stale.map((f) => `${f.path} — ${f.days} days`).join("; ")}. Stale battlecards lose deals quietly.`,
-      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      link: { label: "open GTM Brain", href: "/growth-os/brain" },
     };
   }
 
@@ -479,12 +494,12 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
       if (row)
         return {
           text: `${persona} × ${row.objection} → approved line: ${row.line} Used in ${row.usedIn.label}. Owner: Dana (messaging/matrix.md v${state.brainFiles.matrix?.version}).`,
-          link: { label: "open GTM Brain", href: "/growth-os/signals" },
+          link: { label: "open GTM Brain", href: "/growth-os/brain" },
         };
     }
     return {
       text: `messaging/matrix.md (Dana) maps persona × top objection → the approved line: ${MESSAGING_MATRIX.map((r) => r.persona).join(", ")}. Name a persona for the row.`,
-      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      link: { label: "open GTM Brain", href: "/growth-os/brain" },
     };
   }
 
@@ -582,7 +597,7 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
     const signedAudit = signedDeals(deals).filter((x) => x.source === "audit").length;
     const signedClause = signedAudit > 0 ? ` ${signedAudit} more already signed this month.` : "";
     return {
-      text: `${xs.length} active audit-sourced deals worth ${moneyK(xs.reduce((n, x) => n + x.size, 0))}, ${ft.length} of them fast-tracked (score > 70, volume > 3,000): ${xs.map((x) => x.company).join(", ")}.${signedClause}`,
+      text: `${xs.length} active audit-sourced deals, ${ft.length} of them fast-tracked (score > 70, volume > 3,000): ${xs.map((x) => x.company).join(", ")}.${signedClause} ${moneyK(auditAttributedMTD(deals))} attributed MTD — open plus signed, created this month; sum the audit cards on the board and you land on the same number.`,
       link: { label: "open Deals Board — audit-sourced", href: "/growth-os/deals?source=audit" },
     };
   }
@@ -630,7 +645,7 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
   if (/pipeline/.test(s) && /(month|mtd|new|expansion|much)/.test(s)) {
     const pipe = pipelineFromDeals(deals);
     return {
-      text: `${moneyK(pipe.total)} qualified pipeline MTD across ${pipe.count} deals — new ${moneyK(pipe.newValue)} (${pipe.newCount} deals), expansion ${moneyK(pipe.expValue)} (${pipe.expCount} plays). Computed from the Deals Board; expansion is the cheapest pipeline in the company.`,
+      text: `${moneyK(pipe.total)} qualified pipeline MTD across ${pipe.count} deals — new ${moneyK(pipe.newValue)} (${pipe.newCount} deals), expansion ${moneyK(pipe.expValue)} (${pipe.expCount} deals). Computed from the Deals Board; expansion is the cheapest pipeline in the company.`,
       link: { label: "open Metrics", href: "/growth-os/metrics" },
     };
   }
@@ -645,20 +660,20 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
   if (/biggest objection|top objection|objection right now/.test(s)) {
     return {
       text: `"AI will make us sound robotic — our voice is the brand." — 14 mentions this month and rising. The gen-3 outbound templates are aimed straight at it.`,
-      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      link: { label: "open GTM Brain", href: "/growth-os/brain" },
     };
   }
 
   if (/objection.*(grow|rising|up|trend)/.test(s) || /(grow|rising).*objection/.test(s)) {
     return {
       text: `Two are climbing: "sounds robotic" (14, up) and "my team is scared this replaces them" (9, up). The second one is the MentorsCX thesis in the wild — career-ladder framing wins those rooms.`,
-      link: { label: "open GTM Brain", href: "/growth-os/signals" },
+      link: { label: "open GTM Brain", href: "/growth-os/brain" },
     };
   }
 
   if (/audit tool|what does the audit/.test(s)) {
     return {
-      text: `This week the audit ran ${AUDIT_FEED.runsThisWeek} times → ${AUDIT_FEED.leadsCreated} leads → ${AUDIT_FEED.fastTracked} fast-tracked → ${AUDIT_FEED.meetingsThisMonth} meetings MTD, ${moneyK(AUDIT_FEED.pipelineAttributed)} pipeline attributed. Every run writes full context to HubSpot before sales opens the call.`,
+      text: `This week the audit ran ${AUDIT_FEED.runsThisWeek} times → ${AUDIT_FEED.leadsCreated} leads → ${AUDIT_FEED.fastTracked} fast-tracked → ${AUDIT_FEED.meetingsThisWeek} meetings this week (${AUDIT_FEED.meetingsThisMonth} MTD), ${moneyK(auditAttributedMTD(deals))} pipeline attributed — computed from the board. Every run writes full context to HubSpot before sales opens the call.`,
       link: { label: "open Bets", href: "/growth-os/bets" },
     };
   }
