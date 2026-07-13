@@ -16,6 +16,9 @@ import {
   DEAL_STAGES,
   MAX_LIVE,
   MESSAGING_MATRIX,
+  METRIC_LAST_MONTH,
+  METRIC_SEEDS,
+  PAYBACK_BY_CHANNEL,
   PIPELINE,
   SEED_TODAY,
 } from "./data";
@@ -54,8 +57,8 @@ export function totals(spend: Record<ChannelId, number>, killed: KilledMap = {})
   const meetingsLastMonth = alive.reduce((n, c) => n + c.meetingsLastMonth, 0);
   const totalSpend = alive.reduce((n, c) => n + (spend[c.id] ?? c.defaultSpend), 0);
   const blended = totalSpend / Math.max(1, meetings);
-  // last month's blended, from the seed spends (the editable one is "now")
-  const lastSpend = 22_800;
+  // last month's blended over the SAME alive set — a kill must not warp history
+  const lastSpend = alive.reduce((n, c) => n + c.spendLastMonth, 0);
   const blendedLastMonth = lastSpend / Math.max(1, meetingsLastMonth);
   return { meetings, meetingsLastMonth, totalSpend, blended, blendedLastMonth };
 }
@@ -323,6 +326,151 @@ export function pendingProposals(proposals: GrowthState["proposals"]) {
   return BRAIN_PROPOSALS.filter((p) => !proposals[p.id]);
 }
 
+// ---------------------------------------------------------------- metrics model
+
+export type MetricStatus = "on-track" | "watch" | "off-track";
+
+export interface MetricView {
+  id: string;
+  name: string;
+  why: string;
+  cadence: string;
+  value: string;
+  sub: string;
+  raw: number;
+  trendPct: number;
+  trendGoodWhenUp: boolean;
+  spark: number[];
+  target: { label: string; status: MetricStatus };
+  source: { label: string; href: string };
+  movedBy: { label: string; href: string }[];
+}
+
+/** meets target → on-track; misses by ≤10% → watch; worse → off-track */
+function statusFor(value: number, target: number, direction: "min" | "max"): MetricStatus {
+  const ok = direction === "min" ? value >= target : value <= target;
+  if (ok) return "on-track";
+  const missBy = direction === "min" ? (target - value) / target : (value - target) / target;
+  return missBy <= 0.1 ? "watch" : "off-track";
+}
+
+/**
+ * The five board metrics as one computed model — the page, the movers strip,
+ * and Ask Growth's target intents all read this, so they can never disagree.
+ * Sparks are seeded history with the live value as the final point.
+ */
+export function metricsModel(state: GrowthState): MetricView[] {
+  const killed = state.killedChannels;
+  const t = totals(state.spend, killed);
+  const pipe = pipelineFromDeals(state.deals);
+  const wr = winRate(state.deals);
+  const cycle = salesCycle(state.deals);
+  const seed = Object.fromEntries(METRIC_SEEDS.map((m) => [m.id, m]));
+  const live = (id: string, v: number) => [...seed[id].spark.slice(0, -1), v];
+  const alive = livingChannels(killed);
+  // spend-weighted blend of the modeled per-channel paybacks, over LIVE spends —
+  // killing an expensive lane visibly improves the headline
+  const weighted = PAYBACK_BY_CHANNEL.filter((p) => !killed[p.channel] && p.months !== null)
+    .map((p) => ({ months: p.months!, spend: state.spend[p.channel] ?? 0 }))
+    .filter((p) => p.spend > 0);
+  const spendSum = weighted.reduce((n, p) => n + p.spend, 0);
+  const payback =
+    spendSum > 0 ? weighted.reduce((n, p) => n + p.spend * p.months, 0) / spendSum : 0;
+  const paybackRounded = Math.round(payback * 10) / 10;
+
+  return [
+    {
+      id: "meetings",
+      ...pick(seed.meetings),
+      value: `${t.meetings} this month`,
+      sub: `across ${alive.length} sources · ${t.meetingsLastMonth} last month`,
+      raw: t.meetings,
+      trendPct: trendPct(t.meetings, t.meetingsLastMonth),
+      trendGoodWhenUp: true,
+      spark: live("meetings", t.meetings),
+      target: { label: seed.meetings.target.label, status: statusFor(t.meetings, seed.meetings.target.value, "min") },
+      source: { label: "channels on This Week", href: "/growth-os" },
+      movedBy: [{ label: "Free CX Audit Agent", href: "/growth-os/bets" }],
+    },
+    {
+      id: "cpm",
+      ...pick(seed.cpm),
+      value: `${money(t.blended)} blended`,
+      sub: "per-channel below — the blend is directional only",
+      raw: Math.round(t.blended),
+      trendPct: trendPct(Math.round(t.blended), Math.round(t.blendedLastMonth)),
+      trendGoodWhenUp: false,
+      spark: live("cpm", Math.round(t.blended)),
+      target: { label: seed.cpm.target.label, status: statusFor(t.blended, seed.cpm.target.value, "max") },
+      source: { label: "spend inputs on This Week", href: "/growth-os" },
+      movedBy: [{ label: "the kill ritual", href: "/growth-os" }],
+    },
+    {
+      id: "pipeline",
+      ...pick(seed.pipeline),
+      value: `${moneyK(pipe.total)} · ${pipe.count} deals`,
+      sub: `new ${moneyK(pipe.newValue)} (${pipe.newCount}) · expansion ${moneyK(pipe.expValue)} (${pipe.expCount})`,
+      raw: pipe.total,
+      trendPct: trendPct(pipe.total, PIPELINE.lastMonthTotal),
+      trendGoodWhenUp: true,
+      spark: live("pipeline", Math.round(pipe.total / 1000)),
+      target: { label: seed.pipeline.target.label, status: statusFor(pipe.total, seed.pipeline.target.value, "min") },
+      source: { label: "deals created this month", href: "/growth-os/deals" },
+      movedBy: [
+        { label: "Free CX Audit Agent", href: "/growth-os/bets" },
+        { label: "Expansion engine", href: "/growth-os/bets" },
+      ],
+    },
+    {
+      id: "winrate",
+      ...pick(seed.winrate),
+      value: `${wr.pct}% · ${cycle.days} days`,
+      sub: `quarter to date, ${wr.closed} closed · cycle over the quarter's ${cycle.n} signed`,
+      raw: wr.pct,
+      trendPct: trendPct(wr.pct, METRIC_LAST_MONTH.winRatePct),
+      trendGoodWhenUp: true,
+      spark: live("winrate", wr.pct),
+      target: { label: seed.winrate.target.label, status: statusFor(wr.pct, seed.winrate.target.value, "min") },
+      source: { label: "closed deals on the board", href: "/growth-os/deals" },
+      movedBy: [{ label: "battlecards in the GTM Brain", href: "/growth-os/brain" }],
+    },
+    {
+      id: "payback",
+      ...pick(seed.payback),
+      value: `${paybackRounded} mo fully loaded`,
+      sub: "incl. team — media-only flatters to ~2 months",
+      raw: paybackRounded,
+      trendPct: trendPct(
+        Math.round(paybackRounded * 10),
+        Math.round(METRIC_LAST_MONTH.paybackMonths * 10),
+      ),
+      trendGoodWhenUp: false,
+      spark: live("payback", paybackRounded),
+      target: { label: seed.payback.target.label, status: statusFor(paybackRounded, seed.payback.target.value, "max") },
+      source: { label: "modeled per channel, below", href: "/growth-os/metrics" },
+      movedBy: [{ label: "Expansion engine", href: "/growth-os/bets" }],
+    },
+  ];
+
+  function pick(m: (typeof METRIC_SEEDS)[number]) {
+    return { name: m.name, why: m.why, cadence: m.cadence };
+  }
+}
+
+/** The movers strip: biggest move, best direction, and the metric to watch. */
+export function metricMovers(model: MetricView[]) {
+  const byAbs = [...model].sort((a, b) => Math.abs(b.trendPct) - Math.abs(a.trendPct));
+  const biggest = byAbs[0];
+  const severity = { "off-track": 2, watch: 1, "on-track": 0 } as const;
+  const offTarget = [...model]
+    .filter((m) => m.target.status !== "on-track")
+    .sort((a, b) => severity[b.target.status] - severity[a.target.status])[0];
+  const rightDirection = model.find(
+    (m) => m.id !== biggest.id && (m.trendGoodWhenUp ? m.trendPct > 0 : m.trendPct < 0),
+  );
+  return { biggest, rightDirection, offTarget };
+}
+
 // ---------------------------------------------------------------- the digest
 
 function narrateActions(actions: ActionLog[]): string {
@@ -500,6 +648,22 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
     return {
       text: `messaging/matrix.md (Dana) maps persona × top objection → the approved line: ${MESSAGING_MATRIX.map((r) => r.persona).join(", ")}. Name a persona for the row.`,
       link: { label: "open GTM Brain", href: "/growth-os/brain" },
+    };
+  }
+
+  if (/off.?track|hitting.*(target|goal)|against target|on track/.test(s)) {
+    const model = metricsModel(state);
+    const off = model.filter((m) => m.target.status !== "on-track");
+    if (off.length === 0)
+      return {
+        text: `All five board metrics are on track against their targets: ${model.map((m) => `${m.name.split(",")[0].toLowerCase()} at ${m.value}`).join("; ")}.`,
+        link: { label: "open Metrics", href: "/growth-os/metrics" },
+      };
+    return {
+      text: `${off.length} of 5 metrics ${off.length === 1 ? "isn't" : "aren't"} hitting target: ${off
+        .map((m) => `${m.name.split(",")[0]} — ${m.value} vs ${m.target.label} (${m.target.status})`)
+        .join("; ")}. The rest are on track.`,
+      link: { label: "open Metrics", href: "/growth-os/metrics" },
     };
   }
 
@@ -707,6 +871,7 @@ export function answerQuestion(q: string, state: GrowthState): AskAnswer | null 
 
 export const ASK_INTENTS = [
   "what should we kill?",
+  "what's off track?",
   "what's our kill line against Decagon?",
   "what is the GTM brain?",
   "what's pending review?",

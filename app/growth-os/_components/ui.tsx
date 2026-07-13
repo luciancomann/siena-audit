@@ -59,10 +59,22 @@ export function TrendGlyph({ trend }: { trend: "up" | "down" | "flat" }) {
   );
 }
 
-export function Spark({ points, height = 26 }: { points: number[]; height?: number }) {
+export function Spark({
+  points,
+  height = 26,
+  fit = false,
+}: {
+  points: number[];
+  height?: number;
+  /** normalize to the series' own min/max (with padding) instead of a zero baseline */
+  fit?: boolean;
+}) {
   const w = 96;
-  const max = Math.max(...points, 1);
-  const min = Math.min(...points, 0);
+  const rawMax = Math.max(...points);
+  const rawMin = Math.min(...points);
+  const pad = fit ? Math.max((rawMax - rawMin) * 0.15, 1e-6) : 0;
+  const max = fit ? rawMax + pad : Math.max(rawMax, 1);
+  const min = fit ? rawMin - pad : Math.min(rawMin, 0);
   const range = Math.max(1e-6, max - min);
   const step = w / (points.length - 1);
   const path = points

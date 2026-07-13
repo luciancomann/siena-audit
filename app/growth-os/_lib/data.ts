@@ -20,6 +20,7 @@ export interface Channel {
   id: ChannelId;
   label: string;
   meetings: number; // this month
+  spendLastMonth: number; // last month, $ — anchors the blended-CPM trend
   meetingsLastMonth: number;
   defaultSpend: number; // this month, $ — editable in the UI
   note: string; // one operator line
@@ -30,6 +31,7 @@ export const CHANNELS: Channel[] = [
     id: "outbound",
     label: "Outbound",
     meetings: 14,
+    spendLastMonth: 6_400,
     meetingsLastMonth: 12,
     defaultSpend: 6200,
     note: "doubles as the messaging lab — replies feed the docs",
@@ -38,6 +40,7 @@ export const CHANNELS: Channel[] = [
     id: "paid",
     label: "Paid (LinkedIn)",
     meetings: 9,
+    spendLastMonth: 7_900,
     meetingsLastMonth: 10,
     defaultSpend: 7650,
     note: "only amplifies language that already won in outbound",
@@ -46,6 +49,7 @@ export const CHANNELS: Channel[] = [
     id: "audit",
     label: "Audit tool",
     meetings: 7,
+    spendLastMonth: 1_300,
     meetingsLastMonth: 5,
     defaultSpend: 1400,
     note: "bet 1 — every run writes context to HubSpot first",
@@ -54,6 +58,7 @@ export const CHANNELS: Channel[] = [
     id: "events",
     label: "Events",
     meetings: 4,
+    spendLastMonth: 5_600,
     meetingsLastMonth: 6,
     defaultSpend: 5200,
     note: "attendee lists scored against ICP before we commit",
@@ -62,6 +67,7 @@ export const CHANNELS: Channel[] = [
     id: "lifecycle",
     label: "Lifecycle",
     meetings: 6,
+    spendLastMonth: 1_600,
     meetingsLastMonth: 4,
     defaultSpend: 1450,
     note: "expansion plays triggered off product data",
@@ -70,6 +76,7 @@ export const CHANNELS: Channel[] = [
     id: "referral",
     label: "Referral",
     meetings: 2,
+    spendLastMonth: 0,
     meetingsLastMonth: 2,
     defaultSpend: 0,
     note: "customer voice program should grow this lane",
@@ -461,45 +468,7 @@ export const LOOP: LoopStage[] = [
 
 // ---------------------------------------------------------------- metrics page
 
-export interface TrackedMetric {
-  name: string;
-  value: string;
-  why: string;
-  cadence: string;
-}
-
-export const TRACKED: TrackedMetric[] = [
-  {
-    name: "Qualified meetings booked, by source",
-    value: "42 this month",
-    why: "The leading indicator — everything upstream exists to move this.",
-    cadence: "Weekly",
-  },
-  {
-    name: "Cost per qualified meeting, by channel",
-    value: "$521 blended · per-channel on This Week",
-    why: "Spend follows return; the blend hides which channel earns it.",
-    cadence: "Weekly",
-  },
-  {
-    name: "Qualified pipeline created — ACV and count",
-    value: "$684K · 29 deals",
-    why: "Meetings are the input; this is what the board funds.",
-    cadence: "Monthly",
-  },
-  {
-    name: "Win rate and sales cycle length",
-    value: "24% · 48 days",
-    why: "If these degrade while meetings climb, the funnel is lying — wrong message shipping.",
-    cadence: "Monthly",
-  },
-  {
-    name: "CAC payback, by channel",
-    value: "9.8 mo blended — fully loaded, incl. team",
-    why: "Media-only flatters to ~2 months; the loaded number is the ceiling on how fast each lane may grow.",
-    cadence: "Monthly",
-  },
-];
+// TRACKED was replaced by METRIC_SEEDS + metricsModel() — values are computed, not asserted.
 
 export interface ExcludedMetric {
   name: string;
@@ -1602,4 +1571,88 @@ export const OUTPUTS_LEDGER: OutputEntry[] = [
     producedBy: ["signals/library.md", "brain.md"],
     perf: "2.1% reply on 480 sends",
   },
+];
+
+// ---------------------------------------------------------------- metrics page v2
+
+/**
+ * Metric definitions for the rebuilt Metrics page. VALUES are computed in
+ * compute.ts (metricsModel) from the same state every other page reads —
+ * these seeds carry only what a snapshot can't know: the 12-week history,
+ * the target, and last month's anchor for the trend.
+ */
+export type MetricId = "meetings" | "cpm" | "pipeline" | "winrate" | "payback";
+
+export interface MetricSeed {
+  id: MetricId;
+  name: string;
+  why: string;
+  cadence: string;
+  /** 12-week history; the final point is overwritten by the live computed value */
+  spark: number[];
+  target: { label: string; value: number; direction: "min" | "max" };
+}
+
+export const METRIC_SEEDS: MetricSeed[] = [
+  {
+    id: "meetings",
+    name: "Qualified meetings booked, by source",
+    why: "The leading indicator — everything upstream exists to move this.",
+    cadence: "Weekly",
+    spark: [28, 30, 29, 33, 34, 36, 35, 38, 39, 40, 41, 42],
+    target: { label: "≥ 40 / month", value: 40, direction: "min" },
+  },
+  {
+    id: "cpm",
+    name: "Cost per qualified meeting, by channel",
+    why: "Spend follows return; the blend hides which channel earns it.",
+    cadence: "Weekly",
+    spark: [640, 610, 625, 590, 570, 555, 560, 540, 530, 525, 520, 521],
+    target: { label: "≤ $500 blended", value: 500, direction: "max" },
+  },
+  {
+    id: "pipeline",
+    name: "Qualified pipeline created — ACV and count",
+    why: "Meetings are the input; this is what the board funds.",
+    cadence: "Monthly",
+    spark: [420, 450, 445, 480, 510, 520, 555, 570, 590, 620, 650, 684],
+    target: { label: "≥ $650K / month", value: 650_000, direction: "min" },
+  },
+  {
+    id: "winrate",
+    name: "Win rate and sales cycle length",
+    why: "If these degrade while meetings climb, the funnel is lying — wrong message shipping.",
+    cadence: "Monthly",
+    spark: [18, 19, 21, 20, 22, 21, 23, 22, 23, 24, 24, 24],
+    target: { label: "≥ 25% win rate", value: 25, direction: "min" },
+  },
+  {
+    id: "payback",
+    name: "CAC payback, by channel",
+    why: "Media-only flatters to ~2 months; the loaded number is the ceiling on how fast each lane may grow.",
+    cadence: "Monthly",
+    spark: [11.8, 11.5, 11.2, 11.0, 10.8, 10.6, 10.4, 10.2, 10.1, 10.0, 9.9, 9.8],
+    target: { label: "≤ 12 mo fully loaded", value: 12, direction: "max" },
+  },
+];
+
+/** Last-month anchors for metrics whose history isn't derivable from a snapshot. */
+export const METRIC_LAST_MONTH = {
+  winRatePct: 22,
+  salesCycleDays: 52,
+  paybackMonths: 10.4,
+};
+
+/**
+ * Modeled fully-loaded CAC payback per channel (months). Modeled — includes
+ * team cost allocation, so it can't be derived from the board alone; the
+ * blend reconciles to the headline 9.8.
+ */
+export const PAYBACK_BY_CHANNEL: { channel: ChannelId; months: number | null; note: string }[] = [
+  { channel: "audit", months: 2.5, note: "cheapest loaded lane — the tool does the qualifying" },
+  { channel: "lifecycle", months: 3.0, note: "expansion revenue pays back fastest" },
+  { channel: "referral", months: null, note: "no spend — payback undefined, keep it that way" },
+  { channel: "outbound", months: 8.0, note: "sender infra + list costs count" },
+  { channel: "paid", months: 11.4, note: "the lane the blend hides — this is why per-channel" },
+  { channel: "events", months: 13.4, note: "dinner-circuit economics" },
 ];

@@ -2427,3 +2427,204 @@ button.gos-status {
     text-align: left;
   }
 }
+
+/* ----------------------------------------------------------- metrics v2 */
+.gos-movers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.gos-mover {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px !important;
+}
+
+.gos-mover--watch {
+  border-left: 3px solid #e8a13d;
+}
+
+.gos-mover__k {
+  font-family: var(--sds-font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--sds-text-muted);
+}
+
+.gos-mover__v {
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--sds-ink-900);
+}
+
+.gos-metrics__left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.gos-mrow {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gos-mrow--open {
+  border-color: var(--sds-ink-900);
+}
+
+.gos-mrow__top {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 150px;
+  gap: 16px;
+  align-items: start;
+}
+
+.gos-mrow__id {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.gos-mrow__why {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--sds-text-secondary);
+}
+
+.gos-mrow__nums {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.gos-mrow__sub {
+  font-size: 11.5px;
+  color: var(--sds-text-muted);
+}
+
+.gos-mrow__spark {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+}
+
+.gos-mrow__meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--sds-black-alpha-20);
+  padding-top: 10px;
+  font-family: var(--sds-font-mono);
+  font-size: 10.5px;
+  color: var(--sds-text-muted);
+}
+
+.gos-mrow__chevron {
+  margin-left: auto;
+  color: var(--sds-text-muted);
+}
+
+.gos-tgt {
+  font-size: 9.5px !important;
+}
+
+.gos-tgt--on-track {
+  border-color: var(--sds-green-500) !important;
+  color: var(--sds-green-600) !important;
+}
+
+.gos-tgt--watch {
+  border-color: #e8a13d !important;
+  color: #b57614 !important;
+}
+
+.gos-tgt--off-track {
+  border-color: var(--sds-coral-500) !important;
+  color: var(--sds-coral-600, #b23a24) !important;
+}
+
+.gos-mbreak {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--sds-black-alpha-20);
+  padding-top: 12px;
+}
+
+.gos-mbreak__row {
+  display: grid;
+  grid-template-columns: 150px 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 12.5px;
+}
+
+.gos-mbreak__name {
+  font-family: var(--sds-font-mono);
+  font-size: 11px;
+  color: var(--sds-ink-700);
+}
+
+.gos-mbreak__num {
+  color: var(--sds-ink-900);
+}
+
+.gos-mbreak__why {
+  font-size: 11px;
+  color: var(--sds-text-muted);
+  text-align: right;
+}
+
+.gos-mbreak__divider {
+  border-top: 1px dashed var(--sds-black-alpha-20);
+  margin: 2px 0;
+}
+
+.gos-mbreak__note {
+  margin: 4px 0 0;
+  font-family: var(--sds-font-mono);
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: var(--sds-text-muted);
+}
+
+/* the metric rows need real width — stack the excluded panel below them
+   well before the two-column split starts crushing the row grid */
+@media (max-width: 1240px) {
+  .gos-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .gos-movers {
+    grid-template-columns: 1fr;
+  }
+
+  .gos-mrow__top {
+    grid-template-columns: 1fr;
+  }
+
+  .gos-mrow__spark {
+    align-items: flex-start;
+  }
+
+  .gos-mbreak__row {
+    grid-template-columns: 110px 1fr;
+  }
+
+  .gos-mbreak__why {
+    grid-column: 2;
+    text-align: left;
+  }
+}
